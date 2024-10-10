@@ -8,6 +8,10 @@ on:
         branches:
             - main
 
+defaults:
+    run:
+        working-directory: ./src
+
 jobs:
     test:
         runs-on: ubuntu-latest
@@ -19,12 +23,8 @@ jobs:
               uses: actions/setup-node@v4
               with:
                 node-version: '22'
-            
-            - name: Changement de répertoire
-              run: cd ./src
 
             - name: Installation des dépendances
-              working-directory: ./src
               run: npm ci
 
             - name: Exécution des tests
