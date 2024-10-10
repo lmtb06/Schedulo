@@ -1,0 +1,40 @@
+@startuml
+
+class Compte {
+    - email : String
+    - hashMotDePasse : String
+    - nom : String
+    - prenom : String
+    - cheminPhotoProfil : String
+    - dateCreation : Date
+    - dateModification : Date
+    - dateSuppression : Date
+}
+
+class Agenda {
+    - id : int
+    - nom : String
+    - description : String
+    - dateCreation : Date
+    - dateModification : Date
+    - dateSuppression : Date
+}
+
+Compte --"*" Agenda
+Agenda --"1" Compte : propriétaire
+
+class RendezVous {
+    - id : int
+    - dateDebut : Date
+    - dateFin : Date
+    - titre : String
+    - description : String
+    - dateCreation : Date
+    - dateModification : Date
+    - dateSuppression : Date
+}
+
+Agenda --"*" RendezVous
+RendezVous --"1" Compte : créateur
+
+@enduml
