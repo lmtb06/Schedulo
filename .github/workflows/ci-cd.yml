@@ -22,8 +22,9 @@ jobs:
             
             - name: Changement de répertoire
               run: cd ./src
-              
+
             - name: Installation des dépendances
+              working-directory: ./src
               run: npm ci
 
             - name: Exécution des tests
