@@ -5,9 +5,11 @@ import { URL } from 'url';
 import * as routes from "./routes.js";
 
 export const app = express();
+const publicPath = fileURLToPath(new URL("./public", import.meta.url));
 
 app
     .use(morgan("dev"))
+    .use(express.static(publicPath))
     .set("views", fileURLToPath(new URL("./views", import.meta.url)))
     .set("view engine", "ejs")
     .use(express.json())
