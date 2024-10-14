@@ -1,4 +1,8 @@
 @startuml
+enum Statut {
+    ACTIF
+    SUPPRIME
+}
 
 class Compte {
     - email : String
@@ -9,6 +13,7 @@ class Compte {
     - dateCreation : Date
     - dateModification : Date
     - dateSuppression : Date
+    - statut : Statut
 }
 
 class Agenda {
@@ -37,4 +42,9 @@ class RendezVous {
 Agenda --"*" RendezVous
 RendezVous --"1" Compte : créateur
 
+class Repetition {
+    
+}
+
+RendezVous --"*" Repetition
 @enduml
