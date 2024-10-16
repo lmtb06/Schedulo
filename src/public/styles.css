@@ -6,3 +6,21 @@ body {
 h1 {
     color: #ff0087;
 }
+
+.button {
+    display: inline-block;
+    background-color: #b536f4;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-bottom: 5px;
+}
+
+.button:hover {
+    background-color: #b536f4;
+}

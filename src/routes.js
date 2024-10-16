@@ -1,6 +1,6 @@
 import {createHash} from 'node:crypto';
-import fs from 'fs';
-import {insert} from "./public/scripts/manip_json.js"; // Importer le module 'fs'
+import {get_utilisateurs, insert} from "./public/scripts/manip_json.js";
+import jwt from "jsonwebtoken";
 
 let currentId = 0;
 const agenda = createDefaultAgenda();
@@ -17,7 +17,27 @@ export function index(req, res){
 }
 
 export function getAccountCreationPage(req,res){
-    res.render("account/inscription");
+
+    if(!res.locals.user){
+
+        res.render("account/inscription");
+    }
+    else{
+
+        res.render("index");
+    }
+}
+
+export function getConnexion(req, res){
+
+    if(!res.locals.user){
+
+        res.render("account/connexion");
+    }
+    else{
+
+        res.render("index");
+    }
 }
 
 export function createAccount(req,res){
@@ -32,5 +52,48 @@ export function createAccount(req,res){
         dateCreation: formattedDate,
     };
     insert(user);
-    //res.redirect("/");
+    res.redirect("/");
+}
+
+export function authenticate(req, res, next) {
+    try {
+        const token = req.cookies.accessToken;
+        const user = jwt.verify(token, process.env.SECRET);
+        res.locals.user = user;
+    } catch {}
+    next();
+}
+
+function createJWT(user) {
+    return jwt.sign(
+        { id: user.id, email: user.email },
+        process.env.SECRET,
+        { expiresIn: "1d" },
+    );
+}
+
+export function login(req, res){
+
+    const { email, password } = req.body;
+    const user = get_utilisateurs().find((user) => user.email === email);
+    if (user && user.password === createHash("sha256").update(password).digest("hex")) {
+        const token = createJWT(user);
+        res.cookie("accessToken", token, { httpOnly: true });
+        res.redirect("/");
+    } else {
+        res.render("account/connexion", { message: "Nom d'utilisateur/mot de passe invalide." });
+    }
+}
+
+export function logout(req, res){
+
+    if(res.locals.user){
+
+        res.cookie("accessToken", null);
+        res.redirect("/");
+    }
+    else{
+
+        res.render("index");
+    }
 }

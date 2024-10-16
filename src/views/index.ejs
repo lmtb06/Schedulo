@@ -7,5 +7,15 @@
 </head>
 <body>
     <h1>Schedulo</h1>
+    <% if (locals.user) { %>
+
+        <p> Bonjour, <%= locals.user.email %> </p>
+        <div><a href="/logout" class="button">Se déconnecter</a></div>
+
+    <% } else { %>
+
+        <div><a href="/account" class="button">Inscription</a></div>
+        <div><a href="/login" class="button">Connexion</a></div>
+    <% } %>
 </body>
 </html>
