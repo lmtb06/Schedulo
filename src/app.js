@@ -16,6 +16,7 @@ app
     .use(express.urlencoded({ extended: false }))
     .get("/", routes.index)
     .get("/account", routes.getAccountCreationPage)
+    .post("/account/new", routes.createAccount)
     .use((req, res, next) => next(createError(404)))
     .use((err, req, res, next) => {
         res.status(err.status || 500).send(`<h1>${err.message || "Internal error"}</h1>`);

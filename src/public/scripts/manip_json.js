@@ -1,7 +1,8 @@
-const fs= require('fs');
-const fJSON = "../../utilisateurs.json";
+import fs from 'fs';
+const fJSON = "utilisateurs.json";
 
 function insert(utilisateur){
+    console.log("test insert");
     if(fs.existsSync(fJSON)){ //Si le fichier existe déjà on le parse et y ajoute un utilisateur
         fs.readFile(fJSON, "utf-8", (err, data) => {
            if(err){
@@ -32,7 +33,7 @@ function insert(utilisateur){
         let utilisateurs = [];
         utilisateurs.push(utilisateur);
 
-        fs.writeFile(fJSON, JSON.stringify(utilisateurs, null, 1), (err) => {
+        fs.writeFile(fJSON, JSON.stringify(utilisateurs, null, 2), (err) => {
             if(err){
                 console.error(err);
                 return;
