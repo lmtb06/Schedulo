@@ -41,13 +41,15 @@ export function getConnexion(req, res){
 }
 
 export function createAccount(req,res){
-    const { email, password, picture} = req.body;
+    const { email, password, name,surname,picture} = req.body;
     const today = new Date();
     const formattedDate = today.toISOString().split('T')[0];
     const user = {
         id: getNewId(),
         email: email,
         password: createHash("sha256").update(password).digest("hex"),
+        name: name,
+        surname: surname,
         picture: picture,
         dateCreation: formattedDate,
     };
@@ -66,7 +68,7 @@ export function authenticate(req, res, next) {
 
 function createJWT(user) {
     return jwt.sign(
-        { id: user.id, email: user.email },
+        { id: user.id, email: user.email ,name: user.name, surname: user.surname},
         process.env.SECRET,
         { expiresIn: "1d" },
     );
