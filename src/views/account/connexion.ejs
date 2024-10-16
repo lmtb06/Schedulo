@@ -13,16 +13,16 @@
             <tbody>
             <tr><td><label for="email">Entrez votre email</label></td>
                 <td><input name="email" /></td>
-                <td><label><%= locals.message ?? '' %></label></td></tr>
             <tr><td><label for="password">Entrez le mot de passe</label></td>
                 <td><input type="password" name="password" value="" /></td>
                 <td><label id="passwordMessage"></label></td></tr>
-            <tr><td><label for="passwordRepeated">Confirmez le mot de passe</label></td>
+            <!-- <tr><td><label for="passwordRepeated">Confirmez le mot de passe</label></td>
                 <td><input type="password" id="passwordRepeated" value="" /></td>
-                <td><label id="passwordRepeatedMessage"></label></td></tr>
+                <td><label id="passwordRepeatedMessage"></label></td></tr> -->
             </tbody>
         </table>
         <div><input type="submit" /></div>
+        <tr><td><td><label><%= locals.message || '' %></label></td></tr></td></tr>
     </form>
 </body>
 </html>

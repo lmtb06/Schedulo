@@ -83,7 +83,7 @@ export function login(req, res){
         res.cookie("accessToken", token, { httpOnly: true });
         res.redirect("/");
     } else {
-        res.render("account/connexion", { message: "Nom d'utilisateur/mot de passe invalide." });
+        res.render("account/connexion", { message: "email/mot de passe invalide." });
     }
 }
 
