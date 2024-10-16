@@ -6,13 +6,13 @@
     - [ ] Se connecter
     - [ ] Se déconnecter
 
-## Tâches en cours de dévellopement
+## Tâches en cours de développement
 
     - [ ] Créer un agenda 
     - [ ] Visualiser un agenda 
     - [ ] Ajouter un rendez-vous 
 
-## Tâches non dévellopées
+## Tâches non développées
 
     - [ ] Visualiser des agendas
     - [ ] Modifier un agenda 
