@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='utf-8' />
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js'></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="/stylesAgenda.css">
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var calendarEl = document.getElementById('calendar');
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                timeZone: 'Europe/Paris',
+                locale: 'fr',
+                editable: true,
+                headerToolbar: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                },
+                buttonText: {
+                    month: 'Mois', week: 'Semaine', day: 'Jour'
+                },
+                dateClick: function(info) {
+                    // Remplir la date dans le champ de date
+                    document.getElementById("eventDate").value = info.dateStr;
+                    // Ouvrir la modale
+                    document.getElementById("myModal").style.display = "block";
+                }
+            });
+            calendar.render();
+
+            // Ouvrir la modale
+            document.getElementById("addEventBtn").onclick = function() {
+                document.getElementById("myModal").style.display = "block";
+            }
+
+            // Fermer la modale
+            document.getElementsByClassName("close")[0].onclick = function() {
+                document.getElementById("myModal").style.display = "none";
+            }
+
+            // Afficher ou masquer l'heure selon le type d'événement sélectionné
+            document.querySelectorAll('input[name="eventType"]').forEach(function(elem) {
+                elem.addEventListener("change", function() {
+                    const timeInput = document.getElementById("eventTime");
+                    if (this.value === "allDay") {
+                        timeInput.style.display = "none"; // Masquer le champ d'heure
+                    } else {
+                        timeInput.style.display = "block"; // Afficher le champ d'heure
+                    }
+                });
+            });
+
+            document.getElementById("eventForm").onsubmit = function(event) {
+                event.preventDefault(); // pour pas que la page reset
+
+                const title = document.getElementById("eventTitle").value;
+                const isAllDay = document.querySelector('input[name="eventType"]:checked').value === "allDay";
+                let start;
+
+                if (isAllDay) {
+                    start = document.getElementById("eventDate").value; // Juste la date pour un événement toute la journée
+                } else {
+                    start = document.getElementById("eventDate").value + 'T' + document.getElementById("eventTime").value + ':00'; // Date et heure
+                }
+
+                const newEvent = {
+                    title: title,
+                    start: start,
+                    allDay: isAllDay
+                };
+
+                // Ajouter l'événement sur le calendrier
+                calendar.addEvent(newEvent);
+
+                // Envoyer l'événement au serveur pour le sauvegarder
+                // MARCHE PAS
+                axios.post('/save-event', newEvent)
+                    .then(response => {
+                        console.log("Événement sauvegardé !");
+                        document.getElementById("myModal").style.display = "none"; // Fermer le modal
+                    })
+                    .catch(error => {
+                        console.error("Erreur lors de la sauvegarde de l'événement", error.response ? error.response.data : error.message);
+                        console.error('Détails de l\'erreur:', error);
+                    });
+            };
+        });
+    </script>
+    <title>Calendar</title>
+</head>
+<body>
+<div class="container">
+    <div id='calendar'></div>
+    <button id="addEventBtn">Ajouter événement</button>
+
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Ajouter un événement</h2>
+            <form id="eventForm">
+                <label for="eventTitle">Titre:</label>
+                <input type="text" id="eventTitle" required>
+                <br>
+
+                <label>Type d'événement:</label>
+                <input type="radio" id="eventType1" name="eventType" value="time" checked>
+                <label for="eventType1">Horaire</label>
+                <input type="radio" id="eventType2" name="eventType" value="allDay">
+                <label for="eventType2">Toute la journée</label>
+                <br>
+
+                <label for="eventDate">Date:</label>
+                <input type="date" id="eventDate" required>
+                <br>
+
+                <label for="eventTime">Heure:</label><input type="time" id="eventTime">
+                <br>
+                <button type="submit">Ajouter un événement</button>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

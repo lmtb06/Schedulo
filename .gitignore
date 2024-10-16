@@ -46,3 +46,4 @@ public/uploads/
 # Fichiers de sauvegarde
 *.bak
 utilisateurs.json
+events.json

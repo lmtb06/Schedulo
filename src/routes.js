@@ -1,6 +1,7 @@
 import {createHash} from 'node:crypto';
 import {get_utilisateurs, insert} from "./public/scripts/manip_json.js";
 import jwt from "jsonwebtoken";
+import * as path from "node:path";
 
 let currentId = 0;
 const agenda = createDefaultAgenda();
@@ -98,4 +99,54 @@ export function logout(req, res){
 
         res.render("index");
     }
+}
+
+export function getCalendarPage(req, res){
+    res.render("calendar/calendar");
+}
+
+// recup les events depuis le fichier JSON
+export function getEvents(req, res) {
+    const filePath = path.join(process.cwd(), 'events.json');
+
+    fs.readFile(filePath, (err, data) => {
+        if (err) {
+            return res.status(500).send('Erreur lors de la lecture des events');
+        }
+        const events = JSON.parse(data || '[]');
+        res.json(events);
+    });
+}
+
+export function saveEvent(req, res) {
+    const newEvent = req.body;
+    const filePath = path.join(process.cwd(), 'events.json');
+
+    fs.readFile(filePath, (err, data) => {
+        let events = [];
+
+        if (err) {
+            console.error('Erreur lors de la lecture du fichier:', err);
+            return res.status(500).send('Erreur lors de la lecture du fichier');
+        }
+
+        if (data.length) {
+            try {
+                events = JSON.parse(data);
+            } catch (parseError) {
+                console.error('Erreur lors du parsing des données:', parseError);
+                return res.status(500).send('Erreur lors du parsing des données');
+            }
+        }
+
+        events.push(newEvent);
+
+        fs.writeFile(filePath, JSON.stringify(events, null, 2), (err) => {
+            if (err) {
+                console.error('Erreur lors de la sauvegarde de levent:', err);
+                return res.status(500).send('Erreur lors de la sauvegarde de levent');
+            }
+            res.status(201).send('event sauvegardé');
+        });
+    });
 }

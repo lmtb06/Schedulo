@@ -5,16 +5,19 @@
     - [ ] S'inscrire
     - [ ] Se connecter
     - [ ] Se déconnecter
+    
+    - [ ] Créer un agenda 
+    - [ ] Visualiser un agenda
+    - [ ] Ajouter un rendez-vous
 
 ## Tâches en cours de développement
 
-    - [ ] Créer un agenda 
-    - [ ] Visualiser un agenda 
-    - [ ] Ajouter un rendez-vous 
+    
+    - [ ] Modifier un rendez-vous
+    
 
 ## Tâches non développées
 
     - [ ] Visualiser des agendas
-    - [ ] Modifier un agenda 
-    - [ ] Modifier un rendez-vous 
+    - [ ] Modifier un agenda
     - [ ] Supprimer un rendez-vous 
