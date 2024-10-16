@@ -4,9 +4,9 @@
 
 
 ## Technologies
-- Expressjs
-- React ou Vue
-- MongoDB
+- NodeJS
+- Express
+- JSON
 ## Fonctionnalités
 
 ### Utilisateur
@@ -40,13 +40,16 @@
 ## Organisation des fichiers
 
 ### src
-Le dossier src contient les fichiers relatifs au code source du projet.
+Le dossier src contient les fichiers relatifs au code source du projet.<br>
+Les commandes "nmp install" et "npm start" doivent être éxecutés à la racine du répertoire "src";
 
 ### documenation
 Le dossier documentation contient les fichiers relatifs à la documentation du projet.
 
 #### sprint
-Le dossier sprint contient les fichiers relatifs aux sprints (un dossier par sprint). Chaque dossier sera nommé `sprintX` où X est le numéro du sprint avec tous les fichers relatifs au sprint. Il contiendra un fichier `sprintX.md` qui contiendra les informations relatives au sprint, telles que le backlog du sprint, la conception du sprint, la revue du sprint et la rétrospective du sprint.
+Le dossier sprint contient les fichiers relatifs aux sprints (un dossier par sprint).<br>
+Chaque dossier sera nommé `sprintX` où X est le numéro du sprint avec tous les fichers relatifs au sprint.<br>
+Il contiendra un fichier `sprintX.md` qui contiendra les informations relatives au sprint, telles que le backlog du sprint, la conception du sprint, la revue du sprint et la rétrospective du sprint.
 
 #### diagrammes
 Le dossier diagrammes contient les fichiers relatifs aux diagrammes UML du projet.
