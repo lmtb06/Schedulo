@@ -1,0 +1,49 @@
+@startuml
+enum Statut {
+    ACTIF
+    SUPPRIME
+}
+
+class Compte {
+    - email : String
+    - hashMotDePasse : String
+    - nom : String
+    - prenom : String
+    - cheminPhotoProfil : String
+    - dateCreation : Date
+    - dateModification : Date
+    - dateSuppression : Date
+    - statut : Statut
+}
+
+class Agenda {
+    - id : int
+    - nom : String
+    - description : String
+    - dateCreation : Date
+    - dateModification : Date
+    - dateSuppression : Date
+}
+
+Compte --"*" Agenda
+Agenda --"1" Compte : propriétaire
+
+class RendezVous {
+    - id : int
+    - debut : Date
+    - fin : Date
+    - titre : String
+    - description : String
+    - dateCreation : Date
+    - dateModification : Date
+}
+
+Agenda "1"--"*" RendezVous
+RendezVous --"1" Compte : créateur
+
+class Repetition {
+    
+}
+
+RendezVous --"*" Repetition
+@enduml

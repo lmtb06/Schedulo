@@ -1,0 +1,50 @@
+# Dépendances
+node_modules/
+
+# Fichiers de logs
+logs
+*.log
+npm-debug.log*
+
+# Répertoire de build
+dist/
+
+# Fichiers d'environnement
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env
+
+# Fichiers système
+.DS_Store
+Thumbs.db
+
+# Fichiers de couverture de code
+coverage/
+
+# Fichiers temporaires
+*.tmp
+*.temp
+
+# Fichiers de configuration IDE
+.vscode/
+.idea/
+
+# Fichiers de cache
+.cache/
+
+# Fichiers de build
+build/
+
+# Fichiers de package
+package-lock.json
+yarn.lock
+
+# Dossiers spécifiques à Express
+public/uploads/
+
+# Fichiers de sauvegarde
+*.bak
+utilisateurs.json
+events.json

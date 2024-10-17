@@ -1,0 +1,41 @@
+<form id="formulaireRendezVous">
+    <fieldset>
+        <legend>Informations du rendez-vous</legend>
+
+        <div>
+            <label for="titre">Titre :</label>
+            <input type="text" id="titre" name="titre" placeholder="Titre par défaut" required>
+        </div>
+
+        <fieldset>
+            <legend>Début du rendez-vous</legend>
+            <div>
+                <label for="dateDebut">Date de début :</label>
+                <input type="date" id="dateDebut" name="dateDebut" required>
+            </div>
+            <div>
+                <label for="heureDebut">Heure de début :</label>
+                <input type="time" id="heureDebut" name="heureDebut" required>
+            </div>
+        </fieldset>
+
+        <fieldset>
+            <legend>Fin du rendez-vous</legend>
+            <div>
+                <label for="dateFin">Date de fin :</label>
+                <input type="date" id="dateFin" name="dateFin" required>
+            </div>
+            <div>
+                <label for="heureFin">Heure de fin :</label>
+                <input type="time" id="heureFin" name="heureFin" required>
+            </div>
+        </fieldset>
+
+        <div>
+            <label for="description">Description :</label>
+            <textarea id="description" name="description" rows="4" placeholder="Description..."></textarea>
+        </div>
+    </fieldset>
+
+    <button type="submit">Soumettre</button>
+</form>

@@ -1,0 +1,24 @@
+<%- contentFor('content') %>
+<div id="calendar"></div>
+<script src="/fullcalendar/core/index.global.min.js"></script>
+<script src="/fullcalendar/daygrid/index.global.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const calendarElement = document.getElementById('calendar');
+        const calendar = new FullCalendar.Calendar(calendarElement, {
+            initialView: 'dayGridMonth',
+            locale: 'fr',
+            events: <%-
+                JSON.stringify(rendezvous.map(rdv => ({
+                    title: rdv.titre,
+                    start: `${rdv.date}T${rdv.heure}`,
+                    description: rdv.description
+                }))) %>,
+            eventClick: function (info) {
+                alert('Rendez-vous: ' + info.event.title + '\n' +
+                    'Description: ' + info.event.extendedProps.description);
+            }
+        });
+        calendar.render();
+    });
+</script>
