@@ -2,7 +2,6 @@ import fs from 'fs';
 const fJSON = "utilisateurs.json";
 
 function insert(utilisateur){
-    console.log("test insert");
     if(fs.existsSync(fJSON)){ //Si le fichier existe déjà on le parse et y ajoute un utilisateur
         fs.readFile(fJSON, "utf-8", (err, data) => {
            if(err){
