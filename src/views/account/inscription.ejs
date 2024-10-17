@@ -12,12 +12,15 @@
         <tbody>
         <tr><td><label for="email">Entrez l'adresse mail</label></td>
             <td><input name="email" value="" /></td>
+            <td><label><%= locals.messageEmail || '' %></label></td></tr>
         <tr><td><label for="password">Entrez le mot de passe</label></td>
             <td><input type="password" name="password" value="" /></td>
-            <td><label id="passwordMessage"></label></td></tr>
+            <td><label id="passwordMessage"></label></td>
+            <td><label>Au moins 8 caractères</label></td></tr>
         <tr><td><label for="passwordRepeated">Confirmez le mot de passe</label></td>
-            <td><input type="password" id="passwordRepeated" value="" /></td>
-            <td><label id="passwordRepeatedMessage"></label></td></tr>
+            <td><input type="password" name ="passwordRepeated" id="passwordRepeated" value="" /></td>
+            <td><label id="passwordRepeatedMessage"></label></td>
+            <td><label><%= locals.messagePassword || '' %></label></td></tr>
         <tr><td><label for="name">Entrez le prénom</label></td>
             <td><input name="name" value="" /></td>
         <tr><td><label for="surname">Entrez le nom</label></td>
