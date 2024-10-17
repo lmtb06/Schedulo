@@ -10,19 +10,19 @@
 ## Fonctionnalités
 
 ### Utilisateur
-    - [ ] S'inscrire +
-    - [ ] Se connecter +
-    - [ ] Se déconnecter +
+    - [ X ] S'inscrire
+    - [ X ] Se connecter
+    - [ X ] Se déconnecter
     - [ ] Modifier son profil
     - [ ] Supprimer son compte
     - [ ] Reinitaliser son mot de passe
 
 ### Agenda
 
-    - [ ] Créer un agenda +
-    - [ ] Visualiser un agenda +
-    - [ ] Visualiser des agendas +
-    - [ ] Modifier un agenda +
+    - [ ] Créer un agenda
+    - [ ] Visualiser un agenda
+    - [ ] Visualiser des agendas
+    - [ ] Modifier un agenda
     - [ ] Supprimer un agenda
     - [ ] Importer un agenda
     - [ ] Exporter un agenda
@@ -31,9 +31,9 @@
 
 ### Rendez-vous
 
-    - [ ] Ajouter un rendez-vous +
-    - [ ] Modifier un rendez-vous +
-    - [ ] Supprimer un rendez-vous +
+    - [ ] Ajouter un rendez-vous
+    - [ ] Modifier un rendez-vous
+    - [ ] Supprimer un rendez-vous
     - [ ] Visualiser un rendez-vous
     - [ ] Rechercher un rendez-vous
 
