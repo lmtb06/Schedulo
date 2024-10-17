@@ -51,7 +51,11 @@ Le dossier sprint contient les fichiers relatifs aux sprints (un dossier par spr
 Chaque dossier sera nommé `sprintX` où X est le numéro du sprint avec tous les fichers relatifs au sprint.<br>
 Il contiendra un fichier `sprintX.md` qui contiendra les informations relatives au sprint, telles que le backlog du sprint, la conception du sprint, la revue du sprint et la rétrospective du sprint.
 
-#### diagrammes
+#### diagrammes [ ] Supprimer un agenda
+    - [ ] Importer un agenda
+    - [ ] Exporter un agenda
+    - [ ] Partager un agenda
+    - [ ] Annuler le partage d'un agenda
 Le dossier diagrammes contient les fichiers relatifs aux diagrammes UML du projet.
 
 #### routes
