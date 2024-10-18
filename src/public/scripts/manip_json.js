@@ -56,4 +56,8 @@ function get_utilisateurs(){
     }
 }
 
-export {insert, get_utilisateurs }
+function save_utilisateurs(utilisateurs) {
+    fs.writeFileSync(fJSON, JSON.stringify(utilisateurs, null, 2), 'utf8');
+}
+
+export {insert, get_utilisateurs, save_utilisateurs }

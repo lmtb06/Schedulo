@@ -1,5 +1,5 @@
 import {createHash} from 'node:crypto';
-import {get_utilisateurs, insert} from "./public/scripts/manip_json.js";
+import {get_utilisateurs, insert, save_utilisateurs} from "./public/scripts/manip_json.js";
 import fs from "fs";
 import jwt from "jsonwebtoken";
 import * as path from "node:path";
@@ -23,6 +23,21 @@ export function getAccountCreationPage(req,res){
     if(!res.locals.user){
 
         res.render("account/inscription");
+    }
+    else{
+
+        res.render("index");
+    }
+}
+
+export function getAccountEditPage(req,res){
+
+    if(res.locals.user){
+        res.render("account/modificationAccount", {
+            email: res.locals.user.email,
+            name: res.locals.user.name,
+            surname: res.locals.user.surname,
+        });
     }
     else{
 
@@ -82,6 +97,21 @@ export function createAccount(req,res){
         insert(NewUser);
         res.redirect("/");
     }
+}
+
+export function editAccount(req,res){
+    const { email, name,surname} = req.body;
+    const utilisateurs = get_utilisateurs();
+    const user = utilisateurs.find((user) => user.email === email);
+    if(user){
+        user.email = email;
+        user.name = name;
+        user.surname = surname;
+        save_utilisateurs(utilisateurs);
+        //res.locals.user.name = name;
+        //res.cookie.token;
+    }
+    res.redirect("/");
 }
 
 export function authenticate(req, res, next) {

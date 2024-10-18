@@ -10,6 +10,7 @@
     <% if (locals.user) { %>
 
         <p> Bonjour, <%= locals.user.name %> !</p>
+        <div><a href="/account/edit" class="button">Modifier mes informations</a></div>
         <div><a href="/logout" class="button">Se déconnecter</a></div>
 
     <% } else { %>
