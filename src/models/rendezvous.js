@@ -1,21 +1,28 @@
-let rendezvous = [];
+import mongoose from 'mongoose';
 
-class RendezVous {
-  constructor(titre, debut, fin, description) {
-    this.id = Date.now().toString();
-    this.titre = titre;
-    this.debut = debut;
-    this.fin = fin;
-    this.description = description;
-  }
+const rendezVousSchema = new mongoose.Schema({
+  titre: {
+    type: String,
+    required: true
+  },
+  debut: {
+    type: Date,
+    required: true
+  },
+  fin: {
+    type: Date,
+    required: true
+  },
+  description: {
+    type: String
+  },
+  repetitions: [{
+    type: mongoose.Schema.Types.ObjectId, ref: 'Repetition'
+  }]
+}, {
+  timestamps: true // Ajoute automatiquement createdAt et updatedAt
+});
 
-  async save() {
-    rendezvous.push(this);
-  }
-
-  static getAll() {
-    return rendezvous;
-  }
-}
+const RendezVous = mongoose.model('RendezVous', rendezVousSchema);
 
 export default RendezVous;
