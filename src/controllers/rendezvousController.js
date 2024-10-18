@@ -3,10 +3,10 @@ import createError from "http-errors";
 
 export const getAllRendezVous = async (req, res, next) => {
     try {
-        // Récupération des critères de recherche et validation
+        // Récupération des critères de recherche
         const filtres = {};
         // Récupération des rendez-vous
-        const rendezVous = await RendezVousService.getAll(filtres);
+        const rendezVous = await RendezVousService.getAllRendezVous(filtres);
         // Renvoi des rendez-vous
         res.json(rendezVous);
     }
@@ -15,43 +15,64 @@ export const getAllRendezVous = async (req, res, next) => {
     }
 };
 
-export const createRendezVous = async (req, res) => {
+export const createRendezVous = async (req, res, next) => {
     // Récupération des informations du rendez-vous à créer
-
-    // Validation des informations du rendez-vous
-
+    const donneesRendezVous = req.body;
     // Création du rendez-vous
-
-    // Renvoi de la réponse
+    try {
+        const nouveauRendezVous = await RendezVousService.createRendezVous(donneesRendezVous);
+        // Renvoi de la réponse
+        res.status(201).json(nouveauRendezVous);
+    }
+    catch (error) {
+        next(error);
+    }
 };
 
-export const getRendezVous = async (req, res) => {
+export const getRendezVous = async (req, res, next) => {
     // Récupération de l'identifiant du rendez-vous
-
-    // Récupération des informations du rendez-vous
-
-    // Renvoi des informations du rendez-vous
+    const id = req.params.id;
+    try {
+        // Récupération des informations du rendez-vous
+        const rendezVous = await RendezVousService.getRendezVousById(id);
+        // Renvoi des informations du rendez-vous
+        res.json(rendezVous);
+    }
+    catch (error) {
+        next(error);
+    }
 };
 
-export const updateRendezVous = async (req, res) => {
+export const updateRendezVous = async (req, res, next) => {
     // Récupération de l'identifiant du rendez-vous
-
+    const id = req.params.id;
     // Récupération des informations du rendez-vous à mettre à jour
+    const nouvellesDonneesRendezVous = req.body;
+    try {
 
-    // Validation des informations du rendez-vous
-
-    // Mise à jour du rendez-vous
-
-    // Renvoi de la réponse
+        // Mise à jour du rendez-vous
+        const rendezVous = await RendezVousService.updateRendezVous(id, nouvellesDonneesRendezVous);
+        // Renvoi de la réponse
+        res.json(rendezVous);
+    }
+    catch (error) {
+        next(error);
+    }
 
 };
 
-export const deleteRendezVous = async (req, res) => {
+export const deleteRendezVous = async (req, res, next) => {
     // Récupération de l'identifiant du rendez-vous
-
-    // Suppression du rendez-vous et des répétitions associées
-
-    // Renvoi de la réponse
+    const id = req.params.id;
+    try {
+        // Suppression du rendez-vous et des répétitions associées
+        const rendezVousSupprime = await RendezVousService.deleteRendezVous(id);
+        // Renvoi de la réponse
+        res.json(rendezVousSupprime);
+    }
+    catch (error) {
+        next(error);
+    }
 };
 
 export const getPageCreationRendezVous = (req, res) => {

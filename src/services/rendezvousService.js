@@ -1,4 +1,5 @@
-import RendezVous from "../models/rendezvous";
+import RendezVous from "../models/rendezvous.js";
+import Repetition from "../models/repetition.js";
 import createError from "http-errors";
 
 class RendezVousService {
@@ -36,3 +37,5 @@ class RendezVousService {
         return rendezVousSupprime;
     }
 }
+
+export default new RendezVousService();

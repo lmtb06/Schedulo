@@ -65,6 +65,8 @@ function handleServerShutdown(server) {
     });
 }
 
+// TODO Kill toutes les connexions en attente lors de la fermeture du serveur
+
 // Obtenir l'URI MongoDB
 function getMongoURI() {
     const { DB_URL, DB_NAME, DB_USER, DB_PASS } = process.env;
