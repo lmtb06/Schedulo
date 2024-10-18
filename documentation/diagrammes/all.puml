@@ -4,6 +4,13 @@ enum Statut {
     SUPPRIME
 }
 
+enum UniteRepetition {
+    JOUR
+    SEMAINE
+    MOIS
+    ANNEE
+}
+
 class Compte {
     - email : String
     - hashMotDePasse : String
@@ -42,8 +49,10 @@ Agenda "1"--"*" RendezVous
 RendezVous --"1" Compte : créateur
 
 class Repetition {
-    
+    - intervalle : int 
+    - unite : UniteRepetition
+    - fin : Date
 }
 
-RendezVous --"*" Repetition
+RendezVous "1"--"*" Repetition
 @enduml
