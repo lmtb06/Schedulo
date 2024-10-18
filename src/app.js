@@ -4,7 +4,6 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import routerAPI from './routes/api/routes.js';
 import routerWeb from './routes/web/routes.js';
-import createError from "http-errors";
 import dotenv from "dotenv";
 import morgan from "morgan";
 
