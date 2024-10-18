@@ -6,6 +6,7 @@ import routerAPI from './routes/api/routes.js';
 import routerWeb from './routes/web/routes.js';
 import dotenv from "dotenv";
 import morgan from "morgan";
+import { apiErrorHandler, webErrorHandler } from './middlewares/errorHandler.js';
 
 dotenv.config();
 
@@ -36,4 +37,8 @@ app
 
     // Routes
     .use('/api', routerAPI)
-    .use('/', routerWeb);
+    .use('/', routerWeb)
+
+    // Middleware pour gérer les erreurs
+    .use('/api', apiErrorHandler)
+    .use(webErrorHandler);

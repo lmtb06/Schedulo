@@ -16,14 +16,5 @@ router
     .use('/rendezvous', rendezvousRouter)
     .use((req, res, next) => next(createError(404)));
 
-router.use((err, req, res, next) => {
-    console.error(err);
-
-    res.render('templates/errorPage', {
-        titrePage: 'Erreur ' + err.status,
-        messageErreur: err.message,
-        codeErreur: err.status
-    });
-});
 
 export default router;

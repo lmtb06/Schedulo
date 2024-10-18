@@ -10,12 +10,4 @@ router
     .use('/agendas', agendaRouter)
     .use((req, res, next) => next(createError(404)));
 
-router.use((err, req, res, next) => {
-    console.error(err);
-    res.json({
-        status: err.status,
-        message: err.message,
-    });
-});
-
 export default router;
