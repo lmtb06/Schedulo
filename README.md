@@ -1,7 +1,7 @@
 # Schedulo
 
-## Description
-
+## Lancement du serveur
+Afin de démarrer le serveur, les commandes "npm install" et "npm start" doivent être éxecutés à la racine du répertoire "src".
 
 ## Technologies
 - NodeJS
@@ -41,7 +41,6 @@
 
 ### src
 Le dossier src contient les fichiers relatifs au code source du projet.<br>
-Les commandes "nmp install" et "npm start" doivent être éxecutés à la racine du répertoire "src";
 
 ### documenation
 Le dossier documentation contient les fichiers relatifs à la documentation du projet.
