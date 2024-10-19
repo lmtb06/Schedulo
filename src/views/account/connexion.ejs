@@ -7,6 +7,7 @@
     <title>Connexion</title>
 </head>
 <body>
+    <%- include('../structures/header') %>
     <h1>Connexion</h1>
     <form name="connexionForm" action="/login" method="post">
         <table>
@@ -18,8 +19,9 @@
                 <td><label id="passwordMessage"></label></td></tr>
             </tbody>
         </table>
-        <div><input type="submit" /></div>
+        <div><input type="submit" class="button"/></div>
         <tr><td><td><label><%= locals.message || '' %></label></td></tr></td></tr>
     </form>
+    <%- include('../structures/footer') %>
 </body>
 </html>

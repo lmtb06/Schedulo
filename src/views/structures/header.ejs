@@ -1,0 +1,67 @@
+<header>
+    <a href="/" class="logo"><h1>Schedulo</h1></a>
+    <ul class="menuDeroulant">
+        <li>
+            <a class="menuCompte" href="">Compte ▼</a>
+            <ul class="dropdown">
+                <% if (!locals.user) { %>
+                    <li><a href="/login">Connexion</a></li>
+                    <li><a href="/account">Inscription</a></li>
+                <% } else { %>
+                    <li><a href="/account/edit">Modifier mes informations</a></li>
+                    <li><a href="/logout">Déconnexion</a></li>
+                <% } %>
+            </ul>
+        </li>
+    </ul>
+</header>
+
+<style>
+    .menuDeroulant *{
+        padding: 0;
+        margin: 0;
+        /*font-family: monospace;*/
+    }
+    .menuDeroulant{
+
+        list-style: none;
+        background: #3492b9;
+    }
+    .menuDeroulant li{
+
+        display: inline-block;
+        position: relative;
+    }
+    .menuDeroulant li a{
+
+        display: block;
+        padding: 10px 20px;
+        color: #FFF;
+        text-decoration: none;
+        text-align: center;
+        font-size: 18px;
+    }
+    .menuDeroulant li ul.dropdown li{
+
+        display: block;
+    }
+    .menuDeroulant li ul.dropdown{
+
+        width: 120%;
+        background: #3492b9;
+        position: absolute;
+        z-index: 999;
+        display: none;
+        right: 0;
+        border-radius: 2px;
+    }
+    .menuDeroulant li ul.dropdown li a:hover{
+
+        background: #225d75;
+        border-radius: 2px;
+    }
+    .menuDeroulant li:hover ul.dropdown{
+
+        display: block;
+    }
+</style>

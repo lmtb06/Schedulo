@@ -6,17 +6,12 @@
     <title>Schedulo</title>
 </head>
 <body>
-    <h1>Schedulo</h1>
+    <%- include('structures/header') %>
     <% if (locals.user) { %>
-
-        <p> Bonjour, <%= locals.user.name %> !</p>
-        <div><a href="/account/edit" class="button">Modifier mes informations</a></div>
-        <div><a href="/logout" class="button">Se déconnecter</a></div>
-
+        <h1> Bonjour, <%= locals.user.name %> !</h1>
     <% } else { %>
-
-        <div><a href="/account" class="button">Inscription</a></div>
-        <div><a href="/login" class="button">Connexion</a></div>
+        <h1>Bienvue sur Schedulo !</h1>
     <% } %>
+    <%- include('structures/footer') %>
 </body>
 </html>
