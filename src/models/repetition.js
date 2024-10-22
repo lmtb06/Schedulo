@@ -1,12 +1,5 @@
 import mongoose from "mongoose";
-
-// Enumération des unités de répétition
-export const UniteRepetition = {
-    JOUR: "jour",
-    SEMAINE: "semaine",
-    MOIS: "mois",
-    ANNEE: "année"
-};
+import { UniteRepetition } from "../utils/enums.js";
 
 const repetitionSchema = new mongoose.Schema({
     intervalle: {
