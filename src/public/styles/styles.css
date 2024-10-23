@@ -53,12 +53,12 @@ footer {
 
 
 header {
-    background-color: #3492b9; /* Couleur de fond du header */
-    display: flex; /* Utilisation de flexbox pour l'alignement */
-    justify-content: space-between; /* Espacement entre le logo et le menu */
-    align-items: center; /* Centre le contenu verticalement */
-    width: 100%; /* Prend toute la largeur de la fenêtre */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Légère ombre pour le header */
+    background-color: #3492b9;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .logo h1 {
@@ -68,23 +68,23 @@ header {
 }
 
 .logo {
-    color: white; /* Couleur du texte du lien */
-    text-decoration: none; /* Enlève le soulignement du lien */
-    font-size: 1em; /* Taille de la police du titre */
-    font-weight: bold; /* Met le titre en gras */
+    color: white;
+    text-decoration: none;
+    font-size: 1em;
+    font-weight: bold;
 }
 
 .logo:hover {
-    text-decoration: none; /* Pas de soulignement au survol */
-    color: rgba(255, 255, 255, 0.8); /* Légère variation de couleur au survol */
+    text-decoration: none;
+    color: rgba(255, 255, 255, 0.8);
 }
 
 header .button {
-    background-color: #3492b9; /* Couleur de fond des boutons */
-    border-radius: 5px; /* Coins arrondis */
-    padding: 10px 15px; /* Espacement à l'intérieur des boutons */
+    background-color: #3492b9;
+    border-radius: 5px;
+    padding: 10px 15px;
 }
 
 header .button:hover {
-    background-color: #225d75; /* Couleur des boutons au survol */
+    background-color: #225d75;
 }
