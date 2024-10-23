@@ -94,6 +94,7 @@ export function createAccount(req,res){
             picture: picture,
             dateCreation: formattedDate,
         };
+        req.session.name = name;
         insert(NewUser);
         res.redirect("/");
     }
@@ -108,8 +109,8 @@ export function editAccount(req,res){
         user.name = name;
         user.surname = surname;
         save_utilisateurs(utilisateurs);
-        //res.locals.user.name = name;
-        //res.cookie.token;
+        const token = createJWT(user);
+        res.cookie("accessToken", token, { httpOnly: true });
     }
     res.redirect("/");
 }
