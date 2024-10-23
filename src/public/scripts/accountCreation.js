@@ -1,13 +1,18 @@
 async function validateAccountCreation() {
-    const passwordMessage = document.getElementById("passwordMessage");
+    const accountForm = document.forms.accountCreation;
+    const emailMessage = document.getElementById("emailMessage");
+    const preventionPassword = document.getElementById("preventionPassword");
     const passwordRepeated = document.getElementById("passwordRepeated");
-    const passwordRepeatedMessage = document.getElementById("passwordRepeatedMessage");
-    passwordMessage.textContent = "";
-    passwordRepeatedMessage.textContent = "";
-    if (accountForm.password.value.length < 8) {
-        passwordMessage.textContent = "Le mot de passe doit contenir au moins 8 caractères.";
+    const regexpEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    preventionPassword.textContent = "";
+    emailMessage.textContent = "";
+    if(!(document.getElementById("email").value.match(regexpEmail))){
+        emailMessage.textContent="L'email n'est pas valide ";
+    }
+    else if (accountForm.password.value.length < 8) {
+        preventionPassword.textContent = "Le mot de passe doit contenir au moins 8 caractères.";
     } else if (accountForm.password.value != passwordRepeated.value) {
-        passwordRepeatedMessage.textContent = "Les mots de passe ne correspondent pas.";
+        preventionPassword.textContent = "Les mots de passe ne correspondent pas.";
     } else {
         const rawValue = accountForm.password.value;
         accountForm.password.value = await hashSHA256(rawValue);
@@ -15,3 +20,18 @@ async function validateAccountCreation() {
         accountForm.password.value = rawValue;
     }
 }
+
+document.addEventListener("DOMContentLoaded", function () {
+    const accountForm = document.forms.accountCreation;
+
+    if (!accountForm) {
+        console.error("Formulaire introuvable !");
+        return;
+    }
+
+    accountForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        await validateAccountCreation();
+    });
+});
+

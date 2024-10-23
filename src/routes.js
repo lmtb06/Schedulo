@@ -62,26 +62,10 @@ export function createAccount(req,res){
     const today = new Date();
     const formattedDate = today.toISOString().split('T')[0];
     const user = get_utilisateurs().find((user) => user.email === email);
-    const regexpEmail = "/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$/";
-    const regexpMotdePasse = "/^.{8,}$/";
-    console.log(password);
-    console.log(passwordRepeated);
-    if(user){
+    console.log(email);
+    if(user) {
         res.render("account/inscription", {
             messageEmail: "Cet email n'est pas disponible.",
-        });
-    }else if(password != passwordRepeated){
-        res.render("account/inscription", {
-            messagePassword: "Les mots de passe ne sont pas similaires.",
-        });
-    }else if(!email.match(regexpEmail)){
-        res.render("account/inscription", {
-            messageEmail: "L'email n'est pas valide.",
-        });
-    }
-    else if(!password.match(regexpMotdePasse)){
-        res.render("account/inscription", {
-            messagePassword: "Le mot de passse n'est pas valide.",
         });
     }
     else{
@@ -94,7 +78,6 @@ export function createAccount(req,res){
             picture: picture,
             dateCreation: formattedDate,
         };
-        req.session.name = name;
         insert(NewUser);
         res.redirect("/");
     }
