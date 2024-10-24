@@ -1,5 +1,5 @@
 import express from 'express';
-import * as rendezvousController from '../../controllers/rendezvousController.js';
+import rendezvousController from '../../controllers/rendezvousController.js';
 
 const router = express.Router();
 

@@ -6,21 +6,17 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title><%= titrePage %></title>
         <link rel="stylesheet" href="/css/style.css">
-        <script>
-            window.URL_API = '<%= URL_API %>';
-        </script>
-        <script type="module" src="/scripts/api.js"></script>
     </head>
 
     <body>
 
-        <%- include('../partials/header.ejs'); %>
+        <%- include('./partials/header.ejs'); %>
 
         <main>
-            <%- contenuPage %>
+            <%- main %>
         </main>
 
-        <%- include('../partials/footer.ejs'); %>
+        <%- include('./partials/footer.ejs'); %>
 
     </body>
 

@@ -1,10 +1,12 @@
-<%- contentFor('contenuPage') %>
+<%- contentFor('main') %>
 
 <div class="error-container">
-    <h1><%= titre %></h1>
+    <h1>Page non trouvée</h1>
+    <% if (message) { %>
     <p><%= message %></p>
+    <% } %>
     <!-- Si le stack n'est pas vide on l'affiche -->
-    <% if (stack) { %>
+    <% if (stack && stack.length) { %>
     <pre><%= stack %></pre>
     <% } %>
     <a href="/" class="btn">Retour à l'accueil</a>

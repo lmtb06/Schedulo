@@ -1,40 +1,35 @@
 import RendezVous from "../models/rendezvous.js";
 import Repetition from "../models/repetition.js";
-import createError from "http-errors";
 
-class RendezVousService {
+export class RendezVousService {
+
+    constructor({
+        rendezVousModel = RendezVous,
+        repetitionModel = Repetition,
+    } = {}) {
+        this.rendezVousModel = rendezVousModel;
+        this.repetitionModel = repetitionModel;
+    }
 
     async getAllRendezVous(filtres = {}) {
-        return await RendezVous.find(filtres);
+        return await this.rendezVousModel.find(filtres).populate('repetitions'); 
     }
 
     async createRendezVous(donneesRendezVous) {
-        const nouveauRendezVous = new RendezVous(donneesRendezVous);
+        const nouveauRendezVous = new this.rendezVousModel(donneesRendezVous);
         return await nouveauRendezVous.save();
     }
 
     async getRendezVousById(id) {
-        const rendezVous = await RendezVous.findById(id).populate('repetitions');
-        if (!rendezVous) {
-            throw createError(404, "Rendez-vous non trouvé");
-        }
-        return rendezVous;
+        return  await this.rendezVousModel.findById(id).populate('repetitions');
     }
 
     async updateRendezVous(id, nouvellesDonneesRendezVous) {
-        const rendezVous = await RendezVous.findByIdAndUpdate(id, nouvellesDonneesRendezVous, { new: true });
-        if (!rendezVous) {
-            throw createError(404, "Rendez-vous non trouvé");
-        }
-        return rendezVous;
+        return await this.rendezVousModel.findByIdAndUpdate(id, nouvellesDonneesRendezVous, { new: true });
     }
 
     async deleteRendezVous(id) {
-        const rendezVousSupprime = await RendezVous.findByIdAndDelete(id);
-        if (!rendezVousSupprime) {
-            throw createError(404, "Rendez-vous non trouvé");
-        }
-        return rendezVousSupprime;
+        return await this.rendezVousModel.findByIdAndDelete(id);
     }
 }
 

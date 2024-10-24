@@ -1,6 +1,6 @@
 
 export const index = (req, res) => {
-    res.render('index', {
-        titrePage: 'Accueil'
+    res.render('calendrier', {
+        titrePage: 'Calendrier'
     });
 }

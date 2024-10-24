@@ -1,100 +1,136 @@
-import RendezVousService from "../services/rendezvousService.js";
-import createError from "http-errors";
+import RendezVousService from '../services/rendezvousService.js';
+import { renderApiSuccessResponse } from '../utils/renderUtils.js';
+import createError from 'http-errors';
+export class RendezVousController {
+  constructor({
+    rendezVousService = RendezVousService,
+    httpErrorCreate = createError,
+    renderApiResponse = renderApiSuccessResponse,
+    renderWebPage,
+  } = {}) {
+    this.rendezVousService = rendezVousService;
+    this.renderApiResponse = renderApiResponse;
+    this.httpErrorCreate = httpErrorCreate;
+  }
 
-export const getAllRendezVous = async (req, res, next) => {
+  getAllRendezVous = async (req, res, next) => {
     try {
-        // Récupération des critères de recherche
-        const filtres = {};
-        // Récupération des rendez-vous
-        const rendezVous = await RendezVousService.getAllRendezVous(filtres);
-        // Renvoi des rendez-vous
-        res.json(rendezVous);
+      const filtres = req.query || {};
+      const rendezVous = await this.rendezVousService.getAllRendezVous(filtres);
+      this.renderApiResponse(res, {
+        status: 200,
+        message: 'Liste des rendez-vous',
+        data: rendezVous,
+      });
+    } catch (error) {
+      next(
+        this.httpErrorCreate(
+          500,
+          'Erreur lors de la récupération des rendez-vous',
+        ),
+      );
     }
-    catch (error) {
-        next(error);
-    }
-};
+  };
 
-export const createRendezVous = async (req, res, next) => {
-    // Récupération des informations du rendez-vous à créer
+  createRendezVous = async (req, res, next) => {
     const donneesRendezVous = req.body;
-    // Création du rendez-vous
     try {
-        const nouveauRendezVous = await RendezVousService.createRendezVous(donneesRendezVous);
-        // Renvoi de la réponse
-        res.status(201).json(nouveauRendezVous);
+      const nouveauRendezVous = await this.rendezVousService.createRendezVous(
+        donneesRendezVous,
+      );
+      this.renderApiResponse(res, {
+        status: 201,
+        message: 'Rendez-vous créé',
+        data: nouveauRendezVous,
+      });
+    } catch (error) {
+      next(
+        this.httpErrorCreate(400, 'Erreur lors de la création du rendez-vous'),
+      );
     }
-    catch (error) {
-        next(error);
-    }
-};
+  };
 
-export const getRendezVous = async (req, res, next) => {
-    // Récupération de l'identifiant du rendez-vous
+  getRendezVous = async (req, res, next) => {
     const id = req.params.id;
     try {
-        // Récupération des informations du rendez-vous
-        const rendezVous = await RendezVousService.getRendezVousById(id);
-        // Renvoi des informations du rendez-vous
-        res.json(rendezVous);
+      const rendezVous = await this.rendezVousService.getRendezVousById(id);
+      if (!rendezVous) {
+        next(this.httpErrorCreate(404, 'Rendez-vous non trouvé'));
+      }
+      this.renderApiResponse(res, {
+        status: 200,
+        message: 'Rendez-vous trouvé',
+        data: rendezVous,
+      });
+    } catch (error) {
+      next(
+        this.httpErrorCreate(
+          500,
+          'Erreur lors de la récupération du rendez-vous',
+        ),
+      );
     }
-    catch (error) {
-        next(error);
-    }
-};
+  };
 
-export const updateRendezVous = async (req, res, next) => {
-    // Récupération de l'identifiant du rendez-vous
+  updateRendezVous = async (req, res, next) => {
     const id = req.params.id;
-    // Récupération des informations du rendez-vous à mettre à jour
     const nouvellesDonneesRendezVous = req.body;
     try {
-
-        // Mise à jour du rendez-vous
-        const rendezVous = await RendezVousService.updateRendezVous(id, nouvellesDonneesRendezVous);
-        // Renvoi de la réponse
-        res.json(rendezVous);
+      const rendezVous = await this.rendezVousService.updateRendezVous(
+        id,
+        nouvellesDonneesRendezVous,
+      );
+      if (!rendezVous) {
+        next(this.httpErrorCreate(404, 'Rendez-vous non trouvé'));
+      }
+      this.renderApiResponse(res, {
+        status: 200,
+        message: 'Rendez-vous modifié',
+        data: rendezVous,
+      });
+    } catch (error) {
+      next(
+        this.httpErrorCreate(
+          400,
+          'Erreur lors de la mise à jour du rendez-vous',
+        ),
+      );
     }
-    catch (error) {
-        next(error);
-    }
+  };
 
-};
-
-export const deleteRendezVous = async (req, res, next) => {
-    // Récupération de l'identifiant du rendez-vous
+  deleteRendezVous = async (req, res, next) => {
     const id = req.params.id;
     try {
-        // Suppression du rendez-vous et des répétitions associées
-        const rendezVousSupprime = await RendezVousService.deleteRendezVous(id);
-        // Renvoi de la réponse
-        res.json(rendezVousSupprime);
+      const rendezVousSupprime = await this.rendezVousService.deleteRendezVous(
+        id,
+      );
+      if (!rendezVousSupprime) {
+        next(this.httpErrorCreate(404, 'Rendez-vous non trouvé'));
+      }
+      this.renderApiResponse(res, {
+        status: 200,
+        message: 'Rendez-vous supprimé',
+        data: rendezVousSupprime,
+      });
+    } catch (error) {
+      next(
+        this.httpErrorCreate(
+          500,
+          'Erreur lors de la suppression du rendez-vous',
+        ),
+      );
     }
-    catch (error) {
-        next(error);
-    }
-};
+  };
 
-export const getPageCreationRendezVous = (req, res) => {
+  getPageCreationRendezVous = (req, res) => {
     // TODO : Renvoyer la page de création ( à modifier )
-    res.render('rendezvous/page', {
-        titrePage: 'Créer un rendez-vous',
-        headerContenu: 'Créer un rendez-vous',
-    });
-};
+    res.redirect('/'); // Redirection vers la page d'accueil
+  };
 
-export const getPageRendezVous = async (req, res) => {
+  getPageRendezVous = async (req, res) => {
     // TODO : Renvoyer la page de détails ( à modifier )
-    const id = req.params.id;
-    res.render('rendezvous/page', {
-        titrePage: 'Rendez-vous',
-        headerContenu: 'Détails du rendez-vous',
-        rendezVous: {
-            id: id,
-            titre: `Rendez-vous ${id}`,
-            debut: '2021-10-10T10:00',
-            fin: '2021-10-10T11:00',
-            description: `Description du rendez-vous ${id}`
-        }
-    });
-};
+    res.redirect('/'); // Redirection vers la page d'accueil
+  };
+}
+
+export default new RendezVousController();
