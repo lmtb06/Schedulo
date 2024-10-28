@@ -1,0 +1,46 @@
+@startuml DAOs
+
+namespace daos {
+  interface CompteDAO {
+      + create(compte: Compte): Compte
+      + findById(id: String): Compte
+      + update(compte: Compte): Compte
+      + delete(id: String): void
+      -- Autres méthodes si nécessaire --
+  }
+
+  interface AgendaDAO {
+      + create(agenda: Agenda): Agenda
+      + findById(id: String): Agenda
+      + update(agenda: Agenda): Agenda
+      + delete(id: String): void
+      -- Autres méthodes si nécessaire --
+  }
+
+  interface RendezVousDAO {
+      + create(rdv: RendezVous): RendezVous
+      + findById(id: String): RendezVous
+      + update(rdv: RendezVous): RendezVous
+      + delete(id: String): void
+      -- Autres méthodes si nécessaire --
+  }
+
+  namespace mongo {
+    class RendezVousDAOMongo {
+      + create(rdv: RendezVous): RendezVous
+      + findById(id: String): RendezVous
+      + update(rdv: RendezVous): RendezVous
+      + delete(id: String): void
+      -- Autres méthodes si nécessaire --
+    }
+  }
+}
+
+RendezVousDAO ()- daos.mongo.RendezVousDAOMongo
+
+note as n1
+  Les DAOs gèrent les modéles dans le support de persistance.
+  Ils sont responsables de la lecture et de l'écriture des données.
+end note
+
+@enduml

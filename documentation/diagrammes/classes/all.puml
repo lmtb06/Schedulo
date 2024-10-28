@@ -1,0 +1,19 @@
+@startuml All
+' hide empty members
+' hide fields
+' hide methods
+
+skinparam linetype ortho
+' skinparam nodesep 100
+' skinparam ranksep 100
+skinparam roundcorner 20
+' left to right direction
+
+
+!include daos.puml
+!include dtos.puml
+!include mappers.puml
+!include modeles.puml
+!include services.puml
+!include utilitaires.puml
+@enduml

@@ -1,0 +1,20 @@
+@startuml Mappers (permet de convertir entre les objets métier et les DTOs)
+
+namespace mappers {
+    class CompteMapper {
+        + toDTO(compte: Compte): CompteDTO
+    }
+
+    class AgendaMapper {
+        + toDTO(agenda: Agenda): AgendaDTO
+    }
+
+    class RendezVousMapper {
+        + toDTO(rdv: RendezVous): RendezVousDTO
+    }
+}
+
+mappers ..> modeles : "Convertit"
+mappers ..> dtos : "Convertit"
+
+@enduml

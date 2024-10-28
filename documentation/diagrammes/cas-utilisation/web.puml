@@ -1,0 +1,82 @@
+@startuml Cas d'utilisation (web)
+
+"Utilisateur" as u << Personne >>
+"Utilisateur Connecté" as uc << Personne >>
+"Utilisateur Non Connecté" as unc << Personne >>
+"API" as api << Système >>
+
+rectangle "Gestion du compte" {
+    ("S'inscrire") as ins
+    ("Se connecter") as con
+    ("Se déconnecter") as dec
+    ("Modifier son profil") as modP
+    ("Supprimer son compte") as suppC
+    ("Reinitaliser son mot de passe") as reinitMDP
+}
+
+rectangle "Gestion des agendas" {
+    ("Créer un agenda") as creA
+    ("Modifier un agenda") as modA
+    ("Supprimer un agenda") as suppA
+    ("Importer un agenda") as impA
+    ("Exporter un agenda") as expA
+    ("Partager un agenda avec d'autres utilisateurs") as parA
+    ("Modifier le partage d'un agenda avec d'autres utilisateurs") as annParA
+    ("Supprimer le partage d'un agenda avec d'autres utilisateurs") as suppParA
+}
+
+rectangle "Calendrier" {
+    ("Visualiser le calendrier") as visC
+    ("Selectionner les agendas à afficher") as selA
+}
+
+rectangle "Gestion des rendez-vous" {
+    ("Ajouter un rendez-vous dans un agenda") as addR
+    ("Modifier un rendez-vous") as modR
+    ("Supprimer un rendez-vous") as suppR
+    ("Visualiser un rendez-vous") as visR
+    ("Rechercher un rendez-vous") as recR
+}
+
+' Relations entre les acteurs
+u <|-- uc
+u <|-- unc
+
+' Relations des cas d'utilisation
+unc -- ins
+unc -- con
+unc -- reinitMDP
+
+uc -- dec
+uc -- modP
+
+uc -- suppC
+
+uc -- creA
+uc -- modA
+uc -- suppA
+uc -- impA
+uc -- expA
+
+uc -- parA
+uc -- annParA
+uc -- suppParA
+
+uc -- visC
+uc -- selA
+
+uc -- addR
+addR -- api
+uc -- modR
+modR -- api
+uc -- suppR
+suppR -- api
+uc -- visR
+visR -- api
+uc -- recR
+recR -- api
+
+
+
+left to right direction
+@enduml

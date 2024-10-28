@@ -1,0 +1,13 @@
+@startuml Utilitaires (classes pour des opérations utilitaires)
+
+namespace utilitaires {
+    interface Horloge {
+        + dateActuelle(): Date
+    }
+
+    interface Hasheur {
+        + hash(mot: String): String
+    }
+}
+
+@enduml

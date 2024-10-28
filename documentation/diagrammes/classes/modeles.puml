@@ -1,0 +1,101 @@
+@startuml Entités (données métier)
+
+namespace modeles {
+    namespace compte {
+        enum StatutCompte {
+            ACTIF
+            SUPPRIME
+        }
+
+        class Compte {
+            - id : String
+            - email : String
+            - hashMotDePasse : String
+            - nom : String
+            - prenom : String
+            - cheminPhotoProfil : String
+            - dateCreation : Date
+            - dateModification : Date
+            - dateSuppression : Date
+            - statut : StatutCompte
+            -- Getters --
+            -- Setters --
+        }
+    }
+
+    namespace agenda {
+        enum StatutAgenda {
+            ACTIF
+            SUPPRIME
+        }
+
+        class Agenda {
+            - id : String
+            - idProprietaire : String
+            - nom : String
+            - description : String
+            - dateCreation : Date
+            - dateModification : Date
+            - dateSuppression : Date
+            - statut : StatutAgenda
+            -- Getters --
+            -- Setters --
+        }
+    }
+
+    namespace rendezVous {
+
+        enum UniteRepetition {
+            JOUR
+            SEMAINE
+            MOIS
+            ANNEE
+        }
+
+        class Repetition {
+            - id : String
+            - intervalle : int 
+            - unite : UniteRepetition
+            - fin : Date
+            -- Getters --
+            -- Setters --
+        }
+
+        class RendezVous {
+            - id : String
+            - idCreateur : String
+            - idAgenda : String
+            - debut : Date
+            - fin : Date
+            - titre : String
+            - description : String
+            - idRepetition : String
+            - dateCreation : Date
+            - dateModification : Date
+            -- Getters --
+            -- Setters --
+        }
+
+    }
+
+    class AccesAgenda {
+        - idAgenda : String
+        - idCompte : String
+        -- Getters --
+        -- Setters --
+    }
+
+    Agenda [idProprietaire] "0..*" -- "1" Compte : < "est proprietaire de"
+    Agenda "0..*" -- "0..*" Compte : "est accessible par" >
+    (Agenda, Compte) .u. AccesAgenda
+    RendezVous [idCreateur] "0..*" -- "1" Compte : < "est créateur de"
+    RendezVous [idAgenda] "0..*" --* "1" Agenda
+    RendezVous [idRepetition] *-- "0..1" Repetition : "contient"
+
+    note as note_entites
+        Les entités représentent les données métier de l'application.
+        Les associations entre les entités sont réalisées via les identifiants (String).
+    end note
+}
+
+@enduml

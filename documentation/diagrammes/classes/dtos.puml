@@ -1,0 +1,175 @@
+@startuml DTOs
+
+namespace dtos {
+    interface DTO {
+        + toJson(): String
+    }
+
+    namespace compte {
+        class CompteDTO {
+            + toJson(): String
+            -- Getters et Setters --
+        }
+
+        class CreateCompteDTO {
+            + toJson(): String
+            -- Getters et Setters --
+        }
+
+        class UpdateCompteDTO {
+            + toJson(): String
+            -- Getters et Setters --
+        }
+
+        class DeleteCompteDTO {
+            + toJson(): String
+            -- Getters et Setters --
+        }
+
+        class RestoreCompteDTO {
+            + toJson(): String
+            -- Getters et Setters --
+        }
+    }
+    
+    namespace agenda {
+        class AgendaDTO {
+            + toJson(): String
+            -- Getters et Setters --
+        }
+
+        class CreateAgendaDTO {
+            + toJson(): String
+            -- Getters et Setters --
+        }
+
+        class UpdateAgendaDTO {
+            + toJson(): String
+            -- Getters et Setters --
+        }
+
+        class DeleteAgendaDTO {
+            + toJson(): String
+            -- Getters et Setters --
+        }
+
+        class RestoreAgendaDTO {
+            + toJson(): String
+            -- Getters et Setters --
+        }
+    }
+
+    namespace rendezvous {
+        class RendezVousDTO {
+            - id : String
+            - idCreateur : String
+            - idAgenda : String
+            - debut : Date
+            - fin : Date
+            - titre : String
+            - description : String
+            - idRepetition : String
+            - dateCreation : Date
+            - dateModification : Date
+            - repetition: RepetitionDTO
+
+            + toJson(): String
+            -- Getters et Setters --
+        }
+
+        class CreateRendezVousDTO {
+            - idCreateur : String
+            - idAgenda : String
+            - debut : Date
+            - fin : Date
+            - titre : String
+            - description : String
+            - repetition: CreateRepetitionDTO
+
+            + toJson(): String
+            -- Getters et Setters --
+        }
+
+        class RetrieveRendezVousDTO {
+            - id : String
+
+            + toJson(): String
+            -- Getters et Setters --
+        }
+
+        class UpdateRendezVousDTO {
+            - id : String
+            - idAgenda : String
+            - debut : Date
+            - fin : Date
+            - titre : String
+            - description : String
+            - repetition: CreateRepetitionDTO
+            
+            + toJson(): String
+            -- Getters et Setters --
+        }
+
+        class DeleteRendezVousDTO {
+            - id : String
+
+            + toJson(): String
+            -- Getters et Setters --
+        }
+    }
+
+    namespace repetition {
+        class RepetitionDTO {
+            - id : String
+            - intervalle : int 
+            - unite : UniteRepetition
+            - fin : Date
+
+            + toJson(): String
+            -- Getters et Setters --
+        }
+
+        class CreateRepetitionDTO {
+            - intervalle : int 
+            - unite : UniteRepetition
+            - fin : Date
+
+            + toJson(): String
+            -- Getters et Setters --
+        }
+    }
+
+    ' compte
+    DTO ()- compte.CompteDTO
+    DTO ()- compte.CreateCompteDTO
+    DTO ()- compte.UpdateCompteDTO
+    DTO ()- compte.DeleteCompteDTO
+    DTO ()- compte.RestoreCompteDTO
+
+    ' agenda
+    DTO ()- agenda.AgendaDTO
+    DTO ()- agenda.CreateAgendaDTO
+    DTO ()- agenda.UpdateAgendaDTO
+    DTO ()- agenda.DeleteAgendaDTO
+    DTO ()- agenda.RestoreAgendaDTO
+
+    ' rendezvous
+    DTO ()- rendezvous.RendezVousDTO
+    DTO ()- rendezvous.CreateRendezVousDTO
+    DTO ()- rendezvous.UpdateRendezVousDTO
+    DTO ()- rendezvous.DeleteRendezVousDTO
+    DTO ()- rendezvous.RetrieveRendezVousDTO
+    rendezvous.RendezVousDTO *-- repetition.RepetitionDTO
+    rendezvous.CreateRendezVousDTO *-- repetition.CreateRepetitionDTO
+    rendezvous.UpdateRendezVousDTO *-- repetition.CreateRepetitionDTO
+    
+    ' repetition
+    DTO ()- repetition.RepetitionDTO
+    DTO ()- repetition.CreateRepetitionDTO
+
+    remove agenda
+    remove compte
+}
+
+
+@enduml

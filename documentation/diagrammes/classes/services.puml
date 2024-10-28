@@ -1,0 +1,47 @@
+@startuml Services
+
+namespace services {
+
+    class CompteService {
+        - compteDAO : CompteDAO
+        - hasheur : Hasheur
+        - horloge : Horloge
+        - compteMapper : CompteMapper
+        + CompteService(compteDAO: CompteDAO, hasheur: Hasheur, horloge: Horloge, compteMapper: CompteMapper)
+        + creerCompte(createCompteDTO: CreateCompteDTO): CompteDTO
+        + modifierCompte(updateCompteDTO: UpdateCompteDTO): CompteDTO
+        + supprimerCompte(deleteCompteDTO: DeleteCompteDTO): void
+        + restaurerCompte(restoreCompteDTO: RestoreCompteDTO): void
+    }
+
+    class AgendaService {
+        - agendaDAO : AgendaDAO
+        - horloge : Horloge
+        - agendaMapper : AgendaMapper
+        + AgendaService(agendaDAO: AgendaDAO, horloge: Horloge, agendaMapper: AgendaMapper)
+        + creerAgenda(createAgendaDTO: CreateAgendaDTO): AgendaDTO
+        + modifierAgenda(updateAgendaDTO: UpdateAgendaDTO): AgendaDTO
+        + supprimerAgenda(deleteAgendaDTO: DeleteAgendaDTO): void
+        + restaurerAgenda(restoreAgendaDTO: RestoreAgendaDTO): void
+    }
+
+    class RendezVousService {
+        - rendezVousDAO : RendezVousDAO
+        - horloge : Horloge
+        - rendezVousMapper : RendezVousMapper
+        + RendezVousService(rendezVousDAO: RendezVousDAO, horloge: Horloge, rendezVousMapper: RendezVousMapper)
+        + creerRendezVous(createRendezVousDTO: CreateRendezVousDTO): RendezVousDTO
+        + recupererRendezVous(retrieveRendezVousDTO: RetrieveRendezVousDTO): RendezVousDTO
+        + modifierRendezVous(updateRendezVousDTO: UpdateRendezVousDTO): RendezVousDTO
+        + supprimerRendezVous(deleteRendezVousDTO: DeleteRendezVousDTO): void
+    }
+}
+
+remove services.CompteService
+remove services.AgendaService
+
+services.RendezVousService *-- daos.RendezVousDAO
+services.RendezVousService *-- mappers.RendezVousMapper
+services.RendezVousService o-- utilitaires.Horloge
+
+@enduml
