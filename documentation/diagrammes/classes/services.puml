@@ -4,11 +4,11 @@
 namespace services {
 
     class CompteService {
-        - compteDAO : CompteDAO
+        - daoFactory : DAOFactory
         - hasheur : Hasheur
         - horloge : Horloge
         - compteMapper : CompteMapper
-        + CompteService(compteDAO: CompteDAO, hasheur: Hasheur, horloge: Horloge, compteMapper: CompteMapper)
+        + CompteService(daoFactory : DAOFactory, hasheur: Hasheur, horloge: Horloge, compteMapper: CompteMapper)
         + creerCompte(createCompteDTO: CreateCompteDTO): CompteDTO
         + modifierCompte(updateCompteDTO: UpdateCompteDTO): CompteDTO
         + supprimerCompte(deleteCompteDTO: DeleteCompteDTO): void
@@ -16,10 +16,10 @@ namespace services {
     }
 
     class AgendaService {
-        - agendaDAO : AgendaDAO
+        - daoFactory : DAOFactory
         - horloge : Horloge
         - agendaMapper : AgendaMapper
-        + AgendaService(agendaDAO: AgendaDAO, horloge: Horloge, agendaMapper: AgendaMapper)
+        + AgendaService(daoFactory : DAOFactory, horloge: Horloge, agendaMapper: AgendaMapper)
         + creerAgenda(createAgendaDTO: CreateAgendaDTO): AgendaDTO
         + modifierAgenda(updateAgendaDTO: UpdateAgendaDTO): AgendaDTO
         + supprimerAgenda(deleteAgendaDTO: DeleteAgendaDTO): void
@@ -27,10 +27,10 @@ namespace services {
     }
 
     class RendezVousService {
-        - rendezVousDAO : RendezVousDAO
+        - daoFactory : DAOFactory
         - horloge : Horloge
         - rendezVousMapper : RendezVousMapper
-        + RendezVousService(rendezVousDAO: RendezVousDAO, horloge: Horloge, rendezVousMapper: RendezVousMapper)
+        + RendezVousService(daoFactory : DAOFactory, horloge: Horloge, rendezVousMapper: RendezVousMapper)
         + creerRendezVous(createRendezVousDTO: CreateRendezVousDTO): RendezVousDTO
         + recupererRendezVous(retrieveRendezVousDTO: RetrieveRendezVousDTO): RendezVousDTO
         + modifierRendezVous(updateRendezVousDTO: UpdateRendezVousDTO): RendezVousDTO
@@ -38,11 +38,9 @@ namespace services {
     }
 }
 
-remove services.CompteService
-remove services.AgendaService
-
-services.RendezVousService *-- daos.RendezVousDAO
+services.RendezVousService *-- daos.factory.DAOFactory
 services.RendezVousService *-- mappers.RendezVousMapper
 services.RendezVousService o-- utilitaires.Horloge
+services.RendezVousService --> exceptions.services.ServiceException: "throws"
 
 @enduml

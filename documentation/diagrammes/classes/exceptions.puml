@@ -67,6 +67,17 @@ namespace exceptions {
             + getStack(): String
         }
     }
+
+    namespace services {
+        class ServiceException extends exceptions.Exception {
+            + getStatusCode(): Number
+            + getName(): String
+            + getMessage(): String
+            + getPath(): String
+            + getDetails(): any
+            + getStack(): String
+        }
+    }
 }
 
 @enduml
