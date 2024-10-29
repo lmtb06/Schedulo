@@ -11,6 +11,8 @@ import routerWeb from './routes/web/routes.js';
 import errorLogger from './middlewares/errorLogger.js';
 import apiErrorHandler from './middlewares/apiErrorHandler.js';
 import webErrorHandler from './middlewares/webErrorHandler.js';
+import cookieParser from "cookie-parser";
+import { authenticate } from "./utils/authentication.js";
 
 export const app = express();
 
@@ -43,6 +45,10 @@ app
   // Middleware pour parser le corps des requêtes
   .use(express.json())
   .use(express.urlencoded({ extended: false }))
+
+  // Middlewares pour la connexion.
+    .use(authenticate)
+  .use(cookieParser())
 
   // Routes
   .use('/api', routerAPI)

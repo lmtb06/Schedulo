@@ -25,6 +25,6 @@ const utilisateurSchema = new mongoose.Schema({
     timestamps: true // Ajoute automatiquement createdAt et updatedAt
 });
 
-const Utilisateur = mongoose.model('Utilisateur', rendezVousSchema);
+const Utilisateur = mongoose.model('Utilisateur', utilisateurSchema);
 
 export default Utilisateur;

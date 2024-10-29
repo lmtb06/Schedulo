@@ -1,6 +1,7 @@
 import express from 'express';
 import * as pageController from '../../controllers/pageController.js';
 import rendezvousRouter from './rendezvous.js';
+import utilisateurRouter from './utilisateur.js';
 import createError from "http-errors";
 
 const router = express.Router();
@@ -14,6 +15,8 @@ router
     .get('/', pageController.index)
     // rendez vous
     .use('/rendezvous', rendezvousRouter)
+    // Compte.
+    .use('/compte', utilisateurRouter)
     .use((req, res, next) => next(createError(404)));
 
 
