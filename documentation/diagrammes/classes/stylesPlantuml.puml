@@ -1,0 +1,9 @@
+@startuml Styles PlantUML diagrammes de classes et conventions, à inclure dans les autres diagrammes de classes
+
+skinparam linetype ortho
+' skinparam nodesep 100
+' skinparam ranksep 100
+skinparam roundcorner 20
+left to right direction
+
+@enduml

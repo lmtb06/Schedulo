@@ -1,4 +1,5 @@
 @startuml Utilitaires (classes pour des opérations utilitaires)
+!include stylesPlantuml.puml
 
 namespace utilitaires {
     interface Horloge {

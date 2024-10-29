@@ -12,6 +12,7 @@ skinparam roundcorner 20
 
 !include daos.puml
 !include dtos.puml
+!include exceptions.puml
 !include mappers.puml
 !include modeles.puml
 !include services.puml

@@ -1,4 +1,5 @@
 @startuml Services
+!include stylesPlantuml.puml
 
 namespace services {
 

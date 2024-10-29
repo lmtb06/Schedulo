@@ -1,4 +1,5 @@
 @startuml Mappers (permet de convertir entre les objets métier et les DTOs)
+!include stylesPlantuml.puml
 
 namespace mappers {
     class CompteMapper {

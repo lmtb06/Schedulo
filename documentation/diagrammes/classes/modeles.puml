@@ -1,4 +1,5 @@
 @startuml Entités (données métier)
+!include stylesPlantuml.puml
 
 namespace modeles {
     namespace compte {
