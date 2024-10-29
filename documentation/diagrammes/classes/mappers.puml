@@ -2,20 +2,33 @@
 !include stylesPlantuml.puml
 
 namespace mappers {
+    interface Mapper {
+        + toDTO(objetMetier: any): DTO
+    }
+
     class CompteMapper {
-        + toDTO(compte: Compte): CompteDTO
+        
     }
 
     class AgendaMapper {
-        + toDTO(agenda: Agenda): AgendaDTO
+
     }
 
     class RendezVousMapper {
-        + toDTO(rdv: RendezVous): RendezVousDTO
+
     }
+
+    class RepetitionMapper {
+
+    }
+
+    Mapper ()- CompteMapper
+    Mapper ()- AgendaMapper
+    Mapper ()- RendezVousMapper
+    Mapper ()- RepetitionMapper
 }
 
-mappers ..> modeles : "Convertit"
-mappers ..> dtos : "Convertit"
+mappers.Mapper --> modeles : "Reçoit"
+mappers.Mapper --> dtos.DTO : "Renvoit"
 
 @enduml

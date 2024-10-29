@@ -1,0 +1,10 @@
+@startuml Validators
+!include stylesPlantuml.puml
+
+interface validators.ValidatorSchema {
+    + validate(data: any): {error, value}
+}
+
+
+
+@enduml

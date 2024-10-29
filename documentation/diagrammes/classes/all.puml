@@ -1,13 +1,8 @@
 @startuml All
-' hide empty members
+!include stylesPlantuml.puml
+hide members
 ' hide fields
 ' hide methods
-
-skinparam linetype ortho
-' skinparam nodesep 100
-' skinparam ranksep 100
-skinparam roundcorner 20
-' left to right direction
 
 
 !include daos.puml
@@ -17,4 +12,5 @@ skinparam roundcorner 20
 !include modeles.puml
 !include services.puml
 !include utilitaires.puml
+!include validators.puml
 @enduml
