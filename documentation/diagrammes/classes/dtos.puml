@@ -145,6 +145,6 @@ namespace dtos {
 
 dtos.DTO --> mappers.Mapper: "Renvoie"
 dtos.DTO --> validators.ValidatorSchema: "Renvoie"
-dtos.DTO --> exceptions.ValidationException: "Renvoie"
+dtos.DTO --> exceptions.validators.ValidationException: "Renvoie"
 
 @enduml

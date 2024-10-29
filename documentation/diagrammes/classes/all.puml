@@ -10,6 +10,7 @@ hide members
 !include exceptions.puml
 !include mappers.puml
 !include modeles.puml
+!include requestProcessor.puml
 !include services.puml
 !include utilitaires.puml
 !include validators.puml
