@@ -4,9 +4,7 @@
 namespace dtos {
     interface DTO {
         + toJson(): String
-        + getValidatorSchema(): ValidatorSchema
-        + getMapper(): Mapper
-        + getValidationExceptionClass(): ValidationException
+        + validate(): void
     }
 
     namespace compte {
@@ -77,6 +75,7 @@ namespace dtos {
             - dateCreation : Date
             - dateModification : Date
             - repetition: RepetitionDTO
+            + RendezVousDTO(model: RendezVous): void
             -- Getters et Setters --
         }
 
@@ -128,6 +127,7 @@ namespace dtos {
             - intervalle : int 
             - unite : UniteRepetition
             - fin : Date
+            + RepetitionDTO(model: Repetition): void
             -- Getters et Setters --
         }
 
@@ -143,8 +143,7 @@ namespace dtos {
     }
 }
 
-dtos.DTO --> mappers.Mapper: "Renvoie"
-dtos.DTO --> validators.ValidatorSchema: "Renvoie"
-dtos.DTO --> exceptions.validators.ValidationException: "Renvoie"
+dtos.DTO --> exceptions.validation.ValidationException: "throws"
+dtos.DTO ..> validators.ValidatorSchema: "Utilise"
 
 @enduml

@@ -11,5 +11,5 @@ namespace requestProcessor {
 
 RequestProcessor o-- dtos.DTO
 RequestProcessor --> dtos.DTO: "Renvoit"
-RequestProcessor --> exceptions.validators.ValidationException: throws
+RequestProcessor --> exceptions.validation.ValidationException: throws
 @enduml
