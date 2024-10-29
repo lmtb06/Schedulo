@@ -1,0 +1,16 @@
+<%- contentFor('main') %>
+<h1>Connexion</h1>
+<form name="connexionForm" action="/login" method="post">
+    <table>
+        <tbody>
+        <tr><td><label for="email">Entrez votre email</label></td>
+            <td><input name="email" /></td>
+        <tr><td><label for="password">Entrez le mot de passe</label></td>
+            <td><input type="password" name="password" value="" /></td>
+            <td><label id="passwordMessage"></label></td></tr>
+        </tbody>
+    </table>
+    <div><input type="submit" class="button"/></div>
+    <a href="/forgot/password">Mot de passe oublié?</a>
+    <tr><td><td><label><%= locals.message || '' %></label></td></tr></td></tr>
+</form>
