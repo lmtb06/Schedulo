@@ -1,0 +1,16 @@
+{
+    "id": "markdown-setup",
+    "version": "1.0.0",
+    "name": "Markdown Setup",
+    "description": "Setup Markdown extensions and related tools.",
+    "options": {},
+    "dependsOn": {},
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "yzhang.markdown-all-in-one"
+            ],
+            "settings": {}
+        }
+    }
+}

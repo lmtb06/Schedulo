@@ -1,0 +1,27 @@
+{
+	"name": "Documentation",
+	"dockerComposeFile": "../docker-compose.yml",
+	"shutdownAction": "stopCompose",
+	"service": "documentation",
+	"runServices": [
+		"documentation",
+		"plantumlServer"
+	],
+	"workspaceFolder": "/workspace/documentation",
+	"features": {
+		"../features/ai-setup": {},
+		"../features/github-setup": {},
+		"../features/editor-setup": {},
+		"../features/plantuml-setup": {}
+	},
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"${import:../extensions/common.json}",
+				"${import:../extensions/doc.json}"
+			]
+		}
+	},
+	"postCreateCommand": "bash .devcontainer/scripts/post-create.sh",
+	"postStartCommand": "bash .devcontainer/scripts/post-start.sh"
+}

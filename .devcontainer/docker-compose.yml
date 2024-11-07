@@ -1,36 +1,38 @@
-version: '3.8'
+x-common-setup:
+  #   # image: mcr.microsoft.com/devcontainers/base:ubuntu
+  &common-setup
+  volumes:
+    - ..:/workspace:cached
+  command: sleep infinity
 
 services:
-  app:
-    build: 
-      context: .
-      dockerfile: Dockerfile
-    volumes:
-      - ../..:/workspaces:cached
+  documentation:
+    image: mcr.microsoft.com/devcontainers/base:bullseye
+    <<: *common-setup
+    network_mode: service:plantumlServer
+    depends_on:
+      - plantumlServer
+    profiles: [ "doc" ]
 
-    # Overrides default command so things don't shut down after the process ends.
-    command: sleep infinity
+  development:
+    image: mcr.microsoft.com/devcontainers/javascript-node:1-22-bookworm
+    <<: *common-setup
+    network_mode: service:mongodb
+    depends_on:
+      - mongodb
+    profiles: [ "dev" ]
 
-    # Runs app on the same network as the database container, allows "forwardPorts" in devcontainer.json function.
-    network_mode: service:db
+  plantumlServer:
+    image: plantuml/plantuml-server:latest
+    # restart: unless-stopped
+    profiles: [ "doc" ]
 
-    # Use "forwardPorts" in **devcontainer.json** to forward an app port locally. 
-    # (Adding the "ports" property to this file will not forward from a Codespace.)
-
-  db:
+  mongodb:
     image: mongo:latest
-    restart: unless-stopped
+    # restart: unless-stopped
+    profiles: [ "dev" ]
     volumes:
-      - mongodb-data:/data/db
-
-    # Uncomment to change startup options
-    # environment:
-    #  MONGO_INITDB_ROOT_USERNAME: root
-    #  MONGO_INITDB_ROOT_PASSWORD: example
-    #  MONGO_INITDB_DATABASE: your-database-here
-
-    # Add "forwardPorts": ["27017"] to **devcontainer.json** to forward MongoDB locally.
-    # (Adding the "ports" property to this file will not forward from a Codespace.)
+      - mongodb_data:/data/db
 
 volumes:
-  mongodb-data:
+  mongodb_data:

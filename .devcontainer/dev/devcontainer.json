@@ -1,0 +1,27 @@
+{
+	"name": "Developpement",
+	"dockerComposeFile": "../docker-compose.yml",
+	"shutdownAction": "stopCompose",
+	"service": "development",
+	"runServices": [
+		"development",
+		"mongodb"
+	],
+	"workspaceFolder": "/workspace/src",
+	"features": {
+		"../features/zsh-setup": {},
+		"../features/ai-setup": {},
+		"../features/github-setup": {},
+		"../features/editor-setup": {}
+	},
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"${import:../extensions/common.json}",
+				"${import:../extensions/dev.json}"
+			]
+		}
+	},
+	"postCreateCommand": "bash .devcontainer/scripts/post-create.sh",
+	"postStartCommand": "bash .devcontainer/scripts/post-start.sh"
+}

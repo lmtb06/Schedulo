@@ -1,0 +1,29 @@
+{
+    "id": "github-setup",
+    "version": "1.0.0",
+    "name": "Github Setup",
+    "description": "Setup Github extensions and related tools.",
+    "options": {},
+    "dependsOn": {},
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "eamodio.gitlens",
+                "github.vscode-github-actions",
+                "GitHub.vscode-pull-request-github"
+            ],
+            "settings": {
+                "git.autofetch": true,
+                "git.confirmSync": false,
+                "git.enableSmartCommit": true,
+                "git.promptToSaveFilesBeforeCommit": "always",
+                "git.mergeEditor": true,
+                "files.exclude": {
+                    "**/.git": true,
+                    "**/.svn": true,
+                    "**/.DS_Store": true
+                }
+            }
+        }
+    }
+}

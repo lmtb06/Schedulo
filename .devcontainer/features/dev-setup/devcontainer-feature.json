@@ -1,0 +1,51 @@
+{
+    "id": "dev-setup",
+    "version": "1.0.0",
+    "name": "Dev Setup",
+    "description": "Setup Dev extensions and related tools for node.js development.",
+    "options": {},
+    "dependsOn": {
+        "ghcr.io/devcontainers/features/node:1": {}
+    },
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "DigitalBrainstem.javascript-ejs-support",
+                "humao.rest-client",
+                "streetsidesoftware.code-spell-checker",
+                "streetsidesoftware.code-spell-checker-french",
+                "dbaeumer.vscode-eslint",
+                "esbenp.prettier-vscode"
+            ],
+            "settings": {
+                "git.autofetch": true,
+                "git.confirmSync": false,
+                "git.enableSmartCommit": true,
+                "git.promptToSaveFilesBeforeCommit": "always",
+                "git.mergeEditor": true,
+                "files.exclude": {
+                    "**/node_modules": true,
+                    "**/dist": true
+                },
+                "search.exclude": {
+                    "**/node_modules": true,
+                    "**/dist": true
+                },
+                "search.useIgnoreFiles": true,
+                "cSpell.language": "en,fr",
+                "editor.codeActionsOnSave": {
+                    "source.fixAll.eslint": "explicit",
+                    "source.organizeImports": "explicit",
+                    "source.removeUnusedImports": "explicit",
+                    "source.sortImports": "explicit"
+                },
+                "javascript.updateImportsOnFileMove.enabled": "always",
+                "javascript.preferences.importModuleSpecifierEnding": "minimal",
+                "javascript.preferences.importModuleSpecifier": "relative",
+                "[javascript]": {
+                    "editor.defaultFormatter": "esbenp.prettier-vscode"
+                }
+            }
+        }
+    }
+}

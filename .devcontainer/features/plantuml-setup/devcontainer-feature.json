@@ -1,0 +1,48 @@
+{
+    "id": "plantuml-setup",
+    "version": "1.0.0",
+    "name": "PlantUML Setup",
+    "description": "Setup PlantUML extensions and related tools.",
+    "options": {
+        "plantumlServer": {
+            "type": "string",
+            "default": "http://plantumlServer:8080",
+            "description": "PlantUML server URL"
+        },
+        "plantumlExportFormat": {
+            "type": "string",
+            "default": "png",
+            "description": "PlantUML export format"
+        },
+        "plantumlRender": {
+            "type": "string",
+            "default": "PlantUMLServer",
+            "description": "PlantUML render"
+        },
+        "plantumlDiagramsRoot": {
+            "type": "string",
+            "default": "diagrams/src",
+            "description": "PlantUML diagrams root"
+        },
+        "plantumlExportOutDir": {
+            "type": "string",
+            "default": "diagrams/out",
+            "description": "PlantUML export out directory"
+        }
+    },
+    "dependsOn": {},
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "jebbs.plantuml"
+            ],
+            "settings": {
+                "plantuml.exportFormat": "png",
+                "plantuml.render": "PlantUMLServer",
+                "plantuml.server": "http://plantumlServer:8080",
+                "plantuml.diagramsRoot": "diagrams/src",
+                "plantuml.exportOutDir": "diagrams/out"
+            }
+        }
+    }
+}

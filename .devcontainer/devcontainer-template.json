@@ -1,0 +1,17 @@
+{
+    "dockerComposeFile": "./docker-compose.yml",
+    "shutdownAction": "stopCompose",
+    "features": {
+        "./features/ai-setup": {},
+        "./features/zsh-setup": {},
+        "./features/github-setup": {},
+        "./features/editor-setup": {}
+    },
+    "customizations": {
+        "vscode": {
+            "extensions": "${import:./extensions/common.json}"
+        }
+    },
+    "postCreateCommand": "bash .devcontainer/scripts/post-create.sh",
+    "postStartCommand": "bash .devcontainer/scripts/post-start.sh"
+}

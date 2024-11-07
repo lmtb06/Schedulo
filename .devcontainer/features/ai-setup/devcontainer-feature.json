@@ -1,0 +1,17 @@
+{
+    "id": "ai-setup",
+    "version": "1.0.0",
+    "name": "AI Setup",
+    "description": "Setup AI assistants extensions and related tools.",
+    "options": {},
+    "dependsOn": {},
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "GitHub.copilot",
+                "GitHub.copilot-chat"
+            ],
+            "settings": {}
+        }
+    }
+}
