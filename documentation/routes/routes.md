@@ -3,7 +3,7 @@
 ### Rendez-vous
 - `rendezvous/create` : Page de création d'un rendez-vous
 - `rendezvous/{id}` : Page de détails d'un rendez-vous
-
+- 
 ## API
 ### Authentification
 
@@ -26,7 +26,6 @@
 - `GET /api/agendas/{id}` : Récupérer les détails d'un agenda spécifique
 - `PUT /api/agendas/{id}` : Mettre à jour un agenda
 - `DELETE /api/agendas/{id}` : Supprimer un agenda
-- `GET /api/agendas/{id}/rendezvous` : Récupérer tous les rendez-vous d'un agenda spécifique qui satisfassent les critères de recherche
 
 ### Rendez-vous
 
@@ -35,6 +34,8 @@
 - `GET /api/rendezvous/{id}` : Récupérer les détails d'un rendez-vous spécifique
 - `PUT /api/rendezvous/{id}` : Mettre à jour un rendez-vous
 - `DELETE /api/rendezvous/{id}` : Supprimer un rendez-vous
+
+
 
 ### Répétitions
 
