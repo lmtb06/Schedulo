@@ -15,7 +15,7 @@
                 "streetsidesoftware.code-spell-checker",
                 "streetsidesoftware.code-spell-checker-french",
                 "dbaeumer.vscode-eslint",
-                "esbenp.prettier-vscode"
+                "rvest.vs-code-prettier-eslint"
             ],
             "settings": {
                 "git.autofetch": true,
@@ -23,6 +23,7 @@
                 "git.enableSmartCommit": true,
                 "git.promptToSaveFilesBeforeCommit": "always",
                 "git.mergeEditor": true,
+                "files.autoSave": "onFocusChange",
                 "files.exclude": {
                     "**/node_modules": true,
                     "**/dist": true
@@ -34,17 +35,19 @@
                 "search.useIgnoreFiles": true,
                 "cSpell.language": "en,fr",
                 "editor.codeActionsOnSave": {
-                    "source.fixAll.eslint": "explicit",
-                    "source.organizeImports": "explicit",
+                    "source.fixAll.eslint": "always",
+                    "source.organizeImports": "always",
                     "source.removeUnusedImports": "explicit",
-                    "source.sortImports": "explicit"
+                    "source.sortImports": "always"
                 },
+                "editor.defaultFormatter": "rvest.vs-code-prettier-eslint",
+                "editor.formatOnType": false,
+                "editor.formatOnPaste": true,
+                "editor.formatOnSave": true,
+                "editor.formatOnSaveMode": "file",
+                "vs-code-prettier-eslint.prettierLast": false,
                 "javascript.updateImportsOnFileMove.enabled": "always",
-                "javascript.preferences.importModuleSpecifierEnding": "minimal",
-                "javascript.preferences.importModuleSpecifier": "relative",
-                "[javascript]": {
-                    "editor.defaultFormatter": "esbenp.prettier-vscode"
-                }
+                "javascript.preferences.importModuleSpecifier": "shortest"
             }
         }
     }

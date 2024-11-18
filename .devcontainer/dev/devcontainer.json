@@ -12,13 +12,18 @@
 		"../features/zsh-setup": {},
 		"../features/ai-setup": {},
 		"../features/github-setup": {},
-		"../features/editor-setup": {}
+		"../features/editor-setup": {},
+		"../features/dev-setup": {}
 	},
 	"customizations": {
 		"vscode": {
 			"extensions": [
-				"${import:../extensions/common.json}",
-				"${import:../extensions/dev.json}"
+				"github.copilot",
+				"eamodio.gitlens",
+				"streetsidesoftware.code-spell-checker",
+				"mongodb.mongodb-vscode",
+				"dbaeumer.vscode-eslint",
+				"rvest.vs-code-prettier-eslint"
 			]
 		}
 	},

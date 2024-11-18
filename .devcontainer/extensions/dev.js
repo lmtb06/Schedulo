@@ -1,5 +1,5 @@
 [
     "mongodb.mongodb-vscode",
     "dbaeumer.vscode-eslint",
-    "esbenp.prettier-vscode"
+    "rvest.vs-code-prettier-eslint"
 ]
