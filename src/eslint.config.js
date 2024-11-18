@@ -8,32 +8,58 @@ import securityPlugin from "eslint-plugin-security";
 import globals from "globals";
 
 export default [
-	jsdocPlugin.configs["flat/recommended"],
-	nodePlugin.configs["flat/recommended-script"],
-	importPlugin.flatConfigs.recommended,
-	promisePlugin.configs["flat/recommended"],
-	securityPlugin.configs.recommended,
-	{
-		// recommended configuration included in the plugin
-		...htmlPlugin.configs["flat/recommended"],
-		files: ["**/*.html"],
-	},
-	{
-		ignores: ["node_modules/", "dist/"], // Ignore common directories
-	},
-	{
-		files: ["**/*.{js,mjs}"],
-		languageOptions: {
-			parserOptions: {
-				ecmaVersion: "latest",
-				sourceType: "module",
-			},
-			globals: {
-				...globals.node, // Node.js globals
-				...globals.es2024, // ECMAScript 2024 globals
-			},
-		},
-		rules: {},
-	},
-	prettierConfig,
+    // Configuration de base pour tous les fichiers
+    {
+        ignores: ["node_modules/", "dist/"],
+        linterOptions: {
+            reportUnusedDisableDirectives: true,
+        },
+    },
+
+    // Configuration pour les fichiers JavaScript
+    {
+        files: ["**/*.{js,mjs}"],
+        languageOptions: {
+            ecmaVersion: "latest",
+            sourceType: "module",
+            globals: {
+                ...globals.browser,
+                ...globals.node,
+                ...globals.es2024,
+            },
+        },
+        plugins: {
+            import: importPlugin,
+            jsdoc: jsdocPlugin,
+            n: nodePlugin,
+            promise: promisePlugin,
+            security: securityPlugin,
+        },
+        rules: {
+            ...jsdocPlugin.configs["flat/recommended"].rules,
+            ...nodePlugin.configs["flat/recommended-script"].rules,
+            ...importPlugin.configs.recommended.rules,
+            ...promisePlugin.configs["flat/recommended"].rules,
+            ...securityPlugin.configs.recommended.rules,
+
+            // Règles personnalisées
+            "no-unused-vars": "warn",
+            "no-console": "warn",
+            // 'import/no-unresolved': 'off', // Désactivé temporairement si nécessaire
+        },
+        // settings: {
+        //   'import/resolver': {
+        //     node: true,
+        //   },
+        // },
+    },
+
+    // Configuration pour les fichiers HTML
+    {
+        files: ["**/*.html"],
+        ...htmlPlugin.configs["flat/recommended"],
+    },
+
+    // Configuration Prettier
+    prettierConfig,
 ];

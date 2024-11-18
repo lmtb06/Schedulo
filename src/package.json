@@ -4,8 +4,12 @@
 	"description": "",
 	"main": "server.js",
 	"dependencies": {
+		"@fullcalendar/core": "^6.1.15",
+		"@fullcalendar/daygrid": "^6.1.15",
+		"@fullcalendar/interaction": "^6.1.15",
+		"@fullcalendar/list": "^6.1.15",
+		"@fullcalendar/timegrid": "^6.1.15",
 		"cookie-parser": "^1.4.7",
-		"dedupe": "^4.0.3",
 		"dotenv": "^16.4.5",
 		"ejs": "^3.1.10",
 		"express": "^4.21.1",
@@ -17,7 +21,6 @@
 		"jsonwebtoken": "^9.0.2",
 		"mongoose": "^8.7.3",
 		"morgan": "^1.10.0",
-		"npm": "^10.9.0",
 		"winston": "^3.15.0"
 	},
 	"scripts": {
@@ -26,8 +29,9 @@
 		"format": "npx prettier --write \"**/*.{js,jsx,json}\"",
 		"test": "echo \"Error: no test specified\" && exit 1",
 		"start": "node server.js",
-		"dev": "nodemon server.js",
-		"prepare": "husky && husky install"
+		"build:css": "tailwindcss build ./views/style.css -o ./public/css/style.css",
+		"dev": "nodemon --exec 'npm run build:css && npm start' -e ejs,js,json",
+		"prepare": "husky"
 	},
 	"keywords": [],
 	"author": "Schedulos",
@@ -35,7 +39,10 @@
 	"license": "ISC",
 	"devDependencies": {
 		"@html-eslint/eslint-plugin": "^0.27.0",
+		"@html-eslint/parser": "^0.27.0",
+		"dedupe": "^4.0.3",
 		"eslint": "^9.14.0",
+		"eslint-config-prettier": "^9.1.0",
 		"eslint-plugin-html": "^8.1.2",
 		"eslint-plugin-import": "^2.31.0",
 		"eslint-plugin-jsdoc": "^50.4.3",
@@ -45,11 +52,20 @@
 		"eslint-plugin-security": "^3.0.1",
 		"globals": "^15.11.0",
 		"husky": "^9.1.6",
+		"jsdoc": "^4.0.4",
 		"lint-staged": "^15.2.10",
 		"nodemon": "^3.1.7",
-		"prettier": "^3.3.3"
+		"prettier": "^3.3.3",
+		"prettier-plugin-tailwindcss": "^0.6.8",
+		"tailwindcss": "^3.4.15"
 	},
 	"lint-staged": {
-		"*.js": "eslint --cache --fix"
+		"*.{js,jsx,ts,tsx}": [
+			"eslint --fix",
+			"prettier --write"
+		],
+		"*.{json,css,md}": [
+			"prettier --write"
+		]
 	}
 }

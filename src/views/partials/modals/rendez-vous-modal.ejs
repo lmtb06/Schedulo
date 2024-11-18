@@ -1,0 +1,103 @@
+<dialog open id="rendez-vous-modal" class="fixed inset-0 z-50 p-4 bg-black bg-opacity-50">
+    <form method="dialog" class="max-w-2xl mx-auto bg-white rounded-lg shadow-xl">
+        <!-- En-tête -->
+        <header class="flex items-center justify-between p-4 border-b border-gray-200">
+            <h2 class="text-xl font-semibold text-gray-800">
+                <span class="creer-rdv-titre">Nouveau rendez-vous</span>
+                <span class="modifier-rdv-titre hidden">Modifier le rendez-vous</span>
+            </h2>
+            <button class="close-button text-gray-500 hover:text-gray-700">
+                <i class="fas fa-times"></i>
+            </button>
+        </header>
+
+        <!-- Contenu -->
+        <article class="p-6">
+            <fieldset class="space-y-6">
+                <!-- Titre -->
+                <div class="space-y-2">
+                    <label for="rdv-titre" class="block text-sm font-medium text-gray-700">
+                        Titre
+                    </label>
+                    <input type="text" 
+                           id="rdv-titre" 
+                           class="w-full px-3 py-2 border border-gray-300 rounded-md 
+                                  focus:outline-none focus:ring-2 focus:ring-blue-500"
+                           required>
+                </div>
+
+                <!-- Période -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Début -->
+                    <fieldset class="space-y-4">
+                        <legend class="text-sm font-medium text-gray-700">Début</legend>
+                        <div class="space-y-4">
+                            <div>
+                                <label for="debut-date" class="block text-sm text-gray-600">
+                                    Date
+                                </label>
+                                <input type="date" 
+                                       id="debut-date"
+                                       class="w-full px-3 py-2 border border-gray-300 rounded-md">
+                            </div>
+                            <div>
+                                <label for="debut-heure" class="block text-sm text-gray-600">
+                                    Heure
+                                </label>
+                                <input type="time" 
+                                       id="debut-heure"
+                                       class="w-full px-3 py-2 border border-gray-300 rounded-md">
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <!-- Fin -->
+                    <fieldset class="space-y-4">
+                        <legend class="text-sm font-medium text-gray-700">Fin</legend>
+                        <div class="space-y-4">
+                            <div>
+                                <label for="fin-date" class="block text-sm text-gray-600">
+                                    Date
+                                </label>
+                                <input type="date" 
+                                       id="fin-date"
+                                       class="w-full px-3 py-2 border border-gray-300 rounded-md">
+                            </div>
+                            <div>
+                                <label for="fin-heure" class="block text-sm text-gray-600">
+                                    Heure
+                                </label>
+                                <input type="time" 
+                                       id="fin-heure"
+                                       class="w-full px-3 py-2 border border-gray-300 rounded-md">
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+
+                <!-- Description -->
+                <div class="space-y-2">
+                    <label for="rdv-description" class="block text-sm font-medium text-gray-700">
+                        Description
+                    </label>
+                    <textarea id="rdv-description" 
+                              rows="4"
+                              class="w-full px-3 py-2 border border-gray-300 rounded-md 
+                                     focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+                </div>
+            </fieldset>
+        </article>
+
+        <!-- Footer -->
+        <footer class="flex justify-end gap-3 p-4 border-t border-gray-200">
+            <button class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 
+                         rounded-md hover:bg-gray-200">
+                Annuler
+            </button>
+            <button class="px-4 py-2 text-sm font-medium text-white bg-blue-600 
+                         rounded-md hover:bg-blue-700">
+                Enregistrer
+            </button>
+        </footer>
+    </form>
+</dialog>

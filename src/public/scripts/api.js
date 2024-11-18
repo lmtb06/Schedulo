@@ -1,4 +1,3 @@
-
 class API {
     constructor(url) {
         this.url = url;
@@ -8,13 +7,14 @@ class API {
         try {
             const url = `${this.url}/rendezvous/create`;
             const response = await fetch(url, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(rendezVous)
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(rendezVous),
             });
             if (!response.ok) {
                 throw new Error(`Erreur HTTP : ${response.status}`);
             }
+
             return await response.json();
         } catch (error) {
             console.error("Erreur lors de la création du rendez-vous :", error);
@@ -23,5 +23,5 @@ class API {
     }
 }
 
-// instance de la classe API
+// Instance de la classe API
 export default new API(window.URL_API);

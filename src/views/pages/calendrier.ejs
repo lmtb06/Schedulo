@@ -1,0 +1,15 @@
+<%- contentFor('main') %>
+
+<h1>Calendrier des Rendez-vous</h1>
+
+<div id="calendar"></div>
+
+<!-- FullCalendar JS -->
+<script src="/fullcalendar/core/index.global.min.js"></script>
+<script src="/fullcalendar/interaction/index.global.min.js"></script>
+<script src="/fullcalendar/daygrid/index.global.min.js"></script>
+<script src="/fullcalendar/timegrid/index.global.min.js"></script>
+
+<script src="/scripts/calendar.js" type="module"></script>
+
+<%- include('../partials/modals/rendez-vous-modal') %>

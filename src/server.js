@@ -1,54 +1,82 @@
-import { createServer } from 'http';
-import { app } from './app.js';
-import logger from './logger.js';
-import mongoose from 'mongoose';
-
+import env from "dotenv";
+import { createServer } from "http";
+import { Application } from "./app/application.js";
+/**
+ * Démarre le serveur avec l'ApplicationFactory.
+ * @async
+ * @returns {Promise<void>}
+ */
 async function startServer() {
+    // Chargement des variables d'environnement
+    env.config();
     try {
-        logger.info('Démarrage du serveur...');
+        // Configuration globale de l'application
+        const config = {
+            database: {
+                uri: process.env.DB_URI,
+                name: process.env.DB_NAME,
+                host: process.env.DB_HOST,
+                port: process.env.DB_PORT,
+                user: process.env.DB_USER,
+                password: process.env.DB_PASS,
+            },
+            server: {
+                port: process.env.SERVER_PORT,
+                url: process.env.SERVER_URL,
+                env: process.env.SERVER_ENV,
+            },
+        };
 
-        const { SERVER_URL, SERVER_PORT } = process.env;
-        app.set('URL_API', `${SERVER_URL}:${SERVER_PORT}/api`);
+        // Initialisation de l'Application
+        const application = Application.getInstance();
+        await application.setup(config);
+        await application.start();
 
-        // Connexion à MongoDB
-        await mongoose.connect(getMongoURI());
-        logger.info('Connecté à MongoDB');
+        // // Récupération des composants nécessaires
+        const logger = application.getLogger();
+        const app = application.getExpressApp();
 
-        // Création et démarrage du serveur HTTP
-        const server = createServer(app).listen(SERVER_PORT, () => {
-            logger.info(`Serveur lancé sur ${SERVER_URL}:${SERVER_PORT}`);
+        // // Création et démarrage du serveur HTTP
+        const server = createServer(app).listen(config.server.port, () => {
+            logger.info(
+                `Serveur lancé sur ${config.server.url}:${config.server.port}`
+            );
         });
 
-        // Gestion de la fermeture du serveur
-        process.on('SIGINT', () => shutdown(server));
-        process.on('SIGTERM', () => shutdown(server));
+        let enCoursDeFermeture = false;
+        /**
+         * Gestion de l'arrêt du serveur.
+         * @async
+         */
+        const shutdown = async () => {
+            if (enCoursDeFermeture) {
+                return;
+            }
+            try {
+                logger.info("Arrêt du serveur...");
+                enCoursDeFermeture = true;
+                await server.close(() => {
+                    logger.info(
+                        "Toutes les connexions au serveur ont été fermées"
+                    );
+                });
+                await application.stop();
+                logger.info("Serveur arrêté");
+                process.exit(0);
+            } catch (error) {
+                logger.error("Erreur lors de l'arrêt du serveur:", error);
+                process.exit(1);
+            }
+        };
 
-    } catch (err) {
-        logger.error('Erreur au démarrage du serveur:', err);
+        // Gestion des signaux d'arrêt
+        ["SIGINT", "SIGTERM"].forEach((signal) => {
+            process.on(signal, shutdown);
+        });
+    } catch (error) {
+        console.error("Erreur au démarrage du serveur:", error);
         process.exit(1);
     }
 }
 
-function getMongoURI() {
-    const { DB_HOST, DB_PORT, DB_NAME, DB_USER, DB_PASS } = process.env;
-    const credentials = DB_USER && DB_PASS ? `${DB_USER}:${DB_PASS}@` : '';
-    return `mongodb://${credentials}${DB_HOST}:${DB_PORT}/${DB_NAME}`;
-}
-
-async function shutdown(server) {
-    logger.info('Fermeture du serveur...');
-    try {
-        await mongoose.connection.close();
-        logger.info('Connexion MongoDB fermée');
-
-        server.close(() => {
-            logger.info('Serveur fermé');
-            process.exit(0);
-        });
-    } catch (err) {
-        logger.error('Erreur lors de la fermeture du serveur:', err);
-        process.exit(1);
-    }
-}
-
-startServer();
+await startServer();
