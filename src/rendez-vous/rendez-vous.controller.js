@@ -178,7 +178,7 @@ class RendezVousController {
             // Création et validation du DTO
             const deleteRendezVous = new DeleteRendezVousDTO(request.body);
 
-            // Création du rendez-vous
+            // Supression du rendez-vous
             const rendezVous =
                 await rendezVousService.deleteRendezVous(deleteRendezVous);
 
