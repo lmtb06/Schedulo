@@ -33,6 +33,8 @@ class API {
             if (!response.ok) {
                 throw new Error(`Erreur HTTP : ${response.status}`);
             }
+
+            return await response.json();
         } catch (error) {
             console.error("Erreur lors de la suppression du rendez-vous :", error);
             throw error;
