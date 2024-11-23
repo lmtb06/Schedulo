@@ -8,6 +8,7 @@
  */
 
 import { CreateRendezVousDTO } from "./dto/create-rendez-vous.dto.js";
+import { DeleteRendezVousDTO } from "./dto/delete-rendez-vous.dto.js";
 
 /**
  * Contrôleur pour les rendez-vous.
@@ -166,6 +167,31 @@ class RendezVousController {
      */
     async deleteRendezVous(request, res, next) {
         console.log("deleteRendezVous");
+        try {
+            // Récupération du service
+            const rendezVousService =
+                await this.#serviceFactory.getRendezVousService();
+            if (!rendezVousService) {
+                throw new Error("Service indisponible");
+            }
+
+            // Création et validation du DTO
+            const deleteRendezVous = new DeleteRendezVousDTO(request.body);
+
+            // Création du rendez-vous
+            const rendezVous =
+                await rendezVousService.deleteRendezVous(deleteRendezVous);
+
+            console.log("Rendez-vous supprimé:", rendezVous);
+            return rendezVous;
+        } catch (error) {
+            if (error instanceof ValidationError) {
+                throw new Error(`Validation échouée: ${error.message}`);
+            }
+
+            console.error("Erreur lors de la suppression:", error);
+            throw error;
+        }
         // const id = request.params.id;
         // try {
         // 	const rendezVousSupprime = await this.rendezVousService.deleteRendezVous(id);

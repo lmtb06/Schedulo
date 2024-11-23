@@ -21,6 +21,23 @@ class API {
             throw error;
         }
     }
+
+    async supprimerRendezVous(rendezVous) {
+        try{
+            const url = `${this.url}/rendezvous/${rendezVous.id}`;
+            const response = await fetch(url, {
+                method: "DELETE",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(rendezVous),
+            });
+            if (!response.ok) {
+                throw new Error(`Erreur HTTP : ${response.status}`);
+            }
+        } catch (error) {
+            console.error("Erreur lors de la suppression du rendez-vous :", error);
+            throw error;
+        }
+    }
 }
 
 // Instance de la classe API
