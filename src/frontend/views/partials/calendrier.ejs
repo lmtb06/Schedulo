@@ -1,0 +1,9 @@
+<% if (id) { %>    
+    <div id="<%=id%>">
+        <!-- Le modal de rendez-vous -->
+        <%- include('rendez-vous-modal', {id:`${id}-rendez-vous-modal`}) %>
+        <!-- Le calendrier -->
+        <div class="calendar"></div>
+    </div>
+
+<% } %>

@@ -10,7 +10,7 @@ import globals from "globals";
 export default [
     // Configuration de base pour tous les fichiers
     {
-        ignores: ["node_modules/", "dist/"],
+        ignores: ["**/node_modules/**", "**/public/**"],
         linterOptions: {
             reportUnusedDisableDirectives: true,
         },
@@ -45,21 +45,21 @@ export default [
             // Règles personnalisées
             "no-unused-vars": "warn",
             "no-console": "warn",
-            // 'import/no-unresolved': 'off', // Désactivé temporairement si nécessaire
+            // "import/no-unresolved": "off",
         },
-        // settings: {
-        //   'import/resolver': {
-        //     node: true,
-        //   },
-        // },
     },
-
     // Configuration pour les fichiers HTML
     {
         files: ["**/*.html"],
         ...htmlPlugin.configs["flat/recommended"],
     },
+    // {
+    //     files: ["eslint.config.js"],
 
+    // },
     // Configuration Prettier
     prettierConfig,
+    // {
+    //     ignores: ["**eslint.config.js"],
+    // },
 ];

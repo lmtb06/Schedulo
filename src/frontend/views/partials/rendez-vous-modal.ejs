@@ -1,0 +1,73 @@
+<% if (id) { %>
+<dialog id="<%=id%>" class="rdv-modal">
+    <form method="dialog">
+        <!-- En-tête -->
+        <header>
+            <h2>
+                <span name="create-rendez-vous-titre">Nouveau rendez-vous</span>
+                <span name="update-rendez-vous-titre">Modifier le rendez-vous</span>
+            </h2>
+            <button type="button" close>
+                <span class="icon-[material-symbols--close-rounded]"></span>
+            </button>
+        </header>
+
+        <!-- Contenu -->
+        <article>
+            <fieldset>
+                <!-- Titre -->
+                <div>
+                    <label for="rendez-vous-titre">
+                        Titre
+                    </label>
+                    <input type="text"
+                           name="rendez-vous-titre" 
+                           required>
+                </div>
+
+                <!-- Période -->
+                <div>
+                    <!-- Début -->
+                    <fieldset>
+                        <legend>Date de début</legend>
+                        <input type="datetime-local"
+                               name="rendez-vous-debut"
+                               required>
+                    </fieldset>
+
+                    <!-- Fin -->
+                    <fieldset>
+                        <legend>Date de fin</legend>
+                        <input type="datetime-local"
+                               name="rendez-vous-fin"
+                               required>
+                    </fieldset>
+                </div>
+
+                <!-- Description -->
+                <div>
+                    <label for="rendez-vous-description">
+                        Description
+                    </label>
+                    <textarea
+                        name="rendez-vous-description"
+                        rows="4"></textarea>
+                </div>
+            </fieldset>
+        </article>
+
+        <!-- Footer -->
+        <footer>
+            <button type="button" close>
+                Annuler
+            </button>
+            <button name="create-rendez-vous-button" type="submit" value="create">
+                Créer
+            </button>
+            <button name="update-rendez-vous-button" type="submit" value="update">
+                Mettre à jour
+            </button>
+        </footer>
+    </form>
+</dialog>
+<% } %>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <title><%- defineContent('title') || 'Schedulo' %></title>
+           
+        <!-- Styles communs toujours présents -->
+        <link rel="stylesheet" href="/styles/main.css">
+        
+        <!-- Styles additionnels optionnels -->
+        <%- defineContent('styles') || '' %>
+    </head>
+
+    <body>
+
+        <%- defineContent('header') || include('./partials/header.ejs'); %>
+        <main>
+        <%- body %>
+        </main>
+
+        <%- defineContent('footer') || include('./partials/footer.ejs'); %>
+
+        <!-- Scripts communs toujours présents -->
+        <script src="/scripts/main.js" type="module"></script>
+        
+        <!-- Scripts additionnels optionnels -->
+        <%- script %>
+    </body>
+
+</html>

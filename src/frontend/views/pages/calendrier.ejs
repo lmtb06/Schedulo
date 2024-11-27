@@ -1,0 +1,10 @@
+<%- contentFor('body') %>
+<h1>Calendrier des Rendez-vous</h1>
+
+<link rel="stylesheet" href="/styles/calendrier.css">
+
+<%- include('../partials/calendrier', {
+    id: "calendrier-container"
+}) %>
+
+<script src="/scripts/calendrier.js" type="module"></script>
