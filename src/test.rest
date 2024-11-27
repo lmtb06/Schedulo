@@ -1,18 +1,67 @@
-# GET http://localhost:3000/ HTTP/1.1
+GET http://localhost:3000/ HTTP/1.1
 
-# GET http://localhost:3000/api/rendez-vous HTTP/1.1
+### Get all rendez-vous with filter ###
+GET http://localhost:3000/api/rendez-vous?debut={{$datetime iso8601 -1 y}}&fin={{$datetime iso8601 1 y}} HTTP/1.1
 
-# GET http://localhost:3000/api/rendez-vous/671a520b2ca4c689757857bf HTTP/1.1
+### Get all rendez-vous with validation error ###
+GET http://localhost:3000/api/rendez-vous?debut={{$datetime iso8601 1 y}}&fin={{$datetime iso8601 -1 y}} HTTP/1.1
 
+### Get all rendez-vous not satisfiable ###
+GET http://localhost:3000/api/rendez-vous?debut={{$datetime iso8601 10 y}}&fin={{$datetime iso8601 11 y}} HTTP/1.1
 
+### Get specific rendez-vous ###
+GET http://localhost:3000/api/rendez-vous/67425cfa0900da93fb7b529b HTTP/1.1
+
+### Create rendez-vous ###
 POST http://localhost:3000/api/rendez-vous/create HTTP/1.1
-Content-Type: application/json
+content-type: application/json
 
 {
-    "idCreateur": "671a520b2ca4c68975f7857bf",
-    "idAgenda": "671a520b2ca4c689757857bf",
-    "titre": "brrrrrrrrrrrrrrrr",
-    "debut": "{{$datetime iso8601}}" ,
+    "idCreateur": "2",
+    "idAgenda": "4",
+    "titre": "brr",
+    "debut": "{{$datetime iso8601}}",
     "fin": "{{$datetime iso8601 1 h}}",
-    "description": "tgzegyrez"
+    "description": "rrgezzgz"
 }
+
+### Create rendez-vous with validation error ###
+POST http://localhost:3000/api/rendez-vous/create HTTP/1.1
+content-type: application/json
+
+{
+    "idAgenda": "4",
+    "titre": "brr",
+    "debut": "{{$datetime iso8601}}",
+    "fin": "{{$datetime iso8601 1 h}}",
+    "description": ""
+}
+
+### Update rendez-vous ###
+PUT http://localhost:3000/api/rendez-vous/674231612778e7952c50a957 HTTP/1.1
+content-type: application/json
+
+{
+    "idCreateur": "2",
+    "idAgenda": "{{$timestamp}}",
+    "titre": "brr",
+    "debut": "{{$datetime iso8601}}",
+    "fin": "{{$datetime iso8601 1 h}}",
+    "description": ""
+}
+
+### Update rendez-vous with validation error ###
+PUT http://localhost:3000/api/rendez-vous/55555555 HTTP/1.1
+content-type: application/json
+
+{
+    "idCreateur": "2",
+    "idAgenda": "{{$timestamp}}",
+    "titre": "brr",
+    "debut": "{{$datetime iso8601}}",
+    "fin": "{{$datetime iso8601 1 h}}",
+    "description": ""
+}
+
+### Delete rendez-vous ###
+DELETE http://localhost:3000/api/rendez-vous/673ae02c2b0ab0099c380866 HTTP/1.1

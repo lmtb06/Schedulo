@@ -13,6 +13,12 @@
                 "editor.formatOnPaste": true,
                 // "editor.formatOnType": false,
                 // "editor.tabSize": 4
+                "files.associations": {
+                    "*.ejs": "html"
+                },
+                "emmet.includeLanguages": {
+                    "ejs": "html"
+                }
             }
         }
     }

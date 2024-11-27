@@ -48,3 +48,4 @@ public/uploads/
 *.bak
 utilisateurs.json
 events.json
+src/backend/public/**/*

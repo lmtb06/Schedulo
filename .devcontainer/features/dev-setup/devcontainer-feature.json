@@ -15,7 +15,10 @@
                 "streetsidesoftware.code-spell-checker",
                 "streetsidesoftware.code-spell-checker-french",
                 "dbaeumer.vscode-eslint",
-                "rvest.vs-code-prettier-eslint"
+                "rvest.vs-code-prettier-eslint",
+                "mikestead.dotenv",
+                "christian-kohler.npm-intellisense",
+                "christian-kohler.path-intellisense"  
             ],
             "settings": {
                 "git.autofetch": true,
@@ -47,7 +50,13 @@
                 "editor.formatOnSaveMode": "file",
                 "vs-code-prettier-eslint.prettierLast": false,
                 "javascript.updateImportsOnFileMove.enabled": "always",
-                "javascript.preferences.importModuleSpecifier": "shortest"
+                "javascript.preferences.importModuleSpecifier": "shortest",
+                "files.associations": {
+                    "*.ejs": "html"
+                },
+                "emmet.includeLanguages": {
+                    "ejs": "html"
+                }
             }
         }
     }
