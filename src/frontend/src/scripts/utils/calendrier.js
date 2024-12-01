@@ -34,7 +34,7 @@ class Calendrier {
             );
         }
         this._calendar = new Calendar(calendarElement, {
-            initialView: "dayGridMonth",
+            initialView: "timeGridWeek",
             plugins: [
                 dayGridPlugin,
                 timeGridPlugin,
@@ -169,6 +169,7 @@ class CalendrierAPI extends Calendrier {
                         "Erreur lors de la mise à jour du rendez-vous :",
                         error
                     );
+                    eventInfo.revert();
                 });
         });
     }
