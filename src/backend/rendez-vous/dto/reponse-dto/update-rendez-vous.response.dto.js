@@ -2,18 +2,19 @@ import { ResponseDTO } from "../../../shared/response.dto.js";
 
 /**
  * @typedef {import('../../rendez-vous.model.js').RendezVous} RendezVous
+ * @typedef {import('../../../shared/response.dto.js').ResponseDTO} ResponseDTO
+ * @typedef {import("../../../shared/response.dto.js").Errors} Errors
  */
-
 /**
- * Classe DTO de reponse pour la création d'un rendez-vous.
+ * Classe DTO de reponse pour la mise à jour d'un rendez-vous.
  * @implements {ResponseDTO}
  */
-class CreateRendezVousResponseDTO extends ResponseDTO {
+class UpdateRendezVousResponseDTO extends ResponseDTO {
     /**
-     * @param {object} errors
+     * @param {Errors} errors
      * @param {RendezVous} data
-     * @param {string} message
      * @param {number} status
+     * @param {string} message
      */
     constructor({ errors, data, message, status }) {
         super({
@@ -33,11 +34,11 @@ class CreateRendezVousResponseDTO extends ResponseDTO {
             message:
                 message ||
                 (data
-                    ? "Rendez-vous créé"
-                    : "Impossible de créer le rendez-vous"),
-            status: status || (data ? 201 : 500),
+                    ? "Rendez-vous mis à jour"
+                    : "Le rendez-vous n'existe pas"),
+            status: status || (data ? 200 : 404),
         });
     }
 }
 
-export { CreateRendezVousResponseDTO };
+export { UpdateRendezVousResponseDTO };

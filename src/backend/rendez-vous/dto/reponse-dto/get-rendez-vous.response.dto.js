@@ -32,8 +32,9 @@ class GetRendezVousResponseDTO extends ResponseDTO {
                   }
                 : undefined,
             message:
-                message || data ? "Rendez-vous" : "Le rendez-vous n'existe pas",
-            status: status || data ? 200 : 404,
+                message ||
+                (data ? "Rendez-vous" : "Le rendez-vous n'existe pas"),
+            status: status || (data ? 200 : 404),
         });
     }
 }

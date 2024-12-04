@@ -30,77 +30,16 @@ class RendezVousMongooseDAO {
         this.#RendezVousModel = RendezVousModel;
     }
 
-    // async create(rendezVous) {
-    // 	const donneesRendezVous = removeValues(
-    // 		removeProperties(rendezVous, ['id', 'dateCreation', 'dateModification']),
-    // 		[undefined, null]
-    // 	);
-
-    // 	const rdvModel = new this.#RendezVousModel(donneesRendezVous);
-    // 	await rdvModel.save();
-    // 	return this.transformerEnRendezVous(rdvModel);
-    // }
-
-    // async findById({ id }) {
-    // 	const rdvModel = await this.#RendezVousModel.findById(id);
-    // 	return this.transformerEnRendezVous(rdvModel);
-    // }
-
-    // async update({ id, ...resteDesDonnees }) {
-    // 	const donneesRendezVous = removeValues(
-    // 		removeProperties(resteDesDonnees, ['dateCreation', 'dateModification']),
-    // 		[undefined, null]
-    // 	);
-    // 	const rdvModel = await this.#RendezVousModel.findByIdAndUpdate(id, donneesRendezVous, {
-    // 		new: false,
-    // 	});
-    // 	return this.transformerEnRendezVous(rdvModel);
-    // }
-
-    // async delete({ id }) {
-    // 	await this.#RendezVousModel.findByIdAndDelete(id);
-    // }
-
-    // /**
-    //  * Transforme un modèle mongoose en instance de RendezVous.
-    //  * @private
-    //  * @param {RendezVousMongooseModel} rendezVousModel Le modèle mongoose
-    //  * @returns {RendezVous} L'instance de RendezVous
-    //  */
-    // transformerEnRendezVous(rendezVousModel) {
-    // 	return new RendezVous({
-    // 		id: rendezVousModel._id,
-    // 		idCreateur: rendezVousModel.idCreateur,
-    // 		idAgenda: rendezVousModel.idAgenda,
-    // 		debut: rendezVousModel.debut,
-    // 		fin: rendezVousModel.fin,
-    // 		titre: rendezVousModel.titre,
-    // 		description: rendezVousModel.description,
-    // 		idRepetition: rendezVousModel.idRepetition,
-    // 		dateCreation: rendezVousModel.createdAt,
-    // 		dateModification: rendezVousModel.updatedAt,
-    // 	});
-    // }
-
     /**
      * @inheritdoc
      */
     async get(id) {
-        const rendezVous = await this.#RendezVousModel.findById(id);
-        if (!rendezVous) {
-            return;
-        }
-        return new RendezVous({
-            id: rendezVous._id,
-            idCreateur: rendezVous.idCreateur,
-            idAgenda: rendezVous.idAgenda,
-            debut: rendezVous.debut,
-            fin: rendezVous.fin,
-            titre: rendezVous.titre,
-            description: rendezVous.description,
-            idRepetition: rendezVous.idRepetition,
-            dateCreation: rendezVous.createdAt,
-            dateModification: rendezVous.updatedAt,
+        return this.#RendezVousModel.findById(id).then((rdv) => {
+            if (!rdv) {
+                return null;
+            } else {
+                return this.#getRendezVousFromModel(rdv);
+            }
         });
     }
 
@@ -128,14 +67,10 @@ class RendezVousMongooseDAO {
             query.where("idCreateur").equals(filters.idCreateur);
         }
 
-        const listeRendezVous = await query;
-
-        if (!listeRendezVous) {
-            throw new Error("Erreur lors de la récupération des rendez-vous");
-        }
-
-        return listeRendezVous.map((rdv) => {
-            return this.#getRendezVousFromModel(rdv);
+        return query.then((listeRendezVous) => {
+            return listeRendezVous.map((rdv) => {
+                return this.#getRendezVousFromModel(rdv);
+            });
         });
     }
 
@@ -151,38 +86,35 @@ class RendezVousMongooseDAO {
         delete donneesRendezVous.dateCreation;
         delete donneesRendezVous.dateModification;
 
-        const rdvModel = await this.#RendezVousModel.create(donneesRendezVous);
-
-        return this.#getRendezVousFromModel(rdvModel);
+        return this.#RendezVousModel.create(donneesRendezVous).then((rdv) => {
+            return this.#getRendezVousFromModel(rdv);
+        });
     }
     /**
      * @inheritdoc
      */
     async update(id, rendezVous) {
-        console.log("TODO Update :", id, rendezVous);
-        const rdvModel = await this.#RendezVousModel.findByIdAndUpdate(
-            id,
-            rendezVous
-        );
-
-        if (!rdvModel) {
-            return;
-        }
-
-        return this.#getRendezVousFromModel(rdvModel);
+        return this.#RendezVousModel
+            .findByIdAndUpdate(id, rendezVous, { new: true })
+            .then((rdv) => {
+                if (!rdv) {
+                    return null;
+                } else {
+                    return this.#getRendezVousFromModel(rdv);
+                }
+            });
     }
     /**
      * @inheritdoc
      */
     async delete(id) {
-        // TODO
-        const rdvModel = await this.#RendezVousModel.findByIdAndDelete(id);
-
-        if (!rdvModel) {
-            return;
-        }
-
-        return this.#getRendezVousFromModel(rdvModel);
+        return this.#RendezVousModel.findByIdAndDelete(id).then((rdv) => {
+            if (!rdv) {
+                return null;
+            } else {
+                return this.#getRendezVousFromModel(rdv);
+            }
+        });
     }
 
     /**

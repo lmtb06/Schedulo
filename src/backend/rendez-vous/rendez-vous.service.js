@@ -3,8 +3,10 @@ import { DAOFactory } from "../shared/dao.factory.js";
 import { RequestDTO } from "../shared/request.dto.js";
 import {
     CreateRendezVousResponseDTO,
+    DeleteRendezVousResponseDTO,
     GetAllRendezVousResponseDTO,
     GetRendezVousResponseDTO,
+    UpdateRendezVousResponseDTO,
 } from "./dto/reponse-dto/index.js";
 import {
     CreateRendezVousRequestDTO,
@@ -143,42 +145,47 @@ class RendezVousService {
             message = "Erreur lors de la validation des données";
             status = 400;
         } else {
-            // TODO
             const rendezVousDAO = await this.#daoFactory.getRendezVousDAO();
 
-            const requestData = updateRendezVousRequestDTO.data;
+            const rdv = new RendezVous(updateRendezVousRequestDTO.data);
 
-            data = await rendezVousDAO.update(
-                requestData.id,
-                new RendezVous(requestData)
-            );
-
-            if (!data) {
-                message = "Rendez-vous introuvable";
-                status = 404;
-            } else {
-                message = "Rendez-vous mis à jour";
-                status = 200;
-            }
-
-            return { errors, data, message, status };
+            data = await rendezVousDAO.update(rdv.id, rdv);
         }
+
+        return new UpdateRendezVousResponseDTO({
+            errors,
+            data,
+            message,
+            status,
+        });
     }
 
     /**
      * Supprime un rendez-vous
      * @param {DeleteRendezVousRequestDTO} deleteRendezVousRequestDTO - Les données pour supprimer un rendez-vous
-     * @returns {Promise<DeleRendezVousResponseDTO>} La réponse de la suppression du rendez-vous
+     * @returns {Promise<DeleteRendezVousResponseDTO>} La réponse de la suppression du rendez-vous
      */
     async deleteRendezVous(deleteRendezVousRequestDTO) {
-        // TODO
-        const rendezVousDAO = await this.#daoFactory.getRendezVousDAO();
+        const errors = this.#getValidationError(deleteRendezVousRequestDTO);
+        let message, data, status;
 
-        const rdv = new RendezVous({
-            id: deleteRendezVousRequestDTO.id,
+        if (errors.length > 0) {
+            message = "Erreur lors de la validation des données";
+            status = 400;
+        } else {
+            const rendezVousDAO = await this.#daoFactory.getRendezVousDAO();
+
+            const rdv = new RendezVous(deleteRendezVousRequestDTO.data);
+
+            data = await rendezVousDAO.delete(rdv.id);
+        }
+
+        return new DeleteRendezVousResponseDTO({
+            errors,
+            data,
+            message,
+            status,
         });
-
-        await rendezVousDAO.delete(rdv);
     }
 
     /**

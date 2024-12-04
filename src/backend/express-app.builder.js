@@ -9,13 +9,8 @@ import { ApiErrorHandler } from "./middlewares/api-error-handler.js";
 
 const __filename = import.meta.filename;
 const __dirname = import.meta.dirname;
-// const __node_modules_dir = path.join(__dirname, "node_modules");
-// const __axios_dir = path.join(__nodeModulesDir, "axios/dist/esm");
-// const __fullcalendar_dir = path.join(__publicDir, "fullcalendar");
 const __views_dir = path.join(__dirname, "../frontend/views");
 const __layout_file = "template";
-// const __server_dir = __dirname;
-// const __client_dir = path.join(__dirname, "client");
 const __public_dir = path.join(__dirname, "./public");
 /**
  * @typedef {import('express').Express} Express Express
@@ -149,9 +144,11 @@ class ExpressAppBuilder {
             },
         };
         this.#expressApp.use("/api", (error, request, res, next) => {
+            this.#logger.error("Erreur lors de la requête %s", error);
             apiErrorHandler.handle(error, request, res, next);
         });
         this.#expressApp.use((error, request, res, next) => {
+            this.#logger.error("Erreur lors de la requête %s", error);
             webErrorHandler.handleError(error, request, res, next);
         });
         return this;
