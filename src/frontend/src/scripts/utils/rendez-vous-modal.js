@@ -13,7 +13,7 @@ import defaultAPI, { API } from "./api.js";
  * @property {string} key
  * @property {string} value valeur problématique
  */
-
+// TODO Corriger bug reportValidity coincé
 class RendezVousModal {
     /**
      * @type {HTMLDialogElement}
@@ -32,10 +32,18 @@ class RendezVousModal {
      * @private
      */
     _editCallback;
-    _successCallback;
+
+    /**
+     * @type {Function(RendezVous):Promise<RendezVous>}
+     * @private
+     */
+    _deleteCallback;
+
+    _deletionCallback;
+
+    _submissionCallback;
     /**
      * @param {HTMLDialogElement} element
-     * @param successCallback
      */
     constructor(element) {
         this._modal = element;
@@ -51,7 +59,14 @@ class RendezVousModal {
                 resolve(rendezVous);
             });
         };
-        this._successCallback = (rendezVous) => {};
+        this._deleteCallback = (rendezVous) => {
+            console.log("Supression du rendez-vous :", rendezVous);
+            return new Promise((resolve, reject) => {
+                resolve(rendezVous);
+            });
+        };
+        this._deletionCallback = (rendezVous) => {};
+        this._submissionCallback = (rendezVous) => {};
     }
 
     init() {
@@ -74,8 +89,16 @@ class RendezVousModal {
         this._editCallback = callback;
     }
 
-    setSuccessCallback(callback) {
-        this._successCallback = callback;
+    setDeleteCallback(callback) {
+        this._deleteCallback = callback;
+    }
+
+    setDeletionCallback(callback) {
+        this._deletionCallback = callback;
+    }
+
+    setSubmissionCallback(callback) {
+        this._submissionCallback = callback;
     }
 
     /**
@@ -107,24 +130,16 @@ class RendezVousModal {
      *
      * @param {RendezVous} rendezVous
      */
-    _prefillInputs({
-        id,
-        idAgenda,
-        idCreateur,
-        titre,
-        description,
-        debut,
-        fin,
-    } = {}) {
+    _prefillInputs({ id, idAgenda, titre, description, debut, fin } = {}) {
         Object.assign(this._modal.dataset, {
             id,
-            idAgenda,
-            idCreateur,
         });
 
         const form = this._modal.querySelector("form");
 
         titre && (form.elements["rendez-vous-titre"].value = titre);
+
+        idAgenda && (form.elements["rendez-vous-agenda"].value = idAgenda);
 
         description &&
             (form.elements["rendez-vous-description"].value = description);
@@ -171,41 +186,62 @@ class RendezVousModal {
                 case "create":
                     callback = this._createCallback(rendezVous)
                         .then((rendezVous) => {
-                            this._modal.close();
                             const submitEvent = new SubmitEvent("create");
                             this._modal.dispatchEvent(submitEvent);
+                            this._modal.close();
                             return rendezVous;
                         })
                         .catch((errors) => {
+                            this._showErrors(errors);
                             console.error(
                                 "Erreur lors de la création du rendez-vous"
                             );
-                            this._showErrors(errors);
                         });
                     break;
                 case "update":
                     callback = this._editCallback(rendezVous)
                         .then((rendezVous) => {
-                            this._modal.close();
                             const submitEvent = new SubmitEvent("update");
                             this._modal.dispatchEvent(submitEvent);
+                            this._modal.close();
                             return rendezVous;
                         })
                         .catch((errors) => {
-                            console.error(
-                                "Erreur lors de la mise à jour du rendez-vous"
-                            );
                             this._showErrors(errors);
+                            console.error(
+                                "Erreur lors de la modification du rendez-vous"
+                            );
+                            return;
                         });
                     break;
                 default:
                     throw new Error("Action inconnue");
             }
 
-            callback.then(this._successCallback).catch((error) => {
+            callback.then(this._submissionCallback).catch((error) => {
                 console.error("Erreur lors de l'exécution du callback", error);
             });
         });
+
+        // Ajout de l'événement de suppression du rendez-vous
+        this._modal
+            .querySelector("[name=update-rendez-vous-delete-button]")
+            .addEventListener("click", (event) => {
+                event.preventDefault();
+                const rendezVous = this._getRendezVousFromData();
+                this._deleteCallback(rendezVous)
+                    .then((rendezVous) => {
+                        this._deletionCallback(rendezVous);
+                        this._modal.close();
+                        return rendezVous;
+                    })
+                    .catch((error) => {
+                        console.error(
+                            "Erreur lors de la suppression du rendez-vous",
+                            error
+                        );
+                    });
+            });
     }
 
     /**
@@ -216,6 +252,7 @@ class RendezVousModal {
         const form = this._modal.querySelector("form");
         let rendezVous = {};
         Object.assign(rendezVous, this._modal.dataset, {
+            idAgenda: form.elements["rendez-vous-agenda"].value,
             titre: this._getTitre(form),
             description: this._getDesciption(form),
             debut: this._getDebutDate(form),
@@ -311,10 +348,38 @@ class RendezVousModal {
      * @param {SubmitError[]} errors
      */
     _showErrors(errors) {
-        errors.forEach((error) => {
-            console.error(
-                `Erreur lors de la validation du champ ${error.key} : ${error.message}`
-            );
+        const form = this._modal.querySelector("form");
+        errors?.forEach((error) => {
+            switch (error.key) {
+                case "titre":
+                    form.elements["rendez-vous-titre"].setCustomValidity(
+                        error.message
+                    );
+                    form.elements["rendez-vous-titre"].reportValidity();
+                    break;
+                case "description":
+                    form.elements["rendez-vous-description"].setCustomValidity(
+                        error.message
+                    );
+                    form.elements["rendez-vous-description"].reportValidity();
+                    break;
+                case "debut":
+                    form.elements["rendez-vous-debut"].setCustomValidity(
+                        error.message
+                    );
+                    form.elements["rendez-vous-debut"].reportValidity();
+                    break;
+                case "fin":
+                    form.elements["rendez-vous-fin"].setCustomValidity(
+                        error.message
+                    );
+                    form.elements["rendez-vous-fin"].reportValidity();
+                    break;
+                default:
+                    console.error(
+                        `Erreur lors de la validation du champ ${error.key} : ${error.message}`
+                    );
+            }
         });
     }
 }
@@ -330,7 +395,6 @@ class RendezVousModalAPI extends RendezVousModal {
      * Crée une instance de RendezVousModalAPI
      * @param {HTMLDialogElement} element
      * @param {API} api
-     * @param successCallback
      */
     constructor(element, api = defaultAPI) {
         super(element);
@@ -341,8 +405,12 @@ class RendezVousModalAPI extends RendezVousModal {
         const editCallback = (rendezVous) => {
             return this.#api.updateRendezVous(rendezVous.id, rendezVous);
         };
+        const deleteCallback = (rendezVous) => {
+            return this.#api.deleteRendezVous(rendezVous.id);
+        };
         this.setCreateCallback(createCallback);
         this.setEditCallback(editCallback);
+        this.setDeleteCallback(deleteCallback);
     }
 
     show(rendezVous, mode = "create") {

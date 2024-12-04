@@ -2,7 +2,6 @@ import axios from "axios";
 /**
  * @typedef {object} RendezVous
  * @property {string} id - Identifiant du rendez-vous
- * @property {string} idCreateur - Identifiant du créateur du rendez-vous
  * @property {string} idAgenda - Identifiant de l'agenda du rendez-vous
  * @property {string} titre - Titre du rendez-vous
  * @property {string} description - Description du rendez-vous
@@ -21,6 +20,7 @@ class API {
      */
     #url;
     #axios;
+    #idUtilisateur;
     /**
      * Crée une instance de la classe API
      * @param {string} url - URL de base de l'API
@@ -34,34 +34,28 @@ class API {
             },
         });
         this.#url = url;
+        this.#idUtilisateur = "6746bd30184dc7e1a8242fc7";
     }
     /**
      * Crée un rendez-vous
      * @param {object} rendezVous - Les informations du rendez-vous
      * @returns {Promise<RendezVous>} Le rendez-vous créé
-     * @throws {Object[]} - Liste des erreurs
+     * @throws {object[]} - Liste des erreurs
      */
     async createRendezVous(rendezVous) {
         const url = "/rendez-vous/create";
         return this.#axios
-            .post(url, rendezVous)
-            .then(({ data: { errors, message, data } }) => {
-                if (errors && errors.length > 0) {
-                    console.error(
-                        "Erreurs lors de la création du rendez-vous :",
-                        errors
-                    );
-                    throw errors;
-                }
+            .post(url, { ...rendezVous, idCreateur: this.#idUtilisateur })
+            .then(({ data: { message, data } }) => {
                 console.log(message);
                 return data;
             })
             .catch((error) => {
-                console.error(
-                    "Erreur lors de la création du rendez-vous :",
-                    error.message
-                );
-                throw error;
+                if (error.response) {
+                    throw error.response.data.errors;
+                } else {
+                    console.error(error);
+                }
             });
     }
 
@@ -70,29 +64,22 @@ class API {
      * @param {string} id - Identifiant du rendez-vous
      * @param {object} rendezVous - Les informations du rendez-vous
      * @returns {Promise<RendezVous>} Le rendez-vous mis à jour
-     * @throws {Object[]} - Liste des erreurs
+     * @throws {object[]} - Liste des erreurs
      */
     async updateRendezVous(id, rendezVous) {
         const url = `/rendez-vous/${id}`;
         return this.#axios
             .put(url, rendezVous)
-            .then(({ data: { errors, message, data } }) => {
-                if (errors && errors.length > 0) {
-                    console.error(
-                        "Erreurs lors de la mise à jour du rendez-vous :",
-                        errors
-                    );
-                    throw errors;
-                }
+            .then(({ data: { message, data } }) => {
                 console.log(message);
                 return data;
             })
             .catch((error) => {
-                console.error(
-                    "Erreur lors de la mise à jour du rendez-vous :",
-                    error.message
-                );
-                throw error;
+                if (error.response) {
+                    throw error.response.data.errors;
+                } else {
+                    console.error(error);
+                }
             });
     }
 
@@ -101,7 +88,7 @@ class API {
      * @param {Date} debut - Date de début de l'intervalle
      * @param {Date} fin - Date de fin de l'intervalle
      * @returns {Promise<RendezVous[]>} Les rendez-vous dans l'intervalle
-     * @throws {Object[]} - Liste des erreurs
+     * @throws {object[]} - Liste des erreurs
      */
     async fetchRendezVousIntervalle(debut, fin) {
         const url = "/rendez-vous";
@@ -109,23 +96,16 @@ class API {
             .get(url, {
                 params: { debut: debut.toISOString(), fin: fin.toISOString() },
             })
-            .then(({ data: { errors, message, data: liste } }) => {
-                if (errors && errors.length > 0) {
-                    console.error(
-                        "Erreurs lors de la récupération des rendez-vous :",
-                        errors
-                    );
-                    throw errors;
-                }
+            .then(({ data: { message, data: liste } }) => {
                 console.log(message);
                 return liste;
             })
             .catch((error) => {
-                console.error(
-                    "Erreurs lors de la récupération des rendez-vous :",
-                    error.message
-                );
-                throw error;
+                if (error.response) {
+                    throw error.response.data.errors;
+                } else {
+                    console.error(error);
+                }
             });
     }
 
@@ -133,23 +113,33 @@ class API {
         const url = `/rendez-vous/${id}`;
         return this.#axios
             .get(url)
-            .then(({ data: { errors, message, data } }) => {
-                if (errors && errors.length > 0) {
-                    console.error(
-                        "Erreurs lors de la mise à jour du rendez-vous :",
-                        errors
-                    );
-                    throw errors;
-                }
+            .then(({ data: { message, data } }) => {
                 console.log(message);
                 return data;
             })
             .catch((error) => {
-                console.error(
-                    "Erreur lors de la récupération du rendez-vous :",
-                    error.message
-                );
-                throw error;
+                if (error.response) {
+                    throw error.response.data.errors;
+                } else {
+                    console.error(error);
+                }
+            });
+    }
+
+    async deleteRendezVous(id) {
+        const url = `/rendez-vous/${id}`;
+        return this.#axios
+            .delete(url)
+            .then(({ data: { message, data } }) => {
+                console.log(message);
+                return data;
+            })
+            .catch((error) => {
+                if (error.response) {
+                    throw error.response.data.errors;
+                } else {
+                    console.error(error);
+                }
             });
     }
 }

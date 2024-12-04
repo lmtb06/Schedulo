@@ -25,6 +25,21 @@
                            required>
                 </div>
 
+                <!-- Agenda -->
+                 <div>
+                    <label for="rendez-vous-agenda">
+                        Agenda
+                    </label>
+                    <select name="rendez-vous-agenda" required>
+                        <option value="">Choisir un agenda</option>
+                        <% for (let agenda of agendas) { %>
+                        <option value="<%=agenda.id%>">
+                            <%=agenda.nom%>
+                        </option>
+                        <% } %>
+                    </select>
+                </div>
+
                 <!-- Période -->
                 <div>
                     <!-- Début -->
@@ -61,10 +76,13 @@
             <button type="button" close>
                 Annuler
             </button>
-            <button name="create-rendez-vous-button" type="submit" value="create">
+            <button name="update-rendez-vous-delete-button" type="button">
+                Supprimer
+            </button>
+            <button name="create-rendez-vous-submit-button" type="submit" value="create">
                 Créer
             </button>
-            <button name="update-rendez-vous-button" type="submit" value="update">
+            <button name="update-rendez-vous-submit-button" type="submit" value="update">
                 Mettre à jour
             </button>
         </footer>

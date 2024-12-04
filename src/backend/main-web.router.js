@@ -21,7 +21,7 @@ class MainWebRouter extends Router {
      */
     _setupRouter(serviceFactory, rendererFactory) {
         this._router.use(
-            "/rendez-vous",
+            "/",
             new RendezVousWebRouter(serviceFactory, rendererFactory).getRouter()
         );
     }

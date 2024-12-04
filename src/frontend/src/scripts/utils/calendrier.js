@@ -97,7 +97,10 @@ class Calendrier {
     init() {
         this._addEventSources();
         this._addListeners();
-        this._rdvModal.setSuccessCallback((rendezVous) => {
+        this._rdvModal.setSubmissionCallback((rendezVous) => {
+            this._calendar.refetchEvents();
+        });
+        this._rdvModal.setDeletionCallback((rendezVous) => {
             this._calendar.refetchEvents();
         });
         this._rdvModal.init();
@@ -161,14 +164,10 @@ class CalendrierAPI extends Calendrier {
             this._api
                 .updateRendezVous(rdv.id, rdv)
                 .then((rendezVous) => {
-                    console.log(rendezVous);
                     return rendezVous;
                 })
                 .catch((error) => {
-                    console.error(
-                        "Erreur lors de la mise à jour du rendez-vous :",
-                        error
-                    );
+                    alert("Erreur lors de la mise à jour du rendez-vous");
                     eventInfo.revert();
                 });
         });

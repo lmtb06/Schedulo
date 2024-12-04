@@ -44,7 +44,18 @@ class RendezVousWebRouter extends Router {
     _setupRouter(serviceFactory, rendererFactory) {
         this._router.get("/", (req, res, next) => {
             try {
-                res.render("pages/calendrier");
+                res.render("pages/calendrier", {
+                    agendas: [
+                        {
+                            id: "67504f8990fe2836b7f7de2f",
+                            nom: "Agenda 1",
+                        },
+                        {
+                            id: "6746bd30184dc7e1a8242fc7",
+                            nom: "Agenda 2",
+                        },
+                    ],
+                });
             } catch (error) {
                 next(error);
             }
