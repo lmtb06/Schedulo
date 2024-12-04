@@ -1,0 +1,15 @@
+@startuml RequestProcessor
+!include stylesPlantuml.puml
+
+namespace requestProcessor {
+    class RequestProcessor {
+        - classDTO: DTO
+        + RequestProcessor(classDTO: DTO)
+        + processRequest(request: Request): DTO
+    }
+}
+
+RequestProcessor o-- dtos.DTO
+RequestProcessor --> dtos.DTO: "Renvoit"
+RequestProcessor --> exceptions.validation.ValidationException: throws
+@enduml

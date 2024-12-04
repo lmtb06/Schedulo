@@ -1,8 +1,8 @@
-import Joi from "joi";
+import Joi from "../../../utils/custom-joi.js";
 
 const getAllRendezVousRequestSchema = Joi.object({
-    idCreateur: Joi.string().optional(),
-    idAgenda: Joi.string().optional(),
+    idCreateur: Joi.id().optional(),
+    idAgenda: Joi.id().optional(),
     debut: Joi.date().optional(),
     fin: Joi.date().greater(Joi.ref("debut")).optional(),
 });

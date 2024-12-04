@@ -1,0 +1,102 @@
+@startuml DAOs
+!include stylesPlantuml.puml
+
+namespace daos {
+  namespace factory {
+    interface DAOFactory {
+      + start(): void
+      + getCompteDAO(): CompteDAO
+      + getAgendaDAO(): AgendaDAO
+      + getRendezVousDAO(): RendezVousDAO
+      + getRepetitionDAO(): RepetitionDAO
+      + stop(): void
+    }
+    DAOFactory --> daos.compte.CompteDAO: renvoie
+    DAOFactory --> daos.agenda.AgendaDAO: renvoie
+    DAOFactory --> daos.rendezvous.RendezVousDAO: renvoie
+    DAOFactory --> daos.repetition.RepetitionDAO: renvoie
+
+    class MongoDAOFactory {
+      
+    }
+    DAOFactory ()- MongoDAOFactory
+  }
+
+  namespace compte {
+    interface CompteDAO {
+      + create(compte: Compte): Compte
+      + findById(compte: Compte): Compte
+      + update(compte: Compte): Compte
+      + delete(compte: Compte): void
+      -- Autres méthodes si nécessaire --
+    }
+  }
+
+  namespace agenda {
+    interface AgendaDAO {
+      + create(agenda: Agenda): Agenda
+      + findById(agenda: Agenda): Agenda
+      + update(agenda: Agenda): Agenda
+      + delete(agenda: Agenda): void
+      -- Autres méthodes si nécessaire --
+    }
+  }
+
+  namespace rendezvous {
+      interface RendezVousDAO {
+      + create(rendezVous: RendezVous): RendezVous
+      + findById(rendezVous: RendezVous): RendezVous
+      + update(rendezVous: RendezVous): RendezVous
+      + delete(rendezVous: RendezVous): void
+      -- Autres méthodes si nécessaire --
+    }
+
+    class RendezVousDAOMongo {
+      - model : Model<RendezVous>
+      + RendezVousDAOMongo(model: Model<RendezVous>): void
+      + create(rendezVous: RendezVous): RendezVous
+      + findById(rendezVous: RendezVous): RendezVous
+      + update(rendezVous: RendezVous): RendezVous
+      + delete(rendezVous: RendezVous): void
+    }
+
+    RendezVousDAO ()- RendezVousDAOMongo
+  }
+
+  namespace repetition {
+    interface RepetitionDAO {
+      + create(repetition: Repetition): Repetiion
+      + findById(repetition: Repetition): Repetition
+      + update(repetition: Repetition): Repetition
+      + delete(repetition: Repetition): void
+      -- Autres méthodes si nécessaire --
+    }
+
+    class RepetitionDAOMongo {
+      - model : Model<Repetition>
+      + RepetitionDAOMongo(model: Model<Repetition>): void
+      + create(repetition: Repetition): Repetiion
+      + findById(repetition: Repetition): Repetition
+      + update(repetition: Repetition): Repetition
+      + delete(repetition: Repetition): void
+    }
+
+    RepetitionDAO ()- RepetitionDAOMongo
+  }
+}
+
+DAOFactory --> exceptions.daosFactory.DAOFactoryException: throws
+' CompteDAO
+CompteDAO --> exceptions.daos.DAOException: throws
+' AgendaDAO
+AgendaDAO--> exceptions.daos.DAOException: throws
+' RendezVousDAO
+RendezVousDAO --> exceptions.daos.DAOException: throws
+' RepetitionDAO
+RepetitionDAO --> exceptions.daos.DAOException: throws
+
+note as n1
+  Les DAOs Mongo prenent en paramètre un Model de Mongoose.
+end note
+
+@enduml

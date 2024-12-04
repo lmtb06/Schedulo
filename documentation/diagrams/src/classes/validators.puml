@@ -1,0 +1,12 @@
+@startuml Validators
+!include stylesPlantuml.puml
+
+
+
+namespace validators {
+    class ValidatorSchema {
+        + {static} validate(data: any): {error, value}
+    }
+}
+
+@enduml

@@ -10,15 +10,15 @@ GET http://localhost:3000/api/rendez-vous?debut={{$datetime iso8601 1 y}}&fin={{
 GET http://localhost:3000/api/rendez-vous?debut={{$datetime iso8601 10 y}}&fin={{$datetime iso8601 11 y}} HTTP/1.1
 
 ### Get specific rendez-vous ###
-GET http://localhost:3000/api/rendez-vous/67425cfa0900da93fb7b529b HTTP/1.1
+GET http://localhost:3000/api/rendez-vous/67504f8990fe2836b7f7de2f HTTP/1.1
 
 ### Create rendez-vous ###
 POST http://localhost:3000/api/rendez-vous/create HTTP/1.1
 content-type: application/json
 
 {
-    "idCreateur": "2",
-    "idAgenda": "4",
+    "idCreateur": "67504f8990fe2836b7f7de2f",
+    "idAgenda": "67504f8990fe2836b7f7de2f",
     "titre": "brr",
     "debut": "{{$datetime iso8601}}",
     "fin": "{{$datetime iso8601 1 h}}",
@@ -30,6 +30,7 @@ POST http://localhost:3000/api/rendez-vous/create HTTP/1.1
 content-type: application/json
 
 {
+    "idCreateur": "67504f8990fe2836b7f7de2f",
     "idAgenda": "4",
     "titre": "brr",
     "debut": "{{$datetime iso8601}}",
@@ -38,13 +39,13 @@ content-type: application/json
 }
 
 ### Update rendez-vous ###
-PUT http://localhost:3000/api/rendez-vous/674231612778e7952c50a957 HTTP/1.1
+PUT http://localhost:3000/api/rendez-vous/67504f8990fe2836b7f7de2f HTTP/1.1
 content-type: application/json
 
 {
-    "idCreateur": "2",
-    "idAgenda": "{{$timestamp}}",
-    "titre": "brr",
+    "idCreateur": "67504f8990fe2836b7f7de2f",
+    "idAgenda": "67504f8990fe2836b7f7de2f",
+    "titre": "brrreeet",
     "debut": "{{$datetime iso8601}}",
     "fin": "{{$datetime iso8601 1 h}}",
     "description": ""
@@ -56,7 +57,7 @@ content-type: application/json
 
 {
     "idCreateur": "2",
-    "idAgenda": "{{$timestamp}}",
+    "idAgenda": "67504f8990fe2836b7f7de2f",
     "titre": "brr",
     "debut": "{{$datetime iso8601}}",
     "fin": "{{$datetime iso8601 1 h}}",
@@ -64,4 +65,7 @@ content-type: application/json
 }
 
 ### Delete rendez-vous ###
-DELETE http://localhost:3000/api/rendez-vous/673ae02c2b0ab0099c380866 HTTP/1.1
+DELETE http://localhost:3000/api/rendez-vous/67469c9b57ed296e5604a275 HTTP/1.1
+
+### Delete rendez-vous validation error ###
+DELETE http://localhost:3000/api/rendez-vous/555555555555 HTTP/1.1

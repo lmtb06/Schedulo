@@ -1,7 +1,7 @@
-import Joi from "joi";
+import Joi from "../../../utils/custom-joi.js";
 
 const deleteRendezVousRequestSchema = Joi.object({
-    id: Joi.string().required(),
+    id: Joi.id().required(),
 });
 
 export { deleteRendezVousRequestSchema };

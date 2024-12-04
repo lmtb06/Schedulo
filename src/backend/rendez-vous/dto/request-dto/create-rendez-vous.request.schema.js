@@ -1,14 +1,8 @@
-import Joi from "joi";
+import Joi from "../../../utils/custom-joi.js";
 
 const createRendezVousRequestSchema = Joi.object({
-    idCreateur: Joi.string().required().messages({
-        "string.empty": "L'identifiant du créateur est requis.",
-        "any.required": "L'identifiant du créateur est obligatoire.",
-    }),
-    idAgenda: Joi.string().required().messages({
-        "string.empty": "L'identifiant de l'agenda est requis.",
-        "any.required": "L'identifiant de l'agenda est obligatoire.",
-    }),
+    idCreateur: Joi.id().required(),
+    idAgenda: Joi.id().required(),
     titre: Joi.string().required().messages({
         "string.empty": "Le titre est requis.",
         "any.required": "Le titre est obligatoire.",

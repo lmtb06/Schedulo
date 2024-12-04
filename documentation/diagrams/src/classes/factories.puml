@@ -1,0 +1,156 @@
+@startuml
+
+namespace factories {
+    ' abstract ApplicationFactory {
+    '     + {static} {final} getInstance(): ApplicationFactory
+    '     + {final} start(): void
+
+    '     - {abstract} initLogger(): void
+    '     - {abstract} initExpressApp(): void
+    '     - {abstract} initDAOsFactory(): void
+    '     - {abstract} initServicesFactory(): void
+    '     - {abstract} initMiddlewaresFactory(): void
+    '     - {abstract} initErrorHandlersFactory(): void
+    '     - {abstract} initControllersFactory(): void
+    '     - {abstract} initRoutesFactory(): void
+        
+    '     + {final} getLogger(): ILogger
+    '     + {final} getExpressApp(): Express
+    '     + {final} getDAOsFactory(): IDAOsFactory
+    '     + {final} getServicesFactory(): IServicesFactory
+    '     + {final} getMiddlewaresFactory(): IMiddlewaresFactory
+    '     + {final} getErrorHandlersFactory(): IErrorHandlersFactory
+    '     + {final} getControllersFactory(): IControllersFactory
+    '     + {final} getRoutesFactory(): IRoutesFactory
+    '     + {final} getRendererFactory(): IRendererFactory
+
+    '     + {final} stop(): void
+    ' }
+    namespace daos {
+        interface DAOFactory {
+            + start(): void
+            + getCompteDAO(): CompteDAO
+            + getAgendaDAO(): AgendaDAO
+            + getRendezVousDAO(): RendezVousDAO
+            + getRepetitionDAO(): RepetitionDAO
+            + stop(): void
+        }
+
+        class MongooseDAOFactory {
+            + MongooseDAOFactory(config: MongooseConfig): void
+            # setupConnectionListeners(): void
+            # ensureConnection(): void
+        }
+        DAOFactory ()- MongooseDAOFactory
+
+        class OneInstanceProxyDAOFactory {
+            ' Pour éviter de dupliquer la logique de gestion des instances uniques
+            - daoFactory: DAOFactory
+            - compteDAO: CompteDAO
+            - agendaDAO: AgendaDAO
+            - rendezVousDAO: RendezVousDAO
+            - repetitionDAO: RepetitionDAO
+            + OneInstanceProxyDAOFactory(daoFactory: DAOFactory): void
+        }
+        DAOFactory ()- OneInstanceProxyDAOFactory
+    }
+
+    namespace services {
+        interface ServiceFactory {
+            + start(): void
+            + getCompteService(): CompteService
+            + getAgendaService(): AgendaService
+            + getRendezVousService(): RendezVousService
+            + getRepetitionService(): RepetitionService
+            + getAuthService(): AuthService
+            + stop(): void
+        }
+
+        class BaseServiceFactory {
+            + BaseServiceFactory(daoFactory: DAOFactory): void
+        }
+        ServiceFactory ()- BaseServiceFactory
+
+        class OneInstanceProxyServiceFactory {
+            ' Pour éviter de dupliquer la logique de gestion des instances uniques
+            - serviceFactory: ServiceFactory
+            - compteService: CompteService
+            - agendaService: AgendaService
+            - rendezVousService: RendezVousService
+            - repetitionService: RepetitionService
+            - authService: AuthService
+            + OneInstanceProxyServiceFactory(serviceFactory: ServiceFactory): void
+        }
+        ServiceFactory ()- OneInstanceProxyServiceFactory
+    }
+
+    namespace renderers {
+        interface RendererFactory {
+            + getErrorRenderer(): ErrorRenderer
+            + getAPIRenderer(): APIRenderer
+            + getWebRenderer(): WebRenderer
+        }
+
+        class RendererFactoryBase {
+            + RendererFactoryBase(): void
+        }
+        RendererFactory ()- RendererFactoryBase
+    }
+}
+namespace app {
+    class Application {
+        - expressApp: Express
+        - daoFactory: DAOFactory
+        - serviceFactory: ServiceFactory
+        - rendererFactory: RendererFactory
+        - logger: Logger
+        - config: ApplicationConfig
+        - isConfigured: boolean
+        - isStarted: boolean
+        - {static} instance: Application
+        - Application(): void
+        + {static} getInstance(): Application
+        - setupLogger(): void
+        - setupDAOFactory(): void
+        - setupServiceFactory(): void
+        - setupRendererFactory(): void
+        - setupExpressApp(): void
+        - ensureConfigured(): void
+        - ensureStarted(): void
+        + setup(config: ApplicationConfig): void
+        + start(): void
+        + stop(): void
+        + getExpressApp(): Express
+        + getDAOFactory(): DAOFactory
+        + getServiceFactory(): ServiceFactory
+        + getLogger(): Logger
+    }
+    class ExpressAppBuilder {
+        - expressApp: Express
+        - logger: Logger
+        - daoFactory: DAOFactory
+        - serviceFactory: ServiceFactory
+        - rendererFactory: RendererFactory
+        + ExpressAppBuilder(logger: Logger, daoFactory: DAOFactory, serviceFactory: ServiceFactory, rendererFactory: RendererFactory): void
+        ): void
+        + setupConfig(): void
+        + setupMiddlewares(): void
+        + setupRoutes(): void
+        + setupErrorHandlers(): void
+        + build(): Express
+        + reset(): void
+    }
+    Application *-- ExpressAppBuilder
+}
+DAOFactory --> daos.compte.CompteDAO: renvoie
+DAOFactory --> daos.agenda.AgendaDAO: renvoie
+DAOFactory --> daos.rendezvous.RendezVousDAO: renvoie
+DAOFactory --> daos.repetition.RepetitionDAO: renvoie
+
+ServiceFactory --> services.compte.CompteService: renvoie
+ServiceFactory --> services.agenda.AgendaService: renvoie
+ServiceFactory --> services.rendezvous.RendezVousService: renvoie
+ServiceFactory --> services.repetition.RepetitionService: renvoie
+ServiceFactory --> services.auth.AuthService: renvoie
+
+@enduml

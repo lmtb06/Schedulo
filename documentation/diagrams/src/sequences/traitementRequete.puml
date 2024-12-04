@@ -1,0 +1,51 @@
+@startuml Diagramme de séquence illustrant le traitement typique d'une requête avec gestion des exceptions
+
+actor "Utilisateur" as user
+participant "Contrôleur" as controller
+participant "RequestProcessor" as requestProcessor
+participant "Service" as service
+participant "Mapper" as mapper
+participant "ExceptionHandler" as exceptionHandler
+participant "DAOFactory" as daoFactory
+participant "DAO" as dao
+participant "DTO" as dto
+participant "ValidatorSchema" as validatorSchema
+participant "Renderer" as renderer
+
+user -> controller: Requête HTTP
+controller -> requestProcessor: Requête HTTP
+requestProcessor -> requestProcessor: Création du DTO
+requestProcessor -> dto: Validate
+dto -> validatorSchema: Validation
+
+alt Validation réussie
+    requestProcessor --> controller: DTO
+    controller -> service: DTO
+    service -> daoFactory: Demande du DAO
+    daoFactory --> service: DAO
+    service -> dao: Requête spécifique
+
+    alt Requête DAO réussie
+        dao --> service: Objet métier
+        service -> mapper: Objet métier
+        mapper --> service: DTO
+        service --> controller: DTO
+        controller -> renderer: DTO
+        renderer --> user: Réponse HTTP
+    else Erreur lors de l'accès au DAO
+        dao --> service: Exception DAO
+        service --> service: Gérer l'exception DAO
+        service --> controller: ServiceException
+        controller -> exceptionHandler: Gérer le ServiceException
+        exceptionHandler -> renderer: Message d'erreur
+        renderer --> user: Réponse d'erreur HTTP
+    end
+else Échec de la validation
+    dto --> requestProcessor: ValidationException
+    requestProcessor --> controller: ValidationException
+    controller -> exceptionHandler: Gérer le ValidationException
+    exceptionHandler -> renderer: Message d'erreur
+    renderer --> user: Réponse d'erreur HTTP
+end
+
+@enduml
