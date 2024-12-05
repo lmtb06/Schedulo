@@ -1,0 +1,67 @@
+<% if (id) { %>
+<dialog id="<%=id%>" class="edit-rdv-modal">
+    <form method="dialog">
+        <header>
+            <h2 name="modal-titre">
+                Modification rendez-vous
+            </h2>
+            <button type="button" cancel>
+                <span class="icon-[material-symbols--close-rounded]"></span>
+            </button>
+        </header>
+        <article>
+            <fieldset>
+                <div>
+                    <label for="rdv-titre">
+                        Titre
+                    </label>
+                    <input type="text"
+                           name="rdv-titre" 
+                           required>
+                </div>
+                 <div>
+                    <label for="rdv-agenda">
+                        Agenda
+                    </label>
+                    <select name="rdv-agenda" required>
+                        <option value="">Choisissez un agenda</option>
+                    </select>
+                </div>
+                <div>
+                    <fieldset>
+                        <legend>Date de début</legend>
+                        <input type="datetime-local"
+                               name="rdv-debut"
+                               required>
+                    </fieldset>
+                    <fieldset>
+                        <legend>Date de fin</legend>
+                        <input type="datetime-local"
+                               name="rdv-fin"
+                               required>
+                    </fieldset>
+                </div>
+                <div>
+                    <label for="rdv-description">
+                        Description
+                    </label>
+                    <textarea
+                        name="rdv-description"
+                        rows="4"></textarea>
+                </div>
+            </fieldset>
+        </article>
+        <footer>
+            <button type="button" cancel>
+                Annuler
+            </button>
+            <button name="rdv-delete-button" type="button" delete>
+                Supprimer
+            </button>
+            <button name="rdv-submit-button" type="submit">
+                Modifier
+            </button>
+        </footer>
+    </form>
+</dialog>
+<% } %>

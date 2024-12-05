@@ -7,13 +7,27 @@ import multiMonth from "@fullcalendar/multimonth";
 import timeGridPlugin from "@fullcalendar/timegrid";
 
 import { API } from "./api.js";
-import { RendezVousModal } from "./rendez-vous-modal.js";
+import { CreateRendezVousModal } from "./create-rdv-modal.js";
+import { EditRendezVousModal } from "./edit-rdv-modal.js";
+import { ModalFactory } from "./modal-factory.js";
+
 class Calendrier {
     /**
-     * @type {RendezVousModal}
+     * @type {API}
      * @private
      */
-    _rdvModal;
+    _api;
+    /**
+     * @type {CreateRendezVousModal}
+     * @protected
+     */
+    _createRdvModal;
+
+    /**
+     * @type {EditRendezVousModal}
+     * @protected
+     */
+    _editRdvModal;
     /**
      * @type {Calendar}
      * @private
@@ -22,15 +36,26 @@ class Calendrier {
     /**
      *
      * @param {HTMLElement} element
-     * @param {RendezVousModal} RdvModalClass
+     * @param {ModalFactory} modalFactory
+     * @param {API} api
      */
-    constructor(element, RdvModalClass) {
+    constructor(element, modalFactory, api) {
         const calendarElement = element.querySelector(".calendar");
-        const rdvModalElement = element.querySelector(".rdv-modal");
-        if (!calendarElement || !rdvModalElement) {
+        const createRdvModalElement =
+            element.querySelector(".create-rdv-modal");
+        const editRdvModalElement = element.querySelector(".edit-rdv-modal");
+        if (
+            !calendarElement ||
+            !createRdvModalElement ||
+            !editRdvModalElement
+        ) {
             throw new Error(
                 "Element %s non trouvé",
-                calendarElement ? "rdv-modal" : "calendar"
+                calendarElement
+                    ? editRdvModalElement
+                        ? "create-rdv-modal"
+                        : "edit-rdv-modal"
+                    : "calendar"
             );
         }
         this._calendar = new Calendar(calendarElement, {
@@ -64,67 +89,16 @@ class Calendrier {
             locales: allLocales,
             locale: "fr",
         });
-        this._rdvModal = new RdvModalClass(rdvModalElement);
-    }
-    _addEventSources() {
-        // this._calendar.addEventSource(() => {});
-    }
-    _addListeners() {
-        this._calendar.on("dateClick", (dateInfo) => {
-            const debut = dateInfo.date;
-            const fin = new Date(debut);
-            fin.setHours(debut.getHours() + 1);
-            this._rdvModal.show(
-                {
-                    debut,
-                    fin,
-                },
-                "create"
-            );
-        });
-        this._calendar.on("eventClick", (eventInfo) => {
-            this._rdvModal.show(
-                {
-                    ...eventInfo.event.extendedProps,
-                    id: eventInfo.event.id,
-                    debut: eventInfo.event.start,
-                    fin: eventInfo.event.end,
-                },
-                "update"
-            );
-        });
-    }
-    init() {
-        this._addEventSources();
-        this._addListeners();
-        this._rdvModal.setSubmissionCallback((rendezVous) => {
-            this._calendar.refetchEvents();
-        });
-        this._rdvModal.setDeletionCallback((rendezVous) => {
-            this._calendar.refetchEvents();
-        });
-        this._rdvModal.init();
-    }
 
-    show() {
-        this._calendar.render();
-    }
-}
-
-class CalendrierAPI extends Calendrier {
-    /**
-     * @type {API}
-     * @private
-     */
-    _api;
-    constructor(element, RdvModalClass, api) {
-        super(element, RdvModalClass);
+        this._createRdvModal = modalFactory.getCreateRendezvousModal(
+            createRdvModalElement
+        );
+        this._editRdvModal =
+            modalFactory.getEditRendezvousModal(editRdvModalElement);
         this._api = api;
     }
 
     _addEventSources() {
-        super._addEventSources();
-
         const eventDataTransform = (rdv) => {
             const event = {
                 id: rdv.id,
@@ -134,27 +108,65 @@ class CalendrierAPI extends Calendrier {
             };
             return event;
         };
-        const events = (info, successCallback, failureCallback) => {
-            this._api
-                .fetchRendezVousIntervalle(info.start, info.end)
-                .then((listeRendezVous) => {
-                    successCallback(listeRendezVous);
-                    return listeRendezVous;
-                })
-                .catch((error) => {
-                    failureCallback(error);
+        this._api
+            .getAgendasWithReadPermission()
+            .then((agendas) => {
+                agendas.forEach((agenda) => {
+                    this._calendar.addEventSource({
+                        id: agenda.id,
+                        color: agenda.couleur,
+                        events: (info, successCallback, failureCallback) => {
+                            this._api
+                                .fetchRendezVousIntervalle(
+                                    info.start,
+                                    info.end,
+                                    agenda.id
+                                )
+                                .then((listeRendezVous) => {
+                                    successCallback(listeRendezVous);
+                                    return listeRendezVous;
+                                })
+                                .catch((error) => {
+                                    failureCallback(error);
+                                });
+                        },
+                        eventDataTransform,
+                    });
                 });
-        };
-
-        const eventSource = {
-            events,
-            eventDataTransform,
-        };
-        this._calendar.addEventSource(eventSource);
+                return;
+            })
+            .catch((errors) => {
+                console.error(
+                    "Erreur lors de la récupération des agendas :",
+                    errors
+                );
+            });
     }
 
     _addListeners() {
-        super._addListeners();
+        this._calendar.on("dateClick", (dateInfo) => {
+            const debut = dateInfo.date;
+            const fin = new Date(debut);
+            fin.setHours(debut.getHours() + 1);
+            this._createRdvModal.init();
+            this._createRdvModal.prefill({
+                debut,
+                fin,
+            });
+            this._createRdvModal.show();
+        });
+
+        this._calendar.on("eventClick", (eventInfo) => {
+            this._editRdvModal.init();
+            this._editRdvModal.prefill({
+                ...eventInfo.event.extendedProps,
+                id: eventInfo.event.id,
+                debut: eventInfo.event.start,
+                fin: eventInfo.event.end,
+            });
+            this._editRdvModal.show();
+        });
+
         this._calendar.on("eventChange", (eventInfo) => {
             const rdv = {
                 id: eventInfo.event.id,
@@ -171,7 +183,28 @@ class CalendrierAPI extends Calendrier {
                     eventInfo.revert();
                 });
         });
+
+        this._createRdvModal.onCreationSuccess((rendezVous) => {
+            this._calendar.getEventSourceById(rendezVous.idAgenda).refetch();
+        });
+
+        this._editRdvModal.onUpdateSuccess((rendezVous) => {
+            this._calendar.refetchEvents();
+        });
+
+        this._editRdvModal.onDeleteSuccess((rendezVous) => {
+            this._calendar.getEventSourceById(rendezVous.idAgenda).refetch();
+        });
+    }
+
+    init() {
+        this._addEventSources();
+        this._addListeners();
+    }
+
+    show() {
+        this._calendar.render();
     }
 }
 
-export { Calendrier, CalendrierAPI };
+export { Calendrier };

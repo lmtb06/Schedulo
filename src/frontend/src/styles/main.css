@@ -1,32 +1,31 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@tailwind variants;
 
 @layer base {
     h1 {
-        @apply text-2xl;
+        @apply text-3xl font-bold mb-4 text-gray-800;
     }
     h2 {
-        @apply text-xl;
+        @apply text-2xl font-semibold mb-3 text-gray-700;
     }
     h3 {
-        @apply text-lg;
+        @apply text-xl font-medium mb-2 text-gray-600;
     }
     p {
-        @apply text-base;
+        @apply text-base mb-4 text-gray-500;
     }
     dialog {
-        @apply w-full max-w-2xl rounded-xl shadow-xl;
+        @apply w-full max-w-2xl rounded-xl shadow-lg bg-white border border-gray-200;
     }
 
     dialog::backdrop {
-        @apply bg-gray-900/50 backdrop-blur-sm;
+        @apply bg-black/60 backdrop-blur-sm;
     }
 
     /* En-tête du dialog */
     dialog header {
-        @apply flex items-center justify-between border-b p-4;
+        @apply flex items-center justify-between border-b p-4 bg-gray-100 rounded-t-xl;
     }
 
     dialog h2 {
@@ -35,7 +34,7 @@
 
     /* Corps du dialog */
     dialog article {
-        @apply p-6;
+        @apply p-6 bg-white;
     }
 
     dialog fieldset {
@@ -54,8 +53,9 @@
     dialog input[type="text"],
     dialog input[type="date"],
     dialog input[type="time"],
-    dialog textarea {
-        @apply w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500;
+    dialog textarea,
+    dialog select {
+        @apply w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 transition duration-300 ease-in-out;
     }
 
     /* Footer */
@@ -64,17 +64,20 @@
     }
 
     /* Boutons */
-    dialog footer button {
-        @apply rounded-md border border-gray-300 bg-white px-4 py-2 text-gray-700 hover:bg-gray-50;
+    dialog footer button,
+    dialog button[type="submit"] {
+        @apply rounded-md px-4 py-2 transition duration-300 ease-in-out;
+    }
+
+    dialog footer button[cancel] {
+        @apply border border-gray-300 bg-white text-gray-700 hover:bg-gray-100;
     }
 
     dialog button[type="submit"] {
-        @apply rounded-md bg-primary-600 px-4 py-2 text-white hover:bg-primary-700;
+        @apply bg-blue-600 text-white hover:bg-blue-700 focus:ring focus:ring-blue-200 focus:outline-none;
     }
-}
 
-@layer components {
-}
-
-@layer utilities {
+    dialog button[delete] {
+        @apply bg-red-600 text-white hover:bg-red-700 focus:ring focus:ring-red-200 focus:outline-none;
+    }
 }

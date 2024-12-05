@@ -87,14 +87,19 @@ class API {
      * Récupère tous les rendez-vous dans un intervalle de temps donné
      * @param {Date} debut - Date de début de l'intervalle
      * @param {Date} fin - Date de fin de l'intervalle
+     * @param idAgenda
      * @returns {Promise<RendezVous[]>} Les rendez-vous dans l'intervalle
      * @throws {object[]} - Liste des erreurs
      */
-    async fetchRendezVousIntervalle(debut, fin) {
+    async fetchRendezVousIntervalle(debut, fin, idAgenda = null) {
         const url = "/rendez-vous";
         return this.#axios
             .get(url, {
-                params: { debut: debut.toISOString(), fin: fin.toISOString() },
+                params: {
+                    debut: debut.toISOString(),
+                    fin: fin.toISOString(),
+                    idAgenda,
+                },
             })
             .then(({ data: { message, data: liste } }) => {
                 console.log(message);
@@ -141,6 +146,42 @@ class API {
                     console.error(error);
                 }
             });
+    }
+
+    async getAgendasWithWritePermission() {
+        return new Promise((resolve, reject) => {
+            resolve([
+                {
+                    id: "67504f8990fe2836b7f7de2f",
+                    nom: "Agenda 1",
+                    couleur: "#40E0D0",
+                },
+                {
+                    id: "67404f8990fe2836b7f7de2f",
+                    nom: "Agenda 2",
+                    couleur: "#FF7F50",
+                },
+                {
+                    id: "57404f8990fe2836b7f7de2f",
+                    nom: "Agenda 3",
+                    couleur: "#E6E6FA",
+                },
+                {
+                    id: "87404f8990fe2836b7f7de2f",
+                    nom: "Agenda 4",
+                    couleur: "#50C878",
+                },
+                {
+                    id: "97404f8990fe2836b7f7de2f",
+                    nom: "Agenda 5",
+                    couleur: "#F4A460",
+                },
+            ]);
+        });
+    }
+
+    async getAgendasWithReadPermission() {
+        return this.getAgendasWithWritePermission();
     }
 }
 
