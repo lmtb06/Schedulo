@@ -281,7 +281,7 @@ class Application {
                 this.#logger.debug("Factory de services démarrée");
                 this.#logger.debug("Démarrage du serveur Express");
                 const server = this.#expressApp.listen(
-                    this.#config.server.port,
+                    this.#config.server.port
                     // this.#config.server.host
                 );
                 return server;
@@ -339,40 +339,42 @@ class Application {
      * Arrête l'application.
      */
     async stop() {
-        this.#ensureStarted();
-        // Arrêt séquentiel des composants
-        this.#logger.info("Arrêt de l'application...");
-        this.#server
-            .close(() => {
-                this.#logger.debug("Arrêt de la factory de services");
-                this.#serviceFactory
-                    .stop()
-                    .then(() => {
-                        this.#logger.debug("Factory de services arrêtée");
-                        return this.#daoFactory.stop();
-                    })
-                    .catch((error) => {
-                        this.#logger.error(
-                            "Erreur lors de l'arrêt de la factory de services :\n%s",
-                            error
-                        );
-                        throw error;
-                    })
-                    .then(() => {
-                        this.#logger.debug("Factory de DAOs arrêtée");
-                        this.#logger.info("Application arrêtée");
-                        this.#server = null;
-                        return;
-                    })
-                    .catch((error) => {
-                        this.#logger.error(
-                            "Erreur lors de l'arrêt de la factory de DAOs :\n%s",
-                            error
-                        );
-                        throw error;
-                    });
-            })
-            .closeAllConnections();
+        try {
+            this.#ensureStarted();
+            // Arrêt séquentiel des composants
+            this.#logger.info("Arrêt de l'application...");
+            this.#server
+                .close(() => {
+                    this.#logger.debug("Arrêt de la factory de services");
+                    this.#serviceFactory
+                        .stop()
+                        .then(() => {
+                            this.#logger.debug("Factory de services arrêtée");
+                            return this.#daoFactory.stop();
+                        })
+                        .catch((error) => {
+                            this.#logger.error(
+                                "Erreur lors de l'arrêt de la factory de services :\n%s",
+                                error
+                            );
+                            throw error;
+                        })
+                        .then(() => {
+                            this.#logger.debug("Factory de DAOs arrêtée");
+                            this.#logger.info("Application arrêtée");
+                            this.#server = null;
+                            return;
+                        })
+                        .catch((error) => {
+                            this.#logger.error(
+                                "Erreur lors de l'arrêt de la factory de DAOs :\n%s",
+                                error
+                            );
+                            throw error;
+                        });
+                })
+                .closeAllConnections();
+        } catch (error) {}
     }
 
     /**
