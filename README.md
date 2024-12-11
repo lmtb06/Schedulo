@@ -17,13 +17,15 @@ npm install && npm start
 - Express
 - MongoDB
 - FullCalendar
+- TailwindCSS
+- Rollup
 
 ## Fonctionnalités
 
 ### Utilisateur
-    - [ X ] S'inscrire
-    - [ X ] Se connecter
-    - [ X ] Se déconnecter
+    - [ ] S'inscrire
+    - [ ] Se connecter
+    - [ ] Se déconnecter
     - [ ] Modifier son profil
     - [ ] Supprimer son compte
     - [ ] Reinitaliser son mot de passe
@@ -42,10 +44,10 @@ npm install && npm start
 
 ### Rendez-vous
 
-    - [ ] Ajouter un rendez-vous
-    - [ ] Modifier un rendez-vous
-    - [ ] Supprimer un rendez-vous
-    - [ ] Visualiser un rendez-vous
+    - [ X ] Ajouter un rendez-vous
+    - [ X ] Modifier un rendez-vous
+    - [ X ] Supprimer un rendez-vous
+    - [ X ] Visualiser un rendez-vous
     - [ ] Rechercher un rendez-vous
 
 ## Organisation des fichiers
@@ -60,7 +62,7 @@ Chaque dossier sera nommé `sprintX` où X est le numéro du sprint.<br>
 Ils contiendront les fichiers `backlog.md`, `retrospective.md` et `revue.md`.
 
 #### diagrammes
-Le dossier diagrammes contient les fichiers relatifs aux diagrammes UML du projet.
+Le dossier diagrams contient les fichiers relatifs aux diagrammes UML du projet dans le sous-dossier src se trouve les sources plantuml et out contient les sorties.
 
 #### routes
 Le dossier routes contient un fichier `routes.md` qui contiendra toutes les routes de l'application.
