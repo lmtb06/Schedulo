@@ -20,7 +20,7 @@ class RendezVousModal extends Modal {
                 agendas.forEach((agenda) => {
                     const option = document.createElement("option");
                     option.value = agenda.id;
-                    option.textContent = agenda.nom;
+                    option.textContent = agenda.titre;
                     this._element
                         .querySelector("form")
                         .elements["rdv-agenda"].appendChild(option);

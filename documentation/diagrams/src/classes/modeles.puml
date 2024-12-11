@@ -32,9 +32,10 @@ namespace modeles {
 
         class Agenda {
             - id : String
-            - idProprietaire : String
-            - nom : String
+            - idCreateur : String
+            - titre : String
             - description : String
+            - couleur : String
             - dateCreation : Date
             - dateModification : Date
             - dateSuppression : Date

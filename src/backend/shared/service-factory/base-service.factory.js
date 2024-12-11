@@ -1,3 +1,4 @@
+import { AgendaService } from "../../agenda/agenda.service.js";
 import { RendezVousService } from "../../rendez-vous/index.js";
 import { InterfaceValidator } from "../../utils/interface.js";
 import { ServiceFactory } from "../service.factory.js";
@@ -57,7 +58,7 @@ class BaseServiceFactory {
      * @inheritdoc
      */
     async getAgendaService() {
-        throw new Error("Fonction non implémentée");
+        return new AgendaService(this.#daoFactory);
     }
 
     /**

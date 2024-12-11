@@ -1,5 +1,4 @@
-GET http://localhost:3000/ HTTP/1.1
-
+### --------------Rendez-Vous----------------- ###
 ### Get all rendez-vous with filter ###
 GET http://localhost:3000/api/rendez-vous?debut={{$datetime iso8601 -1 y}}&fin={{$datetime iso8601 1 y}} HTTP/1.1
 
@@ -10,7 +9,7 @@ GET http://localhost:3000/api/rendez-vous?debut={{$datetime iso8601 1 y}}&fin={{
 GET http://localhost:3000/api/rendez-vous?debut={{$datetime iso8601 10 y}}&fin={{$datetime iso8601 11 y}} HTTP/1.1
 
 ### Get specific rendez-vous ###
-GET http://localhost:3000/api/rendez-vous/67504f8990fe2836b7f7de2f HTTP/1.1
+GET http://localhost:3000/api/rendez-vous/6752352360b448513eab5ad1 HTTP/1.1
 
 ### Create rendez-vous ###
 POST http://localhost:3000/api/rendez-vous/create HTTP/1.1
@@ -19,10 +18,10 @@ content-type: application/json
 {
     "idCreateur": "67504f8990fe2836b7f7de2f",
     "idAgenda": "67504f8990fe2836b7f7de2f",
-    "titre": "brr",
+    "titre": "RDV 1",
     "debut": "{{$datetime iso8601}}",
     "fin": "{{$datetime iso8601 1 h}}",
-    "description": "rrgezzgz"
+    "description": "Bonjour 2025"
 }
 
 ### Create rendez-vous with validation error ###
@@ -39,16 +38,11 @@ content-type: application/json
 }
 
 ### Update rendez-vous ###
-PUT http://localhost:3000/api/rendez-vous/67504f8990fe2836b7f7de2f HTTP/1.1
+PUT http://localhost:3000/api/rendez-vous/6752375b60b448513eab5b19 HTTP/1.1
 content-type: application/json
 
 {
-    "idCreateur": "67504f8990fe2836b7f7de2f",
-    "idAgenda": "67504f8990fe2836b7f7de2f",
-    "titre": "brrreeet",
-    "debut": "{{$datetime iso8601}}",
-    "fin": "{{$datetime iso8601 1 h}}",
-    "description": ""
+    "titre": "Omnisphere"
 }
 
 ### Update rendez-vous with validation error ###
@@ -65,7 +59,37 @@ content-type: application/json
 }
 
 ### Delete rendez-vous ###
-DELETE http://localhost:3000/api/rendez-vous/67469c9b57ed296e5604a275 HTTP/1.1
+DELETE http://localhost:3000/api/rendez-vous/675235a360b448513eab5b00 HTTP/1.1
 
 ### Delete rendez-vous validation error ###
 DELETE http://localhost:3000/api/rendez-vous/555555555555 HTTP/1.1
+
+
+### --------------Agenda----------------- ###
+### Get all agendas ###
+GET http://localhost:3000/api/agenda HTTP/1.1
+
+### Get specific agenda ###
+GET http://localhost:3000/api/agenda/67593233baa4c81435311a43 HTTP/1.1
+
+### Create agenda ###
+POST http://localhost:3000/api/agenda/create HTTP/1.1
+content-type: application/json
+
+{
+    "idCreateur": "67504f8990fe2836b7f7de2f",
+    "titre": "Agenda 4",
+    "description": "",
+    "couleur": "#0000FF"
+}
+
+### Update agenda ###
+PUT http://localhost:3000/api/agenda/67593233baa4c81435311a43 HTTP/1.1
+content-type: application/json
+
+{
+    "titre": "Agenda 2"
+}
+
+### Delete agenda ###
+DELETE http://localhost:3000/api/agenda/67593233baa4c81435311a43 HTTP/1.1

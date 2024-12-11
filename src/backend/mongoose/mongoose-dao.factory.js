@@ -5,10 +5,12 @@ import {
 } from "../errors/daos-factory/index.js";
 import { RendezVousMongooseDAO } from "../rendez-vous/mongoose/rendez-vous-mongoose.dao.js";
 import { getModel as getModelRendezVous } from "../rendez-vous/mongoose/rendez-vous.schema.js";
+import { getModel as getModelAgenda } from "../agenda/mongoose/agenda.schema.js";
 import { RepetitionMongooseDAO } from "../repetition/mongoose/repetition-mongoose.dao.js";
 import { getModel as getModelRepetition } from "../repetition/mongoose/repetition.schema.js";
 import { DAOFactory } from "../shared/dao.factory.js";
 import { InterfaceValidator } from "../utils/interface.js";
+import { AgendaMongooseDAO } from "../agenda/mongoose/agenda-mongoose.dao.js";
 
 /**
  * @typedef {import("../rendez-vous/index.js").RendezVousDAO} RendezVousDAO
@@ -99,6 +101,7 @@ class MongooseDAOFactory {
         // Création des modèles
         const schemas = new Map([
             ["RendezVous", getModelRendezVous],
+            ["Agenda", getModelAgenda],
             ["Repetition", getModelRepetition],
         ]);
         schemas.forEach((getModel, modelName) => {
@@ -139,7 +142,9 @@ class MongooseDAOFactory {
      * @throws {DAOFactoryError} Si MongoDB n'est pas connecté.
      */
     getAgendaDAO() {
-        throw new DAOFactoryError("DAO non implémenté.");
+        this.#ensureConnected();
+        const AgendaMongooseModel = this.#models.get("Agenda");
+        return new AgendaMongooseDAO(AgendaMongooseModel);
     }
 
     /**

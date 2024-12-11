@@ -149,35 +149,20 @@ class API {
     }
 
     async getAgendasWithWritePermission() {
-        return new Promise((resolve, reject) => {
-            resolve([
-                {
-                    id: "67504f8990fe2836b7f7de2f",
-                    nom: "Agenda 1",
-                    couleur: "#40E0D0",
-                },
-                {
-                    id: "67404f8990fe2836b7f7de2f",
-                    nom: "Agenda 2",
-                    couleur: "#FF7F50",
-                },
-                {
-                    id: "57404f8990fe2836b7f7de2f",
-                    nom: "Agenda 3",
-                    couleur: "#E6E6FA",
-                },
-                {
-                    id: "87404f8990fe2836b7f7de2f",
-                    nom: "Agenda 4",
-                    couleur: "#50C878",
-                },
-                {
-                    id: "97404f8990fe2836b7f7de2f",
-                    nom: "Agenda 5",
-                    couleur: "#F4A460",
-                },
-            ]);
-        });
+        const url = "/agenda";
+        return this.#axios
+            .get(url, {})
+            .then(({ data: { message, data: liste } }) => {
+                console.log(message);
+                return liste;
+            })
+            .catch((error) => {
+                if (error.response) {
+                    throw error.response.data.errors;
+                } else {
+                    console.error(error);
+                }
+            });
     }
 
     async getAgendasWithReadPermission() {

@@ -1,3 +1,4 @@
+import { AgendaAPIRouter } from "./agenda/agenda.router.js";
 import { RendezVousAPIRouter } from "./rendez-vous/rendez-vous.router.js";
 import { Router } from "./shared/router.js";
 
@@ -23,6 +24,10 @@ class MainAPIRouter extends Router {
         this._router.use(
             "/rendez-vous",
             new RendezVousAPIRouter(serviceFactory, rendererFactory).getRouter()
+        );
+        this._router.use(
+            "/agenda",
+            new AgendaAPIRouter(serviceFactory, rendererFactory).getRouter()
         );
     }
 }
