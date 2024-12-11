@@ -8,6 +8,7 @@
  */
 
 import { ServiceError } from "../errors/index.js";
+import { DeleteRendezVousRequestDTO } from "../rendez-vous/index.js";
 import { AgendaService } from "./agenda.service.js";
 import {
     CreateAgendaRequestDTO,
@@ -148,6 +149,38 @@ class AgendaController {
             const requestDTO = new DeleteAgendaRequestDTO(request.params);
 
             const responseDTO = await agendaService.deleteAgenda(requestDTO);
+
+            if (!responseDTO.errors) {
+                const rendezVousService =
+                    await this.#serviceFactory.getRendezVousService();
+
+                const allRDV = await rendezVousService.getAllRendezVous(
+                    new GetAllAgendaRequestDTO({
+                        idAgenda: responseDTO.data.id,
+                    })
+                );
+
+                for (const rdv of allRDV.data) {
+                    const suppression =
+                        await rendezVousService.deleteRendezVous(
+                            new DeleteRendezVousRequestDTO({
+                                id: rdv.id,
+                            })
+                        );
+
+                    if (suppression.errors) {
+                        throw new Error(
+                            "Erreur lors de la suppression des RDV"
+                        );
+                    }
+                }
+
+                if (allRDV.errors) {
+                    throw new Error(
+                        "Erreur lors de la récupération des RDV en vue de leur suppression"
+                    );
+                }
+            }
 
             res.status(responseDTO.status).send(responseDTO);
         } catch (error) {

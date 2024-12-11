@@ -9,7 +9,7 @@ GET http://localhost:3000/api/rendez-vous?debut={{$datetime iso8601 1 y}}&fin={{
 GET http://localhost:3000/api/rendez-vous?debut={{$datetime iso8601 10 y}}&fin={{$datetime iso8601 11 y}} HTTP/1.1
 
 ### Get specific rendez-vous ###
-GET http://localhost:3000/api/rendez-vous/6752352360b448513eab5ad1 HTTP/1.1
+GET http://localhost:3000/api/rendez-vous/6759532480b6bb1dfc00dcf0 HTTP/1.1
 
 ### Create rendez-vous ###
 POST http://localhost:3000/api/rendez-vous/create HTTP/1.1
@@ -72,7 +72,37 @@ GET http://localhost:3000/api/agenda HTTP/1.1
 ### Get specific agenda ###
 GET http://localhost:3000/api/agenda/67593233baa4c81435311a43 HTTP/1.1
 
-### Create agenda ###
+### Create agendas par défaut ###
+POST http://localhost:3000/api/agenda/create HTTP/1.1
+content-type: application/json
+
+{
+    "idCreateur": "67504f8990fe2836b7f7de2f",
+    "titre": "Agenda 1",
+    "description": "",
+    "couleur": "#40E0D0"
+}
+###
+POST http://localhost:3000/api/agenda/create HTTP/1.1
+content-type: application/json
+
+{
+    "idCreateur": "67504f8990fe2836b7f7de2f",
+    "titre": "Agenda 2",
+    "description": "",
+    "couleur": "#FF7F50"
+}
+###
+POST http://localhost:3000/api/agenda/create HTTP/1.1
+content-type: application/json
+
+{
+    "idCreateur": "67504f8990fe2836b7f7de2f",
+    "titre": "Agenda 3",
+    "description": "",
+    "couleur": "#E6E6FA"
+}
+###
 POST http://localhost:3000/api/agenda/create HTTP/1.1
 content-type: application/json
 
@@ -80,7 +110,17 @@ content-type: application/json
     "idCreateur": "67504f8990fe2836b7f7de2f",
     "titre": "Agenda 4",
     "description": "",
-    "couleur": "#0000FF"
+    "couleur": "#50C878"
+}
+###
+POST http://localhost:3000/api/agenda/create HTTP/1.1
+content-type: application/json
+
+{
+    "idCreateur": "67504f8990fe2836b7f7de2f",
+    "titre": "Agenda 5",
+    "description": "",
+    "couleur": "#F4A460"
 }
 
 ### Update agenda ###
@@ -92,4 +132,4 @@ content-type: application/json
 }
 
 ### Delete agenda ###
-DELETE http://localhost:3000/api/agenda/67593233baa4c81435311a43 HTTP/1.1
+DELETE http://localhost:3000/api/agenda/6759530e80b6bb1dfc00dcdf HTTP/1.1
