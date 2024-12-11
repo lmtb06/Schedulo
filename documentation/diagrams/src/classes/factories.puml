@@ -99,24 +99,7 @@ namespace factories {
 }
 namespace app {
     class Application {
-        - expressApp: Express
-        - daoFactory: DAOFactory
-        - serviceFactory: ServiceFactory
-        - rendererFactory: RendererFactory
-        - logger: Logger
-        - config: ApplicationConfig
-        - isConfigured: boolean
-        - isStarted: boolean
-        - {static} instance: Application
-        - Application(): void
         + {static} getInstance(): Application
-        - setupLogger(): void
-        - setupDAOFactory(): void
-        - setupServiceFactory(): void
-        - setupRendererFactory(): void
-        - setupExpressApp(): void
-        - ensureConfigured(): void
-        - ensureStarted(): void
         + setup(config: ApplicationConfig): void
         + start(): void
         + stop(): void
@@ -126,15 +109,11 @@ namespace app {
         + getLogger(): Logger
     }
     class ExpressAppBuilder {
-        - expressApp: Express
-        - logger: Logger
-        - daoFactory: DAOFactory
-        - serviceFactory: ServiceFactory
-        - rendererFactory: RendererFactory
         + ExpressAppBuilder(logger: Logger, daoFactory: DAOFactory, serviceFactory: ServiceFactory, rendererFactory: RendererFactory): void
         ): void
         + setupConfig(): void
         + setupMiddlewares(): void
+        + setupStaticFiles(): void
         + setupRoutes(): void
         + setupErrorHandlers(): void
         + build(): Express

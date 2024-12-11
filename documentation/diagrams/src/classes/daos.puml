@@ -4,6 +4,7 @@
 namespace daos {
   namespace factory {
     interface DAOFactory {
+      + getDAOFactory(sgbd, donneesConfig, eventCallbacks): void
       + start(): void
       + getCompteDAO(): CompteDAO
       + getAgendaDAO(): AgendaDAO
@@ -22,78 +23,70 @@ namespace daos {
     DAOFactory ()- MongoDAOFactory
   }
 
-  namespace compte {
-    interface CompteDAO {
-      + create(compte: Compte): Compte
-      + findById(compte: Compte): Compte
-      + update(compte: Compte): Compte
-      + delete(compte: Compte): void
-      -- Autres méthodes si nécessaire --
-    }
-  }
-
   namespace agenda {
     interface AgendaDAO {
+      + get(id : String): Agenda
+      + getAll(filters): Agenda[]
       + create(agenda: Agenda): Agenda
-      + findById(agenda: Agenda): Agenda
-      + update(agenda: Agenda): Agenda
-      + delete(agenda: Agenda): void
-      -- Autres méthodes si nécessaire --
+      + update(id:String, agenda: Agenda): Agenda
+      + delete(id:String): void
     }
+
+    class AgendaMongooseDAO {
+      - model : Model<Agenda>
+      + AgendaMongooseDAO(model: Model<Agenda>): void
+      - getAgendaFromModel(model: Model<Agenda>): Agenda
+    }
+
+    AgendaMongooseDAO ()- AgendaDAO
   }
 
   namespace rendezvous {
       interface RendezVousDAO {
+      + get(id : String): RendezVous
+      + getAll(filters): RendezVous[]
       + create(rendezVous: RendezVous): RendezVous
-      + findById(rendezVous: RendezVous): RendezVous
-      + update(rendezVous: RendezVous): RendezVous
-      + delete(rendezVous: RendezVous): void
-      -- Autres méthodes si nécessaire --
+      + update(id:String, rendezVous: RendezVous): RendezVous
+      + delete(id:String): void
     }
 
-    class RendezVousDAOMongo {
+    class RendezVousMongooseDAO {
       - model : Model<RendezVous>
-      + RendezVousDAOMongo(model: Model<RendezVous>): void
-      + create(rendezVous: RendezVous): RendezVous
-      + findById(rendezVous: RendezVous): RendezVous
-      + update(rendezVous: RendezVous): RendezVous
-      + delete(rendezVous: RendezVous): void
+      + RendezVousMongooseDAO(model: Model<RendezVous>): void
+      - getRendezVousFromModel(model: Model<RendezVous>): RendezVous
     }
 
-    RendezVousDAO ()- RendezVousDAOMongo
+    RendezVousDAO ()- RendezVousMongooseDAO
   }
 
   namespace repetition {
     interface RepetitionDAO {
-      + create(repetition: Repetition): Repetiion
-      + findById(repetition: Repetition): Repetition
-      + update(repetition: Repetition): Repetition
-      + delete(repetition: Repetition): void
-      -- Autres méthodes si nécessaire --
+      + get(id : String): Repetition
+      + getAll(filters): Repetition[]
+      + create(repetition: Repetition): Repetition
+      + update(id:String, repetition: Repetition): Repetition
+      + delete(id:String): void
     }
 
-    class RepetitionDAOMongo {
+    class RepetitionMongooseDAO {
       - model : Model<Repetition>
-      + RepetitionDAOMongo(model: Model<Repetition>): void
-      + create(repetition: Repetition): Repetiion
-      + findById(repetition: Repetition): Repetition
-      + update(repetition: Repetition): Repetition
-      + delete(repetition: Repetition): void
+      + RepetitionMongooseDAO(model: Model<Repetition>): void
+      - getRepetitionFromModel(model: Model<Repetition>): Repetition
     }
 
-    RepetitionDAO ()- RepetitionDAOMongo
+    RepetitionDAO ()- RepetitionMongooseDAO
   }
 }
 
-DAOFactory --> exceptions.daosFactory.DAOFactoryException: throws
+DAOFactory --> errors.daosFactory.DAOFactoryErrors: throws
 ' CompteDAO
-CompteDAO --> exceptions.daos.DAOException: throws
+CompteDAO --> errors.daos.DAOError: throws
 ' AgendaDAO
-AgendaDAO--> exceptions.daos.DAOException: throws
+AgendaDAO--> errors.daos.DAOError: throws
 ' RendezVousDAO
-RendezVousDAO --> exceptions.daos.DAOException: throws
+RendezVousDAO --> errors.daos.DAOError: throws
 ' RepetitionDAO
-RepetitionDAO --> exceptions.daos.DAOException: throws
+RepetitionDAO --> errors.daos.DAOError: throws
 
 note as n1
   Les DAOs Mongo prenent en paramètre un Model de Mongoose.

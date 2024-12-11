@@ -2,148 +2,34 @@
 !include stylesPlantuml.puml
 
 namespace dtos {
-    interface DTO {
-        + toJson(): String
-        + validate(): void
+    abstract ResponseDTO {
+        + errors : Object[]
+        + data : Object
+        + message : String
+        + status : int
+        + toJSON(): String
     }
 
-    namespace compte {
-        class CompteDTO {
-            -- Getters et Setters --
-        }
-
-        class CreateCompteDTO {
-            -- Getters et Setters --
-        }
-
-        class UpdateCompteDTO {
-            -- Getters et Setters --
-        }
-
-        class DeleteCompteDTO {
-            -- Getters et Setters --
-        }
-
-        class RestoreCompteDTO {
-            -- Getters et Setters --
-        }
-        
-        DTO ()- CompteDTO
-        DTO ()- CreateCompteDTO
-        DTO ()- UpdateCompteDTO
-        DTO ()- DeleteCompteDTO
-        DTO ()- RestoreCompteDTO
+    abstract RequestDTO {
+        + error : ValidationError
+        + data : Object
+        # validate(): void
     }
     
     namespace agenda {
-        class AgendaDTO {
-            -- Getters et Setters --
+        class CreateAgendaRequestDTO {
+            # validate(): void
         }
 
-        class CreateAgendaDTO {
-            -- Getters et Setters --
+        class CreateAgendaResponseDTO {
+            
         }
-
-        class UpdateAgendaDTO {
-            -- Getters et Setters --
-        }
-
-        class DeleteAgendaDTO {
-            -- Getters et Setters --
-        }
-
-        class RestoreAgendaDTO {
-            -- Getters et Setters --
-        }
-
-        DTO ()- AgendaDTO
-        DTO ()- CreateAgendaDTO
-        DTO ()- UpdateAgendaDTO
-        DTO ()- DeleteAgendaDTO
-        DTO ()- RestoreAgendaDTO
     }
 
-    namespace rendezvous {
-        class RendezVousDTO {
-            - id : String
-            - idCreateur : String
-            - idAgenda : String
-            - debut : Date
-            - fin : Date
-            - titre : String
-            - description : String
-            - dateCreation : Date
-            - dateModification : Date
-            - repetition: RepetitionDTO
-            + RendezVousDTO(model: RendezVous): void
-            -- Getters et Setters --
-        }
-
-        class CreateRendezVousDTO {
-            - idCreateur : String
-            - idAgenda : String
-            - debut : Date
-            - fin : Date
-            - titre : String
-            - description : String
-            - repetition: CreateRepetitionDTO
-            -- Getters et Setters --
-        }
-
-        class RetrieveRendezVousDTO {
-            - id : String
-            -- Getters et Setters --
-        }
-
-        class UpdateRendezVousDTO {
-            - id : String
-            - idAgenda : String
-            - debut : Date
-            - fin : Date
-            - titre : String
-            - description : String
-            - repetition: CreateRepetitionDTO
-            -- Getters et Setters --
-        }
-
-        class DeleteRendezVousDTO {
-            - id : String
-            -- Getters et Setters --
-        }
-        DTO ()- RendezVousDTO
-        DTO ()- CreateRendezVousDTO
-        DTO ()- UpdateRendezVousDTO
-        DTO ()- DeleteRendezVousDTO
-        DTO ()- RetrieveRendezVousDTO
-    }
-
-    rendezvous.RendezVousDTO *-- repetition.RepetitionDTO
-    rendezvous.CreateRendezVousDTO *-- repetition.CreateRepetitionDTO
-    rendezvous.UpdateRendezVousDTO *-- repetition.CreateRepetitionDTO
-
-    namespace repetition {
-        class RepetitionDTO {
-            - id : String
-            - intervalle : int 
-            - unite : UniteRepetition
-            - fin : Date
-            + RepetitionDTO(model: Repetition): void
-            -- Getters et Setters --
-        }
-
-        class CreateRepetitionDTO {
-            - intervalle : int 
-            - unite : UniteRepetition
-            - fin : Date
-            -- Getters et Setters --
-        }
-
-        DTO ()- RepetitionDTO
-        DTO ()- CreateRepetitionDTO
-    }
+    agenda.CreateAgendaRequestDTO --|> RequestDTO
+    agenda.CreateAgendaResponseDTO --|> ResponseDTO
 }
 
-dtos.DTO --> exceptions.validation.ValidationException: "throws"
-dtos.DTO ..> validators.ValidatorSchema: "Utilise"
+dtos.RequestDTO --> errors.validation.ValidationError: "throws"
 
 @enduml

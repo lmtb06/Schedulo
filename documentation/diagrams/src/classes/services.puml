@@ -2,45 +2,12 @@
 !include stylesPlantuml.puml
 
 namespace services {
-
-    class CompteService {
-        - daoFactory : DAOFactory
-        - hasheur : Hasheur
-        - horloge : Horloge
-        - compteMapper : CompteMapper
-        + CompteService(daoFactory : DAOFactory, hasheur: Hasheur, horloge: Horloge, compteMapper: CompteMapper)
-        + creerCompte(createCompteDTO: CreateCompteDTO): CompteDTO
-        + modifierCompte(updateCompteDTO: UpdateCompteDTO): CompteDTO
-        + supprimerCompte(deleteCompteDTO: DeleteCompteDTO): void
-        + restaurerCompte(restoreCompteDTO: RestoreCompteDTO): void
-    }
-
     class AgendaService {
-        - daoFactory : DAOFactory
-        - horloge : Horloge
-        - agendaMapper : AgendaMapper
-        + AgendaService(daoFactory : DAOFactory, horloge: Horloge, agendaMapper: AgendaMapper)
-        + creerAgenda(createAgendaDTO: CreateAgendaDTO): AgendaDTO
-        + modifierAgenda(updateAgendaDTO: UpdateAgendaDTO): AgendaDTO
-        + supprimerAgenda(deleteAgendaDTO: DeleteAgendaDTO): void
-        + restaurerAgenda(restoreAgendaDTO: RestoreAgendaDTO): void
-    }
-
-    class RendezVousService {
-        - daoFactory : DAOFactory
-        - horloge : Horloge
-        - rendezVousMapper : RendezVousMapper
-        + RendezVousService(daoFactory : DAOFactory, horloge: Horloge, rendezVousMapper: RendezVousMapper)
-        + creerRendezVous(createRendezVousDTO: CreateRendezVousDTO): RendezVousDTO
-        + recupererRendezVous(retrieveRendezVousDTO: RetrieveRendezVousDTO): RendezVousDTO
-        + modifierRendezVous(updateRendezVousDTO: UpdateRendezVousDTO): RendezVousDTO
-        + supprimerRendezVous(deleteRendezVousDTO: DeleteRendezVousDTO): void
+        + AgendaService(daoFactory : DAOFactory)
+        + createAgenda(createAgendaDTO: CreateAgendaRequestDTO): CreateAgendaResponseDTO
     }
 }
 
-services.RendezVousService *-- daos.factory.DAOFactory
-services.RendezVousService *-- mappers.RendezVousMapper
-services.RendezVousService o-- utilitaires.Horloge
-services.RendezVousService --> exceptions.services.ServiceException: "throws"
+services.AgendaService *-- daos.factory.DAOFactory
 
 @enduml
