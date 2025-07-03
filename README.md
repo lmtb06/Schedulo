@@ -2,6 +2,18 @@
 
 ## Lancement du serveur
 
+Création d'un .env necessaire dans le dossier backend. Vous trouverez un example .env.example de ce qui est attendu.
+
+### Directement depuis Github CodeSpace:
+**CTRL + .** puis selectionner l'environnement devcontainer de developpement. Une fois "Running postCreateCommand..." effectuée:
+```bash
+npm start
+```
+Ou
+```bash
+npm run dev
+```
+
 ### Depuis la racine du projet:
 ```bash
 cd src && npm install && npm start
